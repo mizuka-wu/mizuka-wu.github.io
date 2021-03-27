@@ -1,5 +1,5 @@
 ---
-title: electron包含二进制文件的一种方案
+title: electron包含二进制文件的一些实践
 tags: 
     - m1
     - electron
