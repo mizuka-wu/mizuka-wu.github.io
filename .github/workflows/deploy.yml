@@ -1,18 +1,35 @@
-name: Build and Deploy
+name: release docs CI
+
 on:
   push:
     branches:
       - master
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
 
-      - name: Build and Deploy
-        uses: testthedocs/github-pages-deploy-action@master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: 步骤：第一步 -> Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: 步骤：第二步 -> 安装依赖
+        run: |
+          npm ci
+          npm run build
         env:
-          ACCESS_TOKEN: ${{ secrets.DEPLOY_KEY }}
-          BUILD_DIR: .vuepress/build/ # The folder, the action should deploy.
-          BUILD_SCRIPT: npm ci && npm run build # The build script the action should run prior to deploying.
+          CI: true
+
+      - name: 步骤：第三步 -> 使用脚本部署
+        env:
+          ACCESS_TOKEN_DEPLOY: ${{secrets.DEPLOY_KEY }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./.vuepress/dist
+        uses: veaba/vuepress-actions@v0.83
