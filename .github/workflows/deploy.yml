@@ -10,11 +10,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
 
-      - name: vuepress-deploy
-        uses: jenkey2011/vuepress-deploy@master
+      - name: Build and Deploy
+        uses: testthedocs/github-pages-deploy-action@master
         env:
-          ACCESS_TOKEN: ${{ secrets.DEPLOY_KEY }}
-          TARGET_REPO: mizuka-wu/mizuka-wu.github.io
-          TARGET_BRANCH: gh-pages
-          BUILD_SCRIPT: npm ci && npm run build
-          BUILD_DIR: .vuepress/dist/
+          ACCESS_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+          BUILD_DIR: .vuepress/build/ # The folder, the action should deploy.
+          BUILD_SCRIPT: npm ci && npm run build # The build script the action should run prior to deploying.
