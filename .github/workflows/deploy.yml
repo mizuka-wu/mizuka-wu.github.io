@@ -32,4 +32,5 @@ jobs:
           ACCESS_TOKEN_DEPLOY: ${{secrets.DEPLOY_KEY }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: ./.vuepress/dist
+          CNAME: www.mizuka.top
         uses: veaba/vuepress-actions@v0.83
