@@ -13,3 +13,8 @@ categories:
 
 `brew install scrcpy`
 连接上安卓手机之后就行
+
+## 另一种
+从稳定性上来说，我推荐还是`qt-scrcpy`
+
+[https://github.com/barry-ran/QtScrcpy](https://github.com/barry-ran/QtScrcpy)
