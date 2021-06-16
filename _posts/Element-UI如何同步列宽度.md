@@ -6,8 +6,11 @@ tags:
   - 前端
   - element-ui
 date: 2021-06-15 18:17:35
-categories: 可以公开的情报
+categories:
+  - 可以公开的情报
 ---
+
+
 	
 	需求原因，目前有个表格因为做了类似树状结构的设计，同时也增加了拖动`resize`
 	
