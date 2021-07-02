@@ -1,17 +1,17 @@
-name: Sync To Gitee
-on: page_build
-jobs:
-  sync:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: wearerequired/git-mirror-action@master
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.GITEE_PRIVATE_KEY }}
-        with:
-          source-repo: "git@github.com:mizuka-wu/mizuka-wu.github.io.git"
-          destination-repo: "git@gitee.com:mizuka/Mizuka.git"
-      - name: reload
-        uses: mizuka-wu/gitee-pages-action@v1.0.0
-        with:
-          repository: mizuka/Mizuka
-          cookie: ${{ secrets.GITEE_COOKIE }}
+# name: Sync To Gitee
+# on: page_build
+# jobs:
+#   sync:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: wearerequired/git-mirror-action@master
+#         env:
+#           SSH_PRIVATE_KEY: ${{ secrets.GITEE_PRIVATE_KEY }}
+#         with:
+#           source-repo: "git@github.com:mizuka-wu/mizuka-wu.github.io.git"
+#           destination-repo: "git@gitee.com:mizuka/Mizuka.git"
+#       - name: reload
+#         uses: mizuka-wu/gitee-pages-action@v1.0.0
+#         with:
+#           repository: mizuka/Mizuka
+#           cookie: ${{ secrets.GITEE_COOKIE }}
