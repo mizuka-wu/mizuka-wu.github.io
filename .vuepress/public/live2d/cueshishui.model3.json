@@ -1,0 +1,216 @@
+{
+  "Version": 3,
+  "FileReferences": {
+    "Moc": "kueshishui.moc3",
+    "Textures": [
+      "kueshishui.4096/texture_00.png"
+    ],
+    "Physics": "kueshishui.physics3.json",
+    "PhysicsV2": {
+      "File": "kueshishui.physics3.json"
+    },
+    "Motions": {
+      "pose@Param4#9": [
+        {
+          "Command": "parameters lock Param4 1",
+          "VarFloats": [
+            {
+              "Name": "Param4",
+              "Type": 1,
+              "Code": "equal 0"
+            },
+            {
+              "Name": "Param4",
+              "Type": 2,
+              "Code": "assign 1"
+            }
+          ]
+        },
+        {
+          "Command": "parameters unlock Param4",
+          "VarFloats": [
+            {
+              "Name": "Param4",
+              "Type": 1,
+              "Code": "equal 1"
+            },
+            {
+              "Name": "Param4",
+              "Type": 2,
+              "Code": "assign 0"
+            }
+          ]
+        }
+      ],
+      "pose@Param5#9": [
+        {
+          "Command": "parameters lock Param5 1",
+          "VarFloats": [
+            {
+              "Name": "Param5",
+              "Type": 1,
+              "Code": "equal 0"
+            },
+            {
+              "Name": "Param5",
+              "Type": 2,
+              "Code": "assign 1"
+            }
+          ]
+        },
+        {
+          "Command": "parameters unlock Param5",
+          "VarFloats": [
+            {
+              "Name": "Param5",
+              "Type": 1,
+              "Code": "equal 1"
+            },
+            {
+              "Name": "Param5",
+              "Type": 2,
+              "Code": "assign 0"
+            }
+          ]
+        }
+      ],
+      "pose@Param6#9": [
+        {
+          "Command": "parameters lock Param6 1",
+          "VarFloats": [
+            {
+              "Name": "Param6",
+              "Type": 1,
+              "Code": "equal 0"
+            },
+            {
+              "Name": "Param6",
+              "Type": 2,
+              "Code": "assign 1"
+            }
+          ]
+        },
+        {
+          "Command": "parameters unlock Param6",
+          "VarFloats": [
+            {
+              "Name": "Param6",
+              "Type": 1,
+              "Code": "equal 1"
+            },
+            {
+              "Name": "Param6",
+              "Type": 2,
+              "Code": "assign 0"
+            }
+          ]
+        }
+      ],
+      "pose@Param7#9": [
+        {
+          "Command": "parameters lock Param7 1",
+          "VarFloats": [
+            {
+              "Name": "Param7",
+              "Type": 1,
+              "Code": "equal 0"
+            },
+            {
+              "Name": "Param7",
+              "Type": 2,
+              "Code": "assign 1"
+            }
+          ]
+        },
+        {
+          "Command": "parameters unlock Param7",
+          "VarFloats": [
+            {
+              "Name": "Param7",
+              "Type": 1,
+              "Code": "equal 1"
+            },
+            {
+              "Name": "Param7",
+              "Type": 2,
+              "Code": "assign 0"
+            }
+          ]
+        }
+      ],
+      "pose@Param8#9": [
+        {
+          "Command": "parameters lock Param8 1",
+          "VarFloats": [
+            {
+              "Name": "Param8",
+              "Type": 1,
+              "Code": "equal 0"
+            },
+            {
+              "Name": "Param8",
+              "Type": 2,
+              "Code": "assign 1"
+            }
+          ]
+        },
+        {
+          "Command": "parameters unlock Param8",
+          "VarFloats": [
+            {
+              "Name": "Param8",
+              "Type": 1,
+              "Code": "equal 1"
+            },
+            {
+              "Name": "Param8",
+              "Type": 2,
+              "Code": "assign 0"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Controllers": {
+    "ParamHit": {},
+    "ParamLoop": {},
+    "KeyTrigger": {},
+    "ParamTrigger": {},
+    "EyeBlink": {
+      "MinInterval": 500,
+      "MaxInterval": 6000,
+      "Enabled": true
+    },
+    "LipSync": {
+      "Gain": 5.0
+    },
+    "MouseTracking": {
+      "SmoothTime": 0.15,
+      "Enabled": true
+    },
+    "AutoBreath": {
+      "Enabled": true
+    },
+    "ExtraMotion": {
+      "Enabled": true
+    },
+    "Accelerometer": {
+      "Enabled": true
+    },
+    "Microphone": {},
+    "Transform": {},
+    "FaceTracking": {
+      "Enabled": true
+    },
+    "ParamValue": {},
+    "PartOpacity": {},
+    "ArtmeshOpacity": {},
+    "ArtmeshColor": {},
+    "ArtmeshCulling": {
+      "DefaultMode": 0
+    },
+    "IntimacySystem": {}
+  },
+  "Options": {}
+}
