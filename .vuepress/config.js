@@ -4,7 +4,7 @@ module.exports = {
     plugins: [
         ["vuepress-plugin-pixi-live2d-display", {
             delay: 3000,
-            model: "/live2d/kueshishui.model3.json"
+            model: "https://cdn.jsdelivr.net/gh/mizuka-wu/mizuka-wu.github.io/.vuepress/public/live2d/cueshishui.model3.json"
         }]
     ],
     themeConfig: {
