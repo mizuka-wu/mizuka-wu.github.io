@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>vuepress文档部署到github-pages | 水华的博客</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="
+必须做的
+
+在 docs/.vuepress/config.js 中设置正确的 base。
+
+如果你打算发布到 https://.github.io/，则可以省略这一步 ...">
+    
+    <link rel="preload" href="/assets/css/0.styles.14e11ee4.css" as="style"><link rel="preload" href="/assets/js/app.1f76aa24.js" as="script"><link rel="preload" href="/assets/js/6.27b8f39e.js" as="script"><link rel="preload" href="/assets/js/3.b746408a.js" as="script"><link rel="preload" href="/assets/js/35.71d7b03b.js" as="script"><link rel="prefetch" href="/assets/js/10.bd78b44f.js"><link rel="prefetch" href="/assets/js/11.cccb581e.js"><link rel="prefetch" href="/assets/js/12.c4d9fb17.js"><link rel="prefetch" href="/assets/js/13.451744c1.js"><link rel="prefetch" href="/assets/js/14.cb23c625.js"><link rel="prefetch" href="/assets/js/15.276fc1ec.js"><link rel="prefetch" href="/assets/js/16.3f1d1452.js"><link rel="prefetch" href="/assets/js/17.b70f92b5.js"><link rel="prefetch" href="/assets/js/18.0e1ab961.js"><link rel="prefetch" href="/assets/js/19.a5dfb226.js"><link rel="prefetch" href="/assets/js/20.28a16e0b.js"><link rel="prefetch" href="/assets/js/21.9e11fc06.js"><link rel="prefetch" href="/assets/js/22.d920a7c9.js"><link rel="prefetch" href="/assets/js/23.ec5fd080.js"><link rel="prefetch" href="/assets/js/24.a3768a10.js"><link rel="prefetch" href="/assets/js/25.790d83f0.js"><link rel="prefetch" href="/assets/js/26.a31c1e82.js"><link rel="prefetch" href="/assets/js/27.bf729061.js"><link rel="prefetch" href="/assets/js/28.24b97b6d.js"><link rel="prefetch" href="/assets/js/29.c3359ca3.js"><link rel="prefetch" href="/assets/js/30.8698d818.js"><link rel="prefetch" href="/assets/js/31.358632b5.js"><link rel="prefetch" href="/assets/js/32.39d57e44.js"><link rel="prefetch" href="/assets/js/33.971f289a.js"><link rel="prefetch" href="/assets/js/34.44711e8e.js"><link rel="prefetch" href="/assets/js/36.5265f462.js"><link rel="prefetch" href="/assets/js/37.e0b940d0.js"><link rel="prefetch" href="/assets/js/38.e970fee1.js"><link rel="prefetch" href="/assets/js/39.25fc463b.js"><link rel="prefetch" href="/assets/js/4.3f7941a3.js"><link rel="prefetch" href="/assets/js/40.b29bb2b1.js"><link rel="prefetch" href="/assets/js/41.27c4bc44.js"><link rel="prefetch" href="/assets/js/42.4dd37ee3.js"><link rel="prefetch" href="/assets/js/43.4d45aa4b.js"><link rel="prefetch" href="/assets/js/44.be8ee138.js"><link rel="prefetch" href="/assets/js/45.31324eb1.js"><link rel="prefetch" href="/assets/js/46.7bf76c82.js"><link rel="prefetch" href="/assets/js/47.b6ea1d41.js"><link rel="prefetch" href="/assets/js/48.58712f31.js"><link rel="prefetch" href="/assets/js/49.7ec0fc2c.js"><link rel="prefetch" href="/assets/js/5.e62bff07.js"><link rel="prefetch" href="/assets/js/50.fd9429bb.js"><link rel="prefetch" href="/assets/js/51.02f42920.js"><link rel="prefetch" href="/assets/js/52.64f81f26.js"><link rel="prefetch" href="/assets/js/53.db0bb8d0.js"><link rel="prefetch" href="/assets/js/54.2b9fff7b.js"><link rel="prefetch" href="/assets/js/55.12166bda.js"><link rel="prefetch" href="/assets/js/56.e6202587.js"><link rel="prefetch" href="/assets/js/57.8fc0a644.js"><link rel="prefetch" href="/assets/js/58.29c71386.js"><link rel="prefetch" href="/assets/js/59.afb6ef13.js"><link rel="prefetch" href="/assets/js/60.647f7062.js"><link rel="prefetch" href="/assets/js/61.d9f69264.js"><link rel="prefetch" href="/assets/js/62.f718d5a3.js"><link rel="prefetch" href="/assets/js/63.5d382763.js"><link rel="prefetch" href="/assets/js/64.dd6a2fc2.js"><link rel="prefetch" href="/assets/js/65.0abe9758.js"><link rel="prefetch" href="/assets/js/66.02291548.js"><link rel="prefetch" href="/assets/js/67.ea1a1d39.js"><link rel="prefetch" href="/assets/js/68.dcb56328.js"><link rel="prefetch" href="/assets/js/69.2c5438d1.js"><link rel="prefetch" href="/assets/js/7.63751a72.js"><link rel="prefetch" href="/assets/js/70.d900bd4e.js"><link rel="prefetch" href="/assets/js/71.82175023.js"><link rel="prefetch" href="/assets/js/72.615d7604.js"><link rel="prefetch" href="/assets/js/73.9d363c9d.js"><link rel="prefetch" href="/assets/js/74.46353eee.js"><link rel="prefetch" href="/assets/js/75.ca72cf41.js"><link rel="prefetch" href="/assets/js/76.32523633.js"><link rel="prefetch" href="/assets/js/77.acdf5a5c.js"><link rel="prefetch" href="/assets/js/78.8cbd5123.js"><link rel="prefetch" href="/assets/js/8.2b605bad.js"><link rel="prefetch" href="/assets/js/9.c0b7f601.js"><link rel="prefetch" href="/assets/js/vuejs-paginate.83765843.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.14e11ee4.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/" class="nav-link home-link">水华的博客 </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/" class="nav-link">Blog</a></li><li class="nav-item"><a href="/tag/" class="nav-link">Tags</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/" class="nav-link mobile-home-link">水华的博客 </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/" class="nav-link">Blog</a></li><li class="mobile-nav-item"><a href="/tag/" class="nav-link">Tags</a></li> <li class="mobile-nav-item"><!----></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        vuepress文档部署到github-pages
+      </h1> <div class="post-meta"><!----> <div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2020-02-03T12:11:57.000Z">
+      2020-02-03
+    </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-42ccfcd5><a href="/tag/前端" data-v-42ccfcd5><span data-v-42ccfcd5>前端</span></a></li><li class="post-tag" data-v-42ccfcd5><a href="/tag/github actions" data-v-42ccfcd5><span data-v-42ccfcd5>github actions</span></a></li><li class="post-tag" data-v-42ccfcd5><a href="/tag/vuepress" data-v-42ccfcd5><span data-v-42ccfcd5>vuepress</span></a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><h1 id="vuepress-文档部署到-github-pages"><a href="#vuepress-文档部署到-github-pages" class="header-anchor">#</a> vuepress 文档部署到 github-pages</h1> <p><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=292259422,410673799&amp;fm=26&amp;gp=0.jpg" alt=""></p> <h2 id="必须做的"><a href="#必须做的" class="header-anchor">#</a> 必须做的</h2> <p>在 docs/.vuepress/config.js 中设置正确的 base。</p> <p>如果你打算发布到 <code>https://&lt;USERNAME&gt;.github.io/</code>，则可以省略这一步，因为 base 默认即是 &quot;/&quot;。</p> <p>如果你打算发布到 <code>https://&lt;USERNAME&gt;.github.io/&lt;REPO&gt;/</code>（也就是说你的仓库在 <code>https://github.com/&lt;USERNAME&gt;/&lt;REPO&gt;）</code>，则将 base 设置为 <code>/&lt;REPO&gt;/</code>。</p> <h2 id="发布方案"><a href="#发布方案" class="header-anchor">#</a> 发布方案</h2> <h3 id="sh-脚本"><a href="#sh-脚本" class="header-anchor">#</a> sh 脚本</h3> <div class="language-sh extra-class"><pre class="language-sh"><code><span class="token shebang important">#!/usr/bin/env sh</span>
+
+<span class="token comment"># 确保脚本抛出遇到的错误</span>
+<span class="token builtin class-name">set</span> -e
+
+<span class="token comment"># 生成静态文件</span>
+<span class="token function">npm</span> run docs:build
+
+<span class="token comment"># 进入生成的文件夹</span>
+<span class="token builtin class-name">cd</span> docs/.vuepress/dist
+
+<span class="token comment"># 如果是发布到自定义域名</span>
+<span class="token comment"># echo 'www.example.com' &gt; CNAME</span>
+
+<span class="token function">git</span> init
+<span class="token function">git</span> <span class="token function">add</span> -A
+<span class="token function">git</span> commit -m <span class="token string">'deploy'</span>
+
+<span class="token comment"># 如果发布到 https://&lt;USERNAME&gt;.github.io</span>
+<span class="token comment"># git push -f git@github.com:&lt;USERNAME&gt;/&lt;USERNAME&gt;.github.io.git master</span>
+
+<span class="token comment"># 如果发布到 https://&lt;USERNAME&gt;.github.io/&lt;REPO&gt;</span>
+<span class="token comment"># git push -f git@github.com:&lt;USERNAME&gt;/&lt;REPO&gt;.git master:gh-pages</span>
+
+<span class="token builtin class-name">cd</span> -
+</code></pre></div><h3 id="travis-ci"><a href="#travis-ci" class="header-anchor">#</a> Travis CI</h3> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">language</span><span class="token punctuation">:</span> node_js
+<span class="token key atrule">node_js</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> lts/*
+<span class="token key atrule">install</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> yarn install <span class="token comment"># npm ci</span>
+<span class="token key atrule">script</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> yarn docs<span class="token punctuation">:</span>build <span class="token comment"># npm run docs:build</span>
+<span class="token key atrule">deploy</span><span class="token punctuation">:</span>
+  <span class="token key atrule">provider</span><span class="token punctuation">:</span> pages
+  <span class="token key atrule">skip_cleanup</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">local_dir</span><span class="token punctuation">:</span> docs/.vuepress/dist
+  <span class="token key atrule">github_token</span><span class="token punctuation">:</span> $GITHUB_TOKEN <span class="token comment"># 在 GitHub 中生成，用于允许 Travis 向你的仓库推送代码。在 Travis 的项目设置页面进行配置，设置为 secure variable</span>
+  <span class="token key atrule">keep_history</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">on</span><span class="token punctuation">:</span>
+    <span class="token key atrule">branch</span><span class="token punctuation">:</span> master
+</code></pre></div><h3 id="github-actions"><a href="#github-actions" class="header-anchor">#</a> Github Actions</h3> <p>在<code>.github/workflow/</code>下新建 deploy.yml</p> <div class="language-yml extra-class"><pre class="language-yml"><code><span class="token key atrule">name</span><span class="token punctuation">:</span> Publish docs to github actions
+<span class="token key atrule">on</span><span class="token punctuation">:</span>
+  <span class="token key atrule">push</span><span class="token punctuation">:</span>
+    <span class="token key atrule">branches</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> master
+  <span class="token key atrule">pull_request</span><span class="token punctuation">:</span>
+    <span class="token key atrule">branches</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> master
+<span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+  <span class="token key atrule">build-and-deploy</span><span class="token punctuation">:</span>
+    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
+    <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Checkout
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v2 <span class="token comment"># If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.</span>
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">persist-credentials</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Install
+        <span class="token key atrule">run</span><span class="token punctuation">:</span> npm ci <span class="token important">&amp;&amp;</span> npm run<span class="token punctuation">-</span>script docs<span class="token punctuation">:</span>build
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Install SSH Client
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> webfactory/ssh<span class="token punctuation">-</span>agent@v0.2.0 <span class="token comment"># This step installs the ssh client into the workflow run. There's many options available for this on the action marketplace.</span>
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">ssh-private-key</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.DEPLOY_KEY <span class="token punctuation">}</span><span class="token punctuation">}</span>
+
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Build and Deploy Repo
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> JamesIves/github<span class="token punctuation">-</span>pages<span class="token punctuation">-</span>deploy<span class="token punctuation">-</span>action@releases/v3<span class="token punctuation">-</span>test
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">BASE_BRANCH</span><span class="token punctuation">:</span> master
+          <span class="token key atrule">BRANCH</span><span class="token punctuation">:</span> gh<span class="token punctuation">-</span>pages
+          <span class="token key atrule">FOLDER</span><span class="token punctuation">:</span> docs/.vuepress/dist
+          <span class="token key atrule">SSH</span><span class="token punctuation">:</span> <span class="token boolean important">true</span> <span class="token comment"># SSH must be set to true so the deploy action knows which protocol to deploy with.</span>
+</code></pre></div><p>接下来生成 key ，首先</p> <div class="language-sh extra-class"><pre class="language-sh"><code>ssh-keygen -t rsa -b <span class="token number">4096</span> -C <span class="token string">&quot;<span class="token variable"><span class="token variable">$(</span><span class="token function">git</span> config user.email<span class="token variable">)</span></span>&quot;</span> -f gh-pages -N <span class="token string">&quot;&quot;</span>
+<span class="token comment"># You will get 2 files:</span>
+<span class="token comment">#   gh-pages.pub (public key)</span>
+<span class="token comment">#   gh-pages     (private key)</span>
+</code></pre></div><p>然后打开仓库的<code>settings</code>，再点击<code>Secrets</code>，然后添加咱们刚刚生成的私钥(<code>gh-pages</code>的内容)，name 为 DEPLOY_KEY</p> <p>然后点击<code>Deploy keys</code>，添加公钥(<code>gh-pages.pub</code>的内容)，<code>Allow write access</code>一定要勾上</p> <p>然后提交即可，接着就会自动发布了</p></div> <footer><!----> <hr> <!----></footer></article> <div class="sticker vuepress-toc"><div class="vuepress-toc-item vuepress-toc-h2 active"><a href="#必须做的" title="必须做的">必须做的</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#发布方案" title="发布方案">发布方案</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#sh-脚本" title="sh 脚本">sh 脚本</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#travis-ci" title="Travis CI">Travis CI</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#github-actions" title="Github Actions">Github Actions</a></div></div></div></div> <footer class="footer" data-v-3d9deeb8><div class="footer-left-wrap" data-v-3d9deeb8><ul class="contact" data-v-3d9deeb8></ul></div> <div class="footer-right-wrap" data-v-3d9deeb8><ul class="copyright" data-v-3d9deeb8><li class="copyright-item" data-v-3d9deeb8>感谢您的访问</li></ul></div></footer></div><div class="global-ui"><Live2d></Live2d></div></div>
+    <script src="/assets/js/app.1f76aa24.js" defer></script><script src="/assets/js/6.27b8f39e.js" defer></script><script src="/assets/js/3.b746408a.js" defer></script><script src="/assets/js/35.71d7b03b.js" defer></script>
+  </body>
+</html>
