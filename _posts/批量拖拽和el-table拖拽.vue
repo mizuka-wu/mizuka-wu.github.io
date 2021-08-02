@@ -1,4 +1,13 @@
-
+---
+title: 批量拖拽和el-table拖拽
+tags:
+  - 可以公开的情报
+  - 开发
+  - 前端
+  - el-table
+date: 2021-08-02 10:17:35
+categories:
+---
 **背景**：目前拖拽的核心组件库为`sortable.js`以及基于`sortable.js`封装的`vuedraggable`组件
 
 ## 目前现状
