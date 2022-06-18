@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>postgresql全文搜索引擎 | 水华的博客</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="双十一背后的技术 参考此文 对其进行改进和自定义
+> 毫秒级的为[该文章](https://yq.aliyun.com/articles/68424?spm=a2c4e.11153959. ...">
+    
+    <link rel="preload" href="/assets/css/0.styles.14e11ee4.css" as="style"><link rel="preload" href="/assets/js/app.581043e3.js" as="script"><link rel="preload" href="/assets/js/6.27b8f39e.js" as="script"><link rel="preload" href="/assets/js/3.b746408a.js" as="script"><link rel="preload" href="/assets/js/30.a2f228e9.js" as="script"><link rel="prefetch" href="/assets/js/10.bd78b44f.js"><link rel="prefetch" href="/assets/js/11.cccb581e.js"><link rel="prefetch" href="/assets/js/12.c4d9fb17.js"><link rel="prefetch" href="/assets/js/13.451744c1.js"><link rel="prefetch" href="/assets/js/14.cb23c625.js"><link rel="prefetch" href="/assets/js/15.276fc1ec.js"><link rel="prefetch" href="/assets/js/16.50ab774a.js"><link rel="prefetch" href="/assets/js/17.b3e1a905.js"><link rel="prefetch" href="/assets/js/18.1f05fac1.js"><link rel="prefetch" href="/assets/js/19.a5dfb226.js"><link rel="prefetch" href="/assets/js/20.99551f8c.js"><link rel="prefetch" href="/assets/js/21.142a33d4.js"><link rel="prefetch" href="/assets/js/22.b3265a2f.js"><link rel="prefetch" href="/assets/js/23.20ba1577.js"><link rel="prefetch" href="/assets/js/24.f26480d8.js"><link rel="prefetch" href="/assets/js/25.d7d02dee.js"><link rel="prefetch" href="/assets/js/26.18d519b2.js"><link rel="prefetch" href="/assets/js/27.a655687b.js"><link rel="prefetch" href="/assets/js/28.8cd4ae5a.js"><link rel="prefetch" href="/assets/js/29.6fc8ecd3.js"><link rel="prefetch" href="/assets/js/31.4c5a96c5.js"><link rel="prefetch" href="/assets/js/32.646e3c9c.js"><link rel="prefetch" href="/assets/js/33.c0d71f86.js"><link rel="prefetch" href="/assets/js/34.76cd3145.js"><link rel="prefetch" href="/assets/js/35.82857579.js"><link rel="prefetch" href="/assets/js/36.e69ae413.js"><link rel="prefetch" href="/assets/js/37.c7a68556.js"><link rel="prefetch" href="/assets/js/38.1ff2f31f.js"><link rel="prefetch" href="/assets/js/39.1011f266.js"><link rel="prefetch" href="/assets/js/4.3f7941a3.js"><link rel="prefetch" href="/assets/js/40.6d45b869.js"><link rel="prefetch" href="/assets/js/41.6fc34d0a.js"><link rel="prefetch" href="/assets/js/42.13c92e30.js"><link rel="prefetch" href="/assets/js/43.563568eb.js"><link rel="prefetch" href="/assets/js/44.2bec23bd.js"><link rel="prefetch" href="/assets/js/45.d67bba72.js"><link rel="prefetch" href="/assets/js/46.36ded28b.js"><link rel="prefetch" href="/assets/js/47.e81ec5fb.js"><link rel="prefetch" href="/assets/js/48.968e28cc.js"><link rel="prefetch" href="/assets/js/49.7325235a.js"><link rel="prefetch" href="/assets/js/5.e62bff07.js"><link rel="prefetch" href="/assets/js/50.04769635.js"><link rel="prefetch" href="/assets/js/51.66486a4b.js"><link rel="prefetch" href="/assets/js/52.3011a05c.js"><link rel="prefetch" href="/assets/js/53.f7878b1d.js"><link rel="prefetch" href="/assets/js/54.4d920fa7.js"><link rel="prefetch" href="/assets/js/55.2344dd49.js"><link rel="prefetch" href="/assets/js/56.0722a129.js"><link rel="prefetch" href="/assets/js/57.c070e86b.js"><link rel="prefetch" href="/assets/js/58.a6f0e04c.js"><link rel="prefetch" href="/assets/js/59.d0b7f397.js"><link rel="prefetch" href="/assets/js/60.246ab832.js"><link rel="prefetch" href="/assets/js/61.ca40389c.js"><link rel="prefetch" href="/assets/js/62.009ce5eb.js"><link rel="prefetch" href="/assets/js/63.6fd8f461.js"><link rel="prefetch" href="/assets/js/64.2bcbbaf3.js"><link rel="prefetch" href="/assets/js/65.9a0ac7ae.js"><link rel="prefetch" href="/assets/js/66.27ae5785.js"><link rel="prefetch" href="/assets/js/67.ca17da6a.js"><link rel="prefetch" href="/assets/js/68.19b32fd3.js"><link rel="prefetch" href="/assets/js/69.e55380a8.js"><link rel="prefetch" href="/assets/js/7.63751a72.js"><link rel="prefetch" href="/assets/js/70.a20875b8.js"><link rel="prefetch" href="/assets/js/71.0e9db509.js"><link rel="prefetch" href="/assets/js/72.0875b548.js"><link rel="prefetch" href="/assets/js/73.06644fba.js"><link rel="prefetch" href="/assets/js/74.77b60953.js"><link rel="prefetch" href="/assets/js/75.34e58c1a.js"><link rel="prefetch" href="/assets/js/76.8c9afc89.js"><link rel="prefetch" href="/assets/js/77.7a6c22f3.js"><link rel="prefetch" href="/assets/js/78.a10080c9.js"><link rel="prefetch" href="/assets/js/79.1ca7e959.js"><link rel="prefetch" href="/assets/js/8.2b605bad.js"><link rel="prefetch" href="/assets/js/80.7dcea5ed.js"><link rel="prefetch" href="/assets/js/81.6aa0d347.js"><link rel="prefetch" href="/assets/js/82.3b42ca98.js"><link rel="prefetch" href="/assets/js/83.31244ece.js"><link rel="prefetch" href="/assets/js/84.b5cf6f94.js"><link rel="prefetch" href="/assets/js/85.e406ea88.js"><link rel="prefetch" href="/assets/js/9.c0b7f601.js"><link rel="prefetch" href="/assets/js/vuejs-paginate.83765843.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.14e11ee4.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/" class="nav-link home-link">水华的博客 </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/" class="nav-link">Blog</a></li><li class="nav-item"><a href="/tag/" class="nav-link">Tags</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/" class="nav-link mobile-home-link">水华的博客 </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/" class="nav-link">Blog</a></li><li class="mobile-nav-item"><a href="/tag/" class="nav-link">Tags</a></li> <li class="mobile-nav-item"><!----></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        postgresql全文搜索引擎
+      </h1> <div class="post-meta"><!----> <div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2019-10-18T17:41:57.000Z">
+      2019-10-18
+    </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-42ccfcd5><a href="/tag/数据库" data-v-42ccfcd5><span data-v-42ccfcd5>数据库</span></a></li><li class="post-tag" data-v-42ccfcd5><a href="/tag/搜索引擎" data-v-42ccfcd5><span data-v-42ccfcd5>搜索引擎</span></a></li><li class="post-tag" data-v-42ccfcd5><a href="/tag/postgresql" data-v-42ccfcd5><span data-v-42ccfcd5>postgresql</span></a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><h1 id="带权重的搜索引擎"><a href="#带权重的搜索引擎" class="header-anchor">#</a> 带权重的搜索引擎</h1> <blockquote><p><a href="https://github.com/digoal/blog/blob/462c0cf738380b0bfc080e99fd168c19bb2d4fce/201611/20161115_01.md" target="_blank" rel="noopener noreferrer">双十一背后的技术<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 参考此文 对其进行改进和自定义
+毫秒级的为<a href="https://yq.aliyun.com/articles/68424?spm=a2c4e.11153959.blogcont61833.34.uwRpsS" target="_blank" rel="noopener noreferrer">该文章<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <h2 id="具体实施流程"><a href="#具体实施流程" class="header-anchor">#</a> 具体实施流程</h2> <h3 id="分词-英文基本无需分词"><a href="#分词-英文基本无需分词" class="header-anchor">#</a> 分词(英文基本无需分词)</h3> <h4 id="zhparser"><a href="#zhparser" class="header-anchor">#</a> <a href="https://github.com/amutu/zhparser" target="_blank" rel="noopener noreferrer">zhparser<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></h4> <p>安装 SCWS.</p> <div class="language- extra-class"><pre class="language-text"><code>wget -q -O - http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2 | tar xf -
+
+ cd scws-1.2.3 ; ./configure ; make install
+
+注意:在FreeBSD release 10及以上版本上运行configure时，需要增加--with-pic选项。
+
+如果是从github上下载的scws源码需要先运行以下命令生成configure文件：
+
+ touch README;aclocal;autoconf;autoheader;libtoolize;automake --add-missing
+
+  git clone https://github.com/amutu/zhparser.git
+  cd zhparser
+  make &amp;&amp; make install
+  CREATE EXTENSION zhparser;
+  CREATE TEXT SEARCH CONFIGURATION zhcfg (PARSER = zhparser);
+  ALTER TEXT SEARCH CONFIGURATION zhcfg ADD MAPPING FOR n,v,a,i,e,l,j,m WITH simple;
+
+
+</code></pre></div><div class="language- extra-class"><pre class="language-text"><code>
+增加类型
+select ts_debug('zhcfg','三一') ;
+                ts_debug
+可以查看到分词的token类型 如果不在之前的mapping内的话是不会被分词的
+解决方案是
+ALTER TEXT SEARCH CONFIGURATION zhcfg ADD MAPPING FOR [没有的类型] WITH simple;
+
+</code></pre></div><p><strong>设置分词参数</strong></p> <div class="language- extra-class"><pre class="language-text"><code>-- 忽略所有的标点等特殊符号
+set zhparser.punctuation_ignore = on;
+-- 全部单字复合
+set zhparser.multi_zall = on;
+-- 散字二元复合
+set zhparser.multi_duality = on;
+-- 闲散文字自动以二字分词法聚合
+set zhparser.seg_with_duality = on;
+-- 短词复合
+set zhparser.multi_short = on;
+-- 重要单字复合
+set zhparser.multi_zmain = on;
+
+</code></pre></div><p><strong>测试</strong></p> <p><code>select to_tsvector('zhcfg','南京市长江大桥');测试用例</code></p> <p><strong>中文单字等特殊需求</strong><a href="https://github.com/digoal/blog/blob/master/201711/20171104_03.md" target="_blank" rel="noopener noreferrer">PostgreSQL 中英文混合分词特殊规则(中文单字、英文单词) - 中英分明<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <div class="language- extra-class"><pre class="language-text"><code>create or replace function udf_to_tsvector(regconfig,text) returns tsvector as $$
+  SELECT array_to_tsvector(array_agg(token)) from ts_debug($1, $2)
+    where (char_length(token)=1 and octet_length(token)&lt;&gt;1 ) or (char_length(token)=octet_length(token));
+$$ language sql strict immutable;
+
+</code></pre></div><h3 id="按照字段进行搜索"><a href="#按照字段进行搜索" class="header-anchor">#</a> 按照字段进行搜索</h3> <p><strong>用例</strong> <code>select * from search_company where to_tsvector(company_name_cn) @@ to_tsquery('zhcfg', '上海');</code></p> <p><strong>转化为行级(全字段)的方式，to_tsvector 传入的对象为转为 text 的该行</strong> <code>select * from search_company where to_tsvector(search_company::text) @@ to_tsquery('zhcfg', '上海');</code></p> <h3 id="搜索用的固态视图"><a href="#搜索用的固态视图" class="header-anchor">#</a> 搜索用的固态视图</h3> <blockquote><p>通过固态视图事先对可以可以搜索的部分进行预处理 加速</p></blockquote> <h4 id="特性"><a href="#特性" class="header-anchor">#</a> 特性</h4> <ol><li>增加 ts 列 减少在搜索的时候动态创建的成本</li> <li>利用 ts 列 可以进行<strong>行级搜索</strong></li> <li>COALESCE 函数防止 null</li> <li>顺带一提行的 ts 列可以参考<a href="https://github.com/digoal/blog/blob/8946988f885a3f16f159082610d6ec9027ae21dd/201604/20160419_01.md" target="_blank" rel="noopener noreferrer">该文章<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 但是自定义权重就不行，使用手动构建</li> <li>附带一个 weight 的作为行的权重，上市为:2 非上市为 1 投资机构为 0</li> <li>weight 的 COALESCE 函数可以附带作为未来公司自带权重的时候的扩展</li> <li>setweight 函数的例子是设定字段的权重，字段内所有的关键字的权重将被统一设置 有 ABCD 之分 可以用来过滤分词 ts_filter 或者权重计算匹配度</li> <li>text 字段 这样模糊搜索可以加快一定速度了</li> <li><a href="https://yq.aliyun.com/articles/7730" target="_blank" rel="noopener noreferrer">zpharse 配置<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li>配置可以拼音搜索<a href="http://www.codeweblog.com/postgresql%E7%9A%84%E6%B1%89%E5%AD%97%E8%BD%AC%E6%8B%BC%E9%9F%B3/" target="_blank" rel="noopener noreferrer">参考<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li>建立索引<code>create index idx_test_ts on search_company using gin (ts);</code></li> <li>另一个转 pinyin 的方案<a href="https://yq.aliyun.com/articles/228252" target="_blank" rel="noopener noreferrer">汉字转拼音<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 已注入 有修改</li></ol> <div class="language- extra-class"><pre class="language-text"><code>SELECT
+    result.company_id,
+    result.company_logo,
+    result.ticker,
+    result.company_status_id,
+    result.company_name_cn,
+    result.company_name_en,
+    result.company_shortname_cn,
+    result.company_shortname_en,
+    result.brand_name,
+    result.year_founded,
+    result.company_status_name_cn,
+    result.company_status_name_en,
+    result.weight,
+    -- 添加支持拼音 不需要的话 直接用ts
+    ((get_pinyin((result.ts)::text))::tsvector || (get_pinyin((result.ts)::text, 'zm'::text))::tsvector || result.ts) AS ts
+ FROM (
+ SELECT computed_list.company_id,
+    computed_list.company_logo,
+    computed_list.ticker,
+    computed_list.company_status_id,
+    computed_list.company_name_cn,
+    computed_list.company_name_en,
+    computed_list.company_shortname_cn,
+    computed_list.company_shortname_en,
+    computed_list.brand_name,
+    computed_list.year_founded,
+    computed_list.company_status_name_cn,
+    computed_list.company_status_name_en,
+    -- 添加权重 将company_status_id转为权重 第一个null可以改为联查作为第三方权重
+    COALESCE(NULL::integer,
+        CASE
+            WHEN ((computed_list.company_status_id)::text ~~ '1%'::text) THEN 2
+            WHEN ((computed_list.company_status_id)::text ~~ '2%'::text) THEN 1
+            ELSE 0
+        END) AS weight,
+    -- 字段权重 有一部分比如company_shortname_cn用全部作为关键词
+    COALESCE(setweight(((computed_list.company_id) || ':1 ')::tsvector, 'A'::&quot;char&quot;),'') ||
+    COALESCE(setweight(to_tsvector('zhcfg',computed_list.company_name_cn), 'A'), '') ||
+    COALESCE(setweight(to_tsvector(computed_list.company_name_en), 'A'), '') ||
+    COALESCE(setweight(to_tsvector('zhcfg',computed_list.company_shortname_cn), 'A'), '') ||
+    COALESCE(setweight(to_tsvector('zhcfg',computed_list.company_shortname_en), 'A'), '') ||
+    COALESCE(setweight(((computed_list.company_shortname_cn) || ':1 ')::tsvector, 'A'::&quot;char&quot;),'') ||
+    COALESCE(setweight(((computed_list.company_status_name_en) || ':1 ')::tsvector, 'A'::&quot;char&quot;),'') ||
+    COALESCE(setweight(((computed_list.brand_name) || ':1 ')::tsvector, 'A'::&quot;char&quot;),'')
+	as ts
+	-- 合并掉该合并的部分比如brand name
+   FROM ( SELECT list.company_id,
+            list.company_logo,
+            list.ticker,
+            list.company_status_id,
+            list.company_name_cn,
+            list.company_name_en,
+            list.company_shortname_cn,
+            list.company_shortname_en,
+            -- 合并brand_name
+            array_to_string(array_agg(list.brand_name), ','::text) AS brand_name,
+            list.year_founded,
+            list.company_status_name_cn,
+            list.company_status_name_en
+            -- 先整理原始的数据
+           FROM ( SELECT DISTINCT a.company_id,
+           			a.company_logo,
+                    a.ticker,
+                    a.company_status_id,
+                    a.company_name_cn,
+                    a.company_name_en,
+                    a.company_shortname_cn,
+                    a.company_shortname_en,
+                    b.brand_name,
+                    a.year_founded,
+                    c.name_cn AS company_status_name_cn,
+                    c.name_en AS company_status_name_en
+                   FROM ((company_profile a
+                     LEFT JOIN brand_info b ON (((a.company_id)::text = (b.company_id)::text)))
+                     LEFT JOIN config.dictionary c ON (((a.company_status_id)::text = (c.id)::text)))
+                  WHERE ((a.company_status_id)::text &lt;&gt; '3.3'::text)) list
+          GROUP BY list.company_id, list.ticker, list.company_status_id, list.company_name_cn, list.company_name_en, list.company_shortname_cn, list.company_shortname_en, list.year_founded, list.company_status_name_cn, list.company_status_name_en) computed_list
+) AS RESULT
+
+</code></pre></div><h5 id="查询方式"><a href="#查询方式" class="header-anchor">#</a> 查询方式</h5> <p>说明 ts 为查询用的列<br>
+order by 通过权重和 ts_rank(和搜索词的匹配度) * 10 作为排序规则</p> <div class="language- extra-class"><pre class="language-text"><code>SELECT DISTINCT
+	company_id AS &quot;companyId&quot;,
+	company_logo AS &quot;companyLogo&quot;,
+	ticker,
+	brand_name as &quot;brandName&quot;,
+	company_status_id AS &quot;companyStatusId&quot;,
+	company_name_cn AS &quot;companyNameCn&quot;,
+	company_name_en AS &quot;companyNameEn&quot;,
+	company_shortname_cn AS &quot;companyShortnameCn&quot;,
+	company_shortname_en AS &quot;companyShortnameEn&quot;,
+	ts_rank(
+		ts,
+		to_tsquery('zhcfg',lower('海思'))
+	) * 10 + weight AS RANK
+FROM
+	search_company
+WHERE
+-- 原本的全文搜索方式
+-- 	ts @@ (phraseto_tsquery('zhcfg',lower('海思')) || phraseto_tsquery('zhcfg',upper('海思')))
+-- 通过模糊查询保证顺序 9.6可以更换为原本的全文搜索添加距离部分来完成
+	ts::text ~ upper('海思')
+	or
+	ts:: text ~ lower('海思')
+ORDER BY
+	RANK DESC
+LIMIT 25
+
+
+</code></pre></div><h4 id="拼音查询配置"><a href="#拼音查询配置" class="header-anchor">#</a> 拼音查询配置</h4> <ul><li>构建函数</li></ul> <div class="language- extra-class"><pre class="language-text"><code>
+create or replace function get_pinyin(vhz text, return_type text = 'py') returns text as $$
+declare
+  res_py text;
+  res_zm text;
+  tmp_py text;
+  tmp_zm text;
+begin
+res_py:='';
+res_zm:='';
+-- 循环每个字进行替换
+for i in 1..length(vhz)
+loop
+  select py,zm into tmp_py,tmp_zm from config.pinyin where hz=substring(vhz, i, 1);
+  if not found then
+    res_py := res_py || substring(vhz, i, 1);
+    res_zm := res_zm || substring(vhz, i, 1);
+  else
+    res_py := res_py || tmp_py;
+    res_zm := res_zm || tmp_zm;
+  end if;
+end loop;
+-- return lower(res_py || ' ' || res_zm);
+-- return return_type;
+-- 根据return type来看返回首字母还是全拼音
+if return_type = 'py' then
+  return lower(res_py);
+else
+  return lower(res_zm);
+end if;
+end;
+
+$$ language plpgsql strict immutable;
+
+</code></pre></div><ul><li>引入表 py.sql(有道云)</li> <li>把分词结果转为拼音<code>get_pinyin('上海')</code></li></ul> <h4 id="重建索引-需要使用-pg-trgm"><a href="#重建索引-需要使用-pg-trgm" class="header-anchor">#</a> 重建索引 需要使用 pg_trgm</h4> <div class="language- extra-class"><pre class="language-text"><code>-- 引入 trgm
+create extension pg_trgm;
+create or replace function record_to_text(anyelement) returns text as $$
+  select $1::text;
+$$ language sql strict immutable;
+
+
+create or replace function textsend_i (text) returns bytea as $$
+  select textsend($1);
+$$ language sql strict immutable;
+
+-- 重建部分
+drop index idx_search_company_ts ;
+create index idx_search_company_ts on search_company using gin(record_to_text(search_company) gin_trgm_ops);
+
+</code></pre></div><h4 id="词典"><a href="#词典" class="header-anchor">#</a> 词典</h4> <div class="language- extra-class"><pre class="language-text"><code>-- 往自定义分词词典里面插入新的分词
+insert into pg_ts_custom_word values ('保障房资');
+-- 使新的分词生效
+select zhprs_sync_dict_xdb();
+-- 退出此连接
+</code></pre></div><h4 id="跨数据库"><a href="#跨数据库" class="header-anchor">#</a> 跨数据库</h4> <div class="language- extra-class"><pre class="language-text"><code>create database product_v2_back with template template0 lc_collate 'zh_CN.utf8' lc_ctype 'zh_CN.utf8';
+create extension postgres_fdw;
+create server aliyun foreign data wrapper postgres_fdw options(dbname 'product_v2');
+create user mapping for jydreader server aliyun options(user 'jydreader',password 'Jyd6789!');
+
+CREATE FOREIGN TABLE search_engine(
+ticker varchar,
+company_logo varchar,
+company_status_id varchar,
+company_name_cn varchar,
+company_name_en varchar,
+company_shortname_cn varchar,
+company_shortname_en varchar,
+brand_name varchar,
+year_founded varchar,
+company_status_name_cn varchar,
+company_status_name_en varchar,
+weight varchar,
+ts tsvector
+) server aliyun options (schema_name 'public',table_name 'search_engine');
+
+</code></pre></div><h4 id="两个字的搜索加速-gin-索引"><a href="#两个字的搜索加速-gin-索引" class="header-anchor">#</a> 两个字的搜索加速(gin 索引)</h4> <div class="language- extra-class"><pre class="language-text"><code>create or replace function split_gin_accelerate(text) returns text[] as $$
+declare
+  res text[];
+begin
+  select regexp_split_to_array($1,'') into res;
+  for i in 1..length($1)-1 loop
+    res := array_append(res, substring($1,i,2));
+  end loop;
+  return res;
+end;
+$$ language plpgsql strict immutable;
+
+-- create index ids_foreign_search_engine_gin on foreign_search_engine using gin (record_to_text(foreign_search_engine) gin_trgm_ops) ;
+-- create index ids_foreign_search_engine_gist on foreign_search_engine using gin (record_to_text(foreign_search_engine) gin_trgm_ops) ;
+create index idx_foreign_search_engine_split_gin_accelerate on foreign_search_engine using gin (split_gin_accelerate(record_to_text(foreign_search_engine)));
+
+</code></pre></div><h2 id="后续开发计划"><a href="#后续开发计划" class="header-anchor">#</a> 后续开发计划</h2> <ol><li><p>搜索引擎支持权重查询(完成) <a href="https://github.com/digoal/blog/blob/master/201604/20160419_01.md" target="_blank" rel="noopener noreferrer">教程<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></li> <li><p>支持相似搜索 <a href="https://github.com/digoal/blog/blob/936be5892997fa312f8882977054066d852c77a4/201608/20160817_01.md" target="_blank" rel="noopener noreferrer">教程<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></li> <li><p>支持拼音搜索(完成) <a href="https://github.com/digoal/blog/blob/master/201611/20161109_01.md?spm=5176.100239.blogcont64240.26.FVsDwc&amp;file=20161109_01.md" target="_blank" rel="noopener noreferrer">教程<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> <a href="https://github.com/digoal/blog/blob/master/201605/20160511_01.md" target="_blank" rel="noopener noreferrer">2<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> <a href="https://github.com/digoal/blog/blob/master/201612/20161205_01.md" target="_blank" rel="noopener noreferrer">排序<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></li> <li><p>自定义词典 <a href="https://github.com/digoal/blog/blob/76b23d76ae9ce9ec80bc836e6a2850f7a965e808/201603/20160310_01.md" target="_blank" rel="noopener noreferrer">文章<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></li> <li><p>高效筛选 <a href="https://github.com/digoal/blog/blob/master/201706/20170607_02.md" target="_blank" rel="noopener noreferrer">文章<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></li></ol></div> <footer><!----> <hr> <!----></footer></article> <div class="sticker vuepress-toc"><div class="vuepress-toc-item vuepress-toc-h2 active"><a href="#具体实施流程" title="具体实施流程">具体实施流程</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#分词-英文基本无需分词" title="分词(英文基本无需分词)">分词(英文基本无需分词)</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#按照字段进行搜索" title="按照字段进行搜索">按照字段进行搜索</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#搜索用的固态视图" title="搜索用的固态视图">搜索用的固态视图</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#后续开发计划" title="后续开发计划">后续开发计划</a></div></div></div></div> <footer class="footer" data-v-3d9deeb8><div class="footer-left-wrap" data-v-3d9deeb8><ul class="contact" data-v-3d9deeb8></ul></div> <div class="footer-right-wrap" data-v-3d9deeb8><ul class="copyright" data-v-3d9deeb8><li class="copyright-item" data-v-3d9deeb8>感谢您的访问</li></ul></div></footer></div><div class="global-ui"><Live2d></Live2d></div></div>
+    <script src="/assets/js/app.581043e3.js" defer></script><script src="/assets/js/6.27b8f39e.js" defer></script><script src="/assets/js/3.b746408a.js" defer></script><script src="/assets/js/30.a2f228e9.js" defer></script>
+  </body>
+</html>

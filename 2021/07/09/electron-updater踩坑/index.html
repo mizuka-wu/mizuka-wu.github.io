@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>electron-updater踩坑 | 水华的博客</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="
+
+因为项目里都用上了electron，基本上因为需要做到自动升级，所以都引入了electron-updater作为升级手段，其中还是遇到了一部分坑的
+
+必须签名
+
+这个就不展开讲了，总之得花钱买签名文件，如果应用程序没有签名的话，是没办法自动升级的，主要还是升级的话，因为需要权限去替换文件和重启应用
+
+electron-updater
+
+如何生成latest.yml
+ ...">
+    
+    <link rel="preload" href="/assets/css/0.styles.14e11ee4.css" as="style"><link rel="preload" href="/assets/js/app.581043e3.js" as="script"><link rel="preload" href="/assets/js/6.27b8f39e.js" as="script"><link rel="preload" href="/assets/js/3.b746408a.js" as="script"><link rel="preload" href="/assets/js/24.f26480d8.js" as="script"><link rel="prefetch" href="/assets/js/10.bd78b44f.js"><link rel="prefetch" href="/assets/js/11.cccb581e.js"><link rel="prefetch" href="/assets/js/12.c4d9fb17.js"><link rel="prefetch" href="/assets/js/13.451744c1.js"><link rel="prefetch" href="/assets/js/14.cb23c625.js"><link rel="prefetch" href="/assets/js/15.276fc1ec.js"><link rel="prefetch" href="/assets/js/16.50ab774a.js"><link rel="prefetch" href="/assets/js/17.b3e1a905.js"><link rel="prefetch" href="/assets/js/18.1f05fac1.js"><link rel="prefetch" href="/assets/js/19.a5dfb226.js"><link rel="prefetch" href="/assets/js/20.99551f8c.js"><link rel="prefetch" href="/assets/js/21.142a33d4.js"><link rel="prefetch" href="/assets/js/22.b3265a2f.js"><link rel="prefetch" href="/assets/js/23.20ba1577.js"><link rel="prefetch" href="/assets/js/25.d7d02dee.js"><link rel="prefetch" href="/assets/js/26.18d519b2.js"><link rel="prefetch" href="/assets/js/27.a655687b.js"><link rel="prefetch" href="/assets/js/28.8cd4ae5a.js"><link rel="prefetch" href="/assets/js/29.6fc8ecd3.js"><link rel="prefetch" href="/assets/js/30.a2f228e9.js"><link rel="prefetch" href="/assets/js/31.4c5a96c5.js"><link rel="prefetch" href="/assets/js/32.646e3c9c.js"><link rel="prefetch" href="/assets/js/33.c0d71f86.js"><link rel="prefetch" href="/assets/js/34.76cd3145.js"><link rel="prefetch" href="/assets/js/35.82857579.js"><link rel="prefetch" href="/assets/js/36.e69ae413.js"><link rel="prefetch" href="/assets/js/37.c7a68556.js"><link rel="prefetch" href="/assets/js/38.1ff2f31f.js"><link rel="prefetch" href="/assets/js/39.1011f266.js"><link rel="prefetch" href="/assets/js/4.3f7941a3.js"><link rel="prefetch" href="/assets/js/40.6d45b869.js"><link rel="prefetch" href="/assets/js/41.6fc34d0a.js"><link rel="prefetch" href="/assets/js/42.13c92e30.js"><link rel="prefetch" href="/assets/js/43.563568eb.js"><link rel="prefetch" href="/assets/js/44.2bec23bd.js"><link rel="prefetch" href="/assets/js/45.d67bba72.js"><link rel="prefetch" href="/assets/js/46.36ded28b.js"><link rel="prefetch" href="/assets/js/47.e81ec5fb.js"><link rel="prefetch" href="/assets/js/48.968e28cc.js"><link rel="prefetch" href="/assets/js/49.7325235a.js"><link rel="prefetch" href="/assets/js/5.e62bff07.js"><link rel="prefetch" href="/assets/js/50.04769635.js"><link rel="prefetch" href="/assets/js/51.66486a4b.js"><link rel="prefetch" href="/assets/js/52.3011a05c.js"><link rel="prefetch" href="/assets/js/53.f7878b1d.js"><link rel="prefetch" href="/assets/js/54.4d920fa7.js"><link rel="prefetch" href="/assets/js/55.2344dd49.js"><link rel="prefetch" href="/assets/js/56.0722a129.js"><link rel="prefetch" href="/assets/js/57.c070e86b.js"><link rel="prefetch" href="/assets/js/58.a6f0e04c.js"><link rel="prefetch" href="/assets/js/59.d0b7f397.js"><link rel="prefetch" href="/assets/js/60.246ab832.js"><link rel="prefetch" href="/assets/js/61.ca40389c.js"><link rel="prefetch" href="/assets/js/62.009ce5eb.js"><link rel="prefetch" href="/assets/js/63.6fd8f461.js"><link rel="prefetch" href="/assets/js/64.2bcbbaf3.js"><link rel="prefetch" href="/assets/js/65.9a0ac7ae.js"><link rel="prefetch" href="/assets/js/66.27ae5785.js"><link rel="prefetch" href="/assets/js/67.ca17da6a.js"><link rel="prefetch" href="/assets/js/68.19b32fd3.js"><link rel="prefetch" href="/assets/js/69.e55380a8.js"><link rel="prefetch" href="/assets/js/7.63751a72.js"><link rel="prefetch" href="/assets/js/70.a20875b8.js"><link rel="prefetch" href="/assets/js/71.0e9db509.js"><link rel="prefetch" href="/assets/js/72.0875b548.js"><link rel="prefetch" href="/assets/js/73.06644fba.js"><link rel="prefetch" href="/assets/js/74.77b60953.js"><link rel="prefetch" href="/assets/js/75.34e58c1a.js"><link rel="prefetch" href="/assets/js/76.8c9afc89.js"><link rel="prefetch" href="/assets/js/77.7a6c22f3.js"><link rel="prefetch" href="/assets/js/78.a10080c9.js"><link rel="prefetch" href="/assets/js/79.1ca7e959.js"><link rel="prefetch" href="/assets/js/8.2b605bad.js"><link rel="prefetch" href="/assets/js/80.7dcea5ed.js"><link rel="prefetch" href="/assets/js/81.6aa0d347.js"><link rel="prefetch" href="/assets/js/82.3b42ca98.js"><link rel="prefetch" href="/assets/js/83.31244ece.js"><link rel="prefetch" href="/assets/js/84.b5cf6f94.js"><link rel="prefetch" href="/assets/js/85.e406ea88.js"><link rel="prefetch" href="/assets/js/9.c0b7f601.js"><link rel="prefetch" href="/assets/js/vuejs-paginate.83765843.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.14e11ee4.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/" class="nav-link home-link">水华的博客 </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/" class="nav-link">Blog</a></li><li class="nav-item"><a href="/tag/" class="nav-link">Tags</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/" class="nav-link mobile-home-link">水华的博客 </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/" class="nav-link">Blog</a></li><li class="mobile-nav-item"><a href="/tag/" class="nav-link">Tags</a></li> <li class="mobile-nav-item"><!----></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        electron-updater踩坑
+      </h1> <div class="post-meta"><!----> <div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2021-07-09T12:11:57.000Z">
+      2021-07-09
+    </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-42ccfcd5><a href="/tag/electron" data-v-42ccfcd5><span data-v-42ccfcd5>electron</span></a></li><li class="post-tag" data-v-42ccfcd5><a href="/tag/apple" data-v-42ccfcd5><span data-v-42ccfcd5>apple</span></a></li><li class="post-tag" data-v-42ccfcd5><a href="/tag/electron-builder" data-v-42ccfcd5><span data-v-42ccfcd5>electron-builder</span></a></li><li class="post-tag" data-v-42ccfcd5><a href="/tag/arm64" data-v-42ccfcd5><span data-v-42ccfcd5>arm64</span></a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><h1 id="electron-updater踩坑"><a href="#electron-updater踩坑" class="header-anchor">#</a> electron-updater踩坑</h1> <p>因为项目里都用上了<code>electron</code>，基本上因为需要做到自动升级，所以都引入了<code>electron-updater</code>作为升级手段，其中还是遇到了一部分坑的</p> <h2 id="必须签名"><a href="#必须签名" class="header-anchor">#</a> 必须签名</h2> <p>这个就不展开讲了，总之得花钱买签名文件，如果应用程序没有签名的话，是没办法自动升级的，主要还是升级的话，因为需要权限去替换文件和重启应用</p> <h2 id="electron-updater"><a href="#electron-updater" class="header-anchor">#</a> electron-updater</h2> <h3 id="如何生成latest-yml"><a href="#如何生成latest-yml" class="header-anchor">#</a> 如何生成latest.yml</h3> <p>记得在<code>package.json</code>/<code>vue.configs.js</code>对应的位置增加<code>publish</code></p> <div class="language-json extra-class"><pre class="language-json"><code>        publish<span class="token operator">:</span> <span class="token punctuation">[</span>
+          <span class="token punctuation">{</span>
+            provider<span class="token operator">:</span> 'generic'<span class="token punctuation">,</span>
+            url<span class="token operator">:</span> url
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+</code></pre></div><h3 id="如何实现定时监测并提示"><a href="#如何实现定时监测并提示" class="header-anchor">#</a> 如何实现定时监测并提示</h3> <p>写了一个类来实现定时调用</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">/**
+ * 周期循环调用
+ */</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">TimerRunner</span> <span class="token punctuation">{</span>
+  <span class="token comment">/**
+     * 定时调用该系统
+     * @param {Function} handler 运行的程序
+     * @param {object} options 运行配置
+     * @param {boolean} options.immediate 是否立即执行
+     * @param {number} options.time 执行间隔
+     */</span>
+  <span class="token function">constructor</span> <span class="token punctuation">(</span><span class="token parameter">handler<span class="token punctuation">,</span> options <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> immediate<span class="token punctuation">,</span> time <span class="token punctuation">}</span> <span class="token operator">=</span> options
+    <span class="token comment">/**
+     * 调用的函数
+     */</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>handler <span class="token operator">=</span> handler
+    <span class="token comment">/**
+     * 运行间隔
+     */</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>time <span class="token operator">=</span> time <span class="token operator">||</span> <span class="token number">1000</span>
+    <span class="token comment">/**
+     * 定时器标志
+     */</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>timer <span class="token operator">=</span> <span class="token keyword">null</span>
+    <span class="token comment">/**
+     * 最后一次成功运行时间
+     */</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>lastRunningTime <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>immediate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">/**
+   * 运行，函数，会重制定时器
+   */</span>
+  <span class="token function">run</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token operator">...</span>arg</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> vm <span class="token operator">=</span> <span class="token keyword">this</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">handler</span><span class="token punctuation">(</span><span class="token operator">...</span>arg<span class="token punctuation">)</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>timer <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      vm<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>time<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">stop</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">clearTimeout</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>timer<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">get</span> <span class="token function">nextRunTime</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> time<span class="token punctuation">,</span> lastRunningTime <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span>lastRunningTime <span class="token operator">+</span> time<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><h3 id="弹窗确认更新"><a href="#弹窗确认更新" class="header-anchor">#</a> 弹窗确认更新</h3> <p>目前还需要增加进度条，之后封装成组件</p> <p>采取了手动接管<code>autoUpdater</code>的事件来实现自定义更新提示, <code>downloadPromise</code>存在的话，表示有更新</p> <div class="language- extra-class"><pre class="language-text"><code>import { autoUpdater } from 'electron-updater'
+import { dialog } from 'electron'
+
+autoUpdater.checkForUpdates()
+      .then(({ updateInfo, downloadPromise }) =&gt; {
+        // 有更新
+        if (downloadPromise) {
+          logger.info(`检测到更新${updateInfo.version}`)
+          return downloadPromise
+            .then(() =&gt; {
+              // 1s 后提示开始更新
+              setTimeout(() =&gt; {
+                const response = dialog.showMessageBoxSync({
+                  type: 'info',
+                  icon: ICON_PATH,
+                  buttons: ['重启', '稍后'],
+                  title: '已准备好进行更新',
+                  message: '已下载完更新',
+                  detail: updateInfo.releaseNotes
+                })
+                logger.info('用户选择', response === 0 ? '重启' : '之后更新')
+                if (response === 0) {
+                  setImmediate(() =&gt; {
+                    app.removeAllListeners('window-all-closed')
+                    autoUpdater.quitAndInstall(false, true)
+                    setTimeout(() =&gt; {
+                      app.exit()
+                    }, 100)
+                  })
+                }
+              }, 1000)
+            })
+        }
+      })
+</code></pre></div><h3 id="显示更新文案"><a href="#显示更新文案" class="header-anchor">#</a> 显示更新文案</h3> <p>上面的弹窗部分可以看到用了<code>updateInfo.releaseNotes</code>，这个值在<code>package.json</code>/<code>vue.config.json</code>中给<code>electron-builder</code>设置，当然也可以用<code>-c</code>来设置</p> <div class="language- extra-class"><pre class="language-text"><code>        releaseInfo: {
+          releaseNotes
+        },
+</code></pre></div><p>打包的<code>latest.yml</code>中就会有对应的字端了</p></div> <footer><!----> <hr> <!----></footer></article> <div class="sticker vuepress-toc"><div class="vuepress-toc-item vuepress-toc-h2 active"><a href="#必须签名" title="必须签名">必须签名</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#electron-updater" title="electron-updater">electron-updater</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#如何生成latest-yml" title="如何生成latest.yml">如何生成latest.yml</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#如何实现定时监测并提示" title="如何实现定时监测并提示">如何实现定时监测并提示</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#弹窗确认更新" title="弹窗确认更新">弹窗确认更新</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#显示更新文案" title="显示更新文案">显示更新文案</a></div></div></div></div> <footer class="footer" data-v-3d9deeb8><div class="footer-left-wrap" data-v-3d9deeb8><ul class="contact" data-v-3d9deeb8></ul></div> <div class="footer-right-wrap" data-v-3d9deeb8><ul class="copyright" data-v-3d9deeb8><li class="copyright-item" data-v-3d9deeb8>感谢您的访问</li></ul></div></footer></div><div class="global-ui"><Live2d></Live2d></div></div>
+    <script src="/assets/js/app.581043e3.js" defer></script><script src="/assets/js/6.27b8f39e.js" defer></script><script src="/assets/js/3.b746408a.js" defer></script><script src="/assets/js/24.f26480d8.js" defer></script>
+  </body>
+</html>

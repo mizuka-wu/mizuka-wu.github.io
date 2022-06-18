@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>我们是怎么从ng迁移到vue的 | 水华的博客</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="原本的技术栈 ng1 + gulp + slim +
+> vue *2 + iframe 的一个后端管理项目
+ ...">
+    
+    <link rel="preload" href="/assets/css/0.styles.14e11ee4.css" as="style"><link rel="preload" href="/assets/js/app.581043e3.js" as="script"><link rel="preload" href="/assets/js/6.27b8f39e.js" as="script"><link rel="preload" href="/assets/js/3.b746408a.js" as="script"><link rel="preload" href="/assets/js/64.2bcbbaf3.js" as="script"><link rel="prefetch" href="/assets/js/10.bd78b44f.js"><link rel="prefetch" href="/assets/js/11.cccb581e.js"><link rel="prefetch" href="/assets/js/12.c4d9fb17.js"><link rel="prefetch" href="/assets/js/13.451744c1.js"><link rel="prefetch" href="/assets/js/14.cb23c625.js"><link rel="prefetch" href="/assets/js/15.276fc1ec.js"><link rel="prefetch" href="/assets/js/16.50ab774a.js"><link rel="prefetch" href="/assets/js/17.b3e1a905.js"><link rel="prefetch" href="/assets/js/18.1f05fac1.js"><link rel="prefetch" href="/assets/js/19.a5dfb226.js"><link rel="prefetch" href="/assets/js/20.99551f8c.js"><link rel="prefetch" href="/assets/js/21.142a33d4.js"><link rel="prefetch" href="/assets/js/22.b3265a2f.js"><link rel="prefetch" href="/assets/js/23.20ba1577.js"><link rel="prefetch" href="/assets/js/24.f26480d8.js"><link rel="prefetch" href="/assets/js/25.d7d02dee.js"><link rel="prefetch" href="/assets/js/26.18d519b2.js"><link rel="prefetch" href="/assets/js/27.a655687b.js"><link rel="prefetch" href="/assets/js/28.8cd4ae5a.js"><link rel="prefetch" href="/assets/js/29.6fc8ecd3.js"><link rel="prefetch" href="/assets/js/30.a2f228e9.js"><link rel="prefetch" href="/assets/js/31.4c5a96c5.js"><link rel="prefetch" href="/assets/js/32.646e3c9c.js"><link rel="prefetch" href="/assets/js/33.c0d71f86.js"><link rel="prefetch" href="/assets/js/34.76cd3145.js"><link rel="prefetch" href="/assets/js/35.82857579.js"><link rel="prefetch" href="/assets/js/36.e69ae413.js"><link rel="prefetch" href="/assets/js/37.c7a68556.js"><link rel="prefetch" href="/assets/js/38.1ff2f31f.js"><link rel="prefetch" href="/assets/js/39.1011f266.js"><link rel="prefetch" href="/assets/js/4.3f7941a3.js"><link rel="prefetch" href="/assets/js/40.6d45b869.js"><link rel="prefetch" href="/assets/js/41.6fc34d0a.js"><link rel="prefetch" href="/assets/js/42.13c92e30.js"><link rel="prefetch" href="/assets/js/43.563568eb.js"><link rel="prefetch" href="/assets/js/44.2bec23bd.js"><link rel="prefetch" href="/assets/js/45.d67bba72.js"><link rel="prefetch" href="/assets/js/46.36ded28b.js"><link rel="prefetch" href="/assets/js/47.e81ec5fb.js"><link rel="prefetch" href="/assets/js/48.968e28cc.js"><link rel="prefetch" href="/assets/js/49.7325235a.js"><link rel="prefetch" href="/assets/js/5.e62bff07.js"><link rel="prefetch" href="/assets/js/50.04769635.js"><link rel="prefetch" href="/assets/js/51.66486a4b.js"><link rel="prefetch" href="/assets/js/52.3011a05c.js"><link rel="prefetch" href="/assets/js/53.f7878b1d.js"><link rel="prefetch" href="/assets/js/54.4d920fa7.js"><link rel="prefetch" href="/assets/js/55.2344dd49.js"><link rel="prefetch" href="/assets/js/56.0722a129.js"><link rel="prefetch" href="/assets/js/57.c070e86b.js"><link rel="prefetch" href="/assets/js/58.a6f0e04c.js"><link rel="prefetch" href="/assets/js/59.d0b7f397.js"><link rel="prefetch" href="/assets/js/60.246ab832.js"><link rel="prefetch" href="/assets/js/61.ca40389c.js"><link rel="prefetch" href="/assets/js/62.009ce5eb.js"><link rel="prefetch" href="/assets/js/63.6fd8f461.js"><link rel="prefetch" href="/assets/js/65.9a0ac7ae.js"><link rel="prefetch" href="/assets/js/66.27ae5785.js"><link rel="prefetch" href="/assets/js/67.ca17da6a.js"><link rel="prefetch" href="/assets/js/68.19b32fd3.js"><link rel="prefetch" href="/assets/js/69.e55380a8.js"><link rel="prefetch" href="/assets/js/7.63751a72.js"><link rel="prefetch" href="/assets/js/70.a20875b8.js"><link rel="prefetch" href="/assets/js/71.0e9db509.js"><link rel="prefetch" href="/assets/js/72.0875b548.js"><link rel="prefetch" href="/assets/js/73.06644fba.js"><link rel="prefetch" href="/assets/js/74.77b60953.js"><link rel="prefetch" href="/assets/js/75.34e58c1a.js"><link rel="prefetch" href="/assets/js/76.8c9afc89.js"><link rel="prefetch" href="/assets/js/77.7a6c22f3.js"><link rel="prefetch" href="/assets/js/78.a10080c9.js"><link rel="prefetch" href="/assets/js/79.1ca7e959.js"><link rel="prefetch" href="/assets/js/8.2b605bad.js"><link rel="prefetch" href="/assets/js/80.7dcea5ed.js"><link rel="prefetch" href="/assets/js/81.6aa0d347.js"><link rel="prefetch" href="/assets/js/82.3b42ca98.js"><link rel="prefetch" href="/assets/js/83.31244ece.js"><link rel="prefetch" href="/assets/js/84.b5cf6f94.js"><link rel="prefetch" href="/assets/js/85.e406ea88.js"><link rel="prefetch" href="/assets/js/9.c0b7f601.js"><link rel="prefetch" href="/assets/js/vuejs-paginate.83765843.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.14e11ee4.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/" class="nav-link home-link">水华的博客 </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/" class="nav-link">Blog</a></li><li class="nav-item"><a href="/tag/" class="nav-link">Tags</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/" class="nav-link mobile-home-link">水华的博客 </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/" class="nav-link">Blog</a></li><li class="mobile-nav-item"><a href="/tag/" class="nav-link">Tags</a></li> <li class="mobile-nav-item"><!----></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        我们是怎么从ng迁移到vue的
+      </h1> <div class="post-meta"><!----> <div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2019-01-03T21:41:57.000Z">
+      2019-01-03
+    </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-42ccfcd5><a href="/tag/vue" data-v-42ccfcd5><span data-v-42ccfcd5>vue</span></a></li><li class="post-tag" data-v-42ccfcd5><a href="/tag/ng" data-v-42ccfcd5><span data-v-42ccfcd5>ng</span></a></li><li class="post-tag" data-v-42ccfcd5><a href="/tag/迁移" data-v-42ccfcd5><span data-v-42ccfcd5>迁移</span></a></li><li class="post-tag" data-v-42ccfcd5><a href="/tag/angularJs" data-v-42ccfcd5><span data-v-42ccfcd5>angularJs</span></a></li><li class="post-tag" data-v-42ccfcd5><a href="/tag/经验" data-v-42ccfcd5><span data-v-42ccfcd5>经验</span></a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><h1 id="我们是如何从ng1迁移ing到vue的"><a href="#我们是如何从ng1迁移ing到vue的" class="header-anchor">#</a> 我们是如何从ng1迁移ing到vue的</h1> <blockquote><p>原本的技术栈 ng1 + gulp + slim +
+vue *2 + iframe 的一个后端管理项目</p></blockquote> <p><a href="https://juejin.im/post/5c2e109fe51d453fdd604763" target="_blank" rel="noopener noreferrer"><img src="https://badge.juejin.im/entry/5c2e10c7f265da613d7c31ee/likes.svg?style=flat-square" alt=""><span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p><img src="https://camo.githubusercontent.com/5082953bc69645086be2b2ac5e1a8fa20eff0314/68747470733a2f2f73696e676c652d7370612e6a732e6f72672f696d672f6c6f676f2d77686974652d6267626c75652e737667" alt=""></p> <p>这是一个本身因为人手不足，一开始由后端同学创建的后端管理项目，基本采用了gulp + ng1来进行开发，同时前端接手之后为了方便开发以及跟上潮流，采用了新开子目录使用vue开发，nginx和iframe进行整合的方式，最后一个项目变成了三个项目，其实最开始进行开发的时候，连怎么启动都不知道😂</p> <h1 id="要解决的问题"><a href="#要解决的问题" class="header-anchor">#</a> 要解决的问题</h1> <h2 id="项目的层级结构"><a href="#项目的层级结构" class="header-anchor">#</a> 项目的层级结构</h2> <h3 id="原本的结构"><a href="#原本的结构" class="header-anchor">#</a> 原本的结构</h3> <p>顶级目录只包含多个子文件夹以及build.sh，每个子项目需要独立进行编译以及开发</p> <h3 id="新的结构"><a href="#新的结构" class="header-anchor">#</a> 新的结构</h3> <p>采用signle-spa作为入口文件解决方案，统一管理所有项目的入口文件，实现一次启动，所有项目都能一起开发以及编译，省去了来回切换以及端口冲突</p> <h2 id="构建语言的混乱"><a href="#构建语言的混乱" class="header-anchor">#</a> 构建语言的混乱</h2> <h3 id="原本的架构"><a href="#原本的架构" class="header-anchor">#</a> 原本的架构</h3> <p>原本的app是使用ng1来进行编写js部分，slim来编写页面模版，同时使用gulp来完成遍历所有的js文件，并打包到一个js中，后来一些新的页面部分采用iframe引入另一个vue-cli项目，两者之间通过cookie来进行登录数据的共享。</p> <h3 id="更新之后的架构"><a href="#更新之后的架构" class="header-anchor">#</a> 更新之后的架构</h3> <p>因为模版文件的问题，仍然以gulp为主，webpack负责vue和原本app的js打包和资源文件的编译工作，大家约定好，原本的ng部分尽量不更新，新的采用vue进行编写</p> <h2 id="逐步过渡"><a href="#逐步过渡" class="header-anchor">#</a> 逐步过渡</h2> <h3 id="原本的方案"><a href="#原本的方案" class="header-anchor">#</a> 原本的方案</h3> <p>老的不管它，需要更新就回去更新，新的需求去vue的项目中编写</p> <h3 id="现在的方案"><a href="#现在的方案" class="header-anchor">#</a> 现在的方案</h3> <p>single-spa进行页面的拆分，将需要更新的老的ng部分作为一个新的子app，拆分出来之后再进行更新，保证局部更新，不影响整体</p> <h1 id="解决过程"><a href="#解决过程" class="header-anchor">#</a> 解决过程</h1> <h2 id="编译工具"><a href="#编译工具" class="header-anchor">#</a> 编译工具</h2> <p>确定了整体的迁移方案之后，就是首先对编译工具的改造了，最开始是想把gulp先替换成webpack的（因为习惯配置webpack了，以及webpack4 + babel7真的编译速度快了很多）</p> <p>但是因为slim始终找不到适合使用的webpack插件的关系，最终决定还是保留gulp进行编译ng的相关的html文件</p> <h3 id="小问题"><a href="#小问题" class="header-anchor">#</a> 小问题</h3> <h4 id="gulp支持webpack的问题"><a href="#gulp支持webpack的问题" class="header-anchor">#</a> gulp支持webpack的问题</h4> <p>gulp-webpack插件支持的webpack版本是2，但是目标是使用4(为了快),好在webpack支持使用node来进行调用，只要在编译结束之后给gulp一个回调就可以了</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code>
+<span class="token keyword">const</span> webpack <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'fs'</span><span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">webpackConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> compiler <span class="token operator">=</span> <span class="token function">webpack</span><span class="token punctuation">(</span>webpackConfig<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    compiler<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> stats</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+        <span class="token function">reject</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+
+      <span class="token comment">// 输出</span>
+      process<span class="token punctuation">.</span>stdout<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>stats<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        <span class="token comment">// stats对象中保存着编译过程中的各种消息</span>
+        colors<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment">// 增加控制台颜色开关</span>
+        modules<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">// 不增加内置模块信息</span>
+        children<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">// 不增加子级信息</span>
+        chunks<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">// 允许较少的输出</span>
+        chunkModules<span class="token operator">:</span> <span class="token boolean">false</span> <span class="token comment">// 不将内置模块的信息加到包信息</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'\n\n'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    compiler<span class="token punctuation">.</span>hooks<span class="token punctuation">.</span>afterEmit<span class="token punctuation">.</span><span class="token function">tap</span><span class="token punctuation">(</span><span class="token string">'gulp'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>同理，devServer也使用自定义的脚本, 当然因为公司原因，其中的api切换也直接放在devServer的before中</p> <div class="language- extra-class"><pre class="language-text"><code>/**
+ * webpack的devserver
+ */
+const webpack = require(&quot;webpack&quot;);
+const WebpackDevServer = require(&quot;webpack-dev-server&quot;);
+const proxy = require(&quot;http-proxy-middleware&quot;);
+
+let env = &quot;dev&quot;; // 环境
+
+module.exports = function(config) {
+  return new Promise((resolve, reject) =&gt; {
+    // node模式下需要进行配置
+    let devServerConfig = config.devServer;
+    let devPath = `http://${devServerConfig.host}:${devServerConfig.port}/`;
+    config.entry.app.unshift(&quot;webpack/hot/dev-server&quot;);
+    config.entry.app.unshift(`webpack-dev-server/client?${devPath}`);
+
+    const server = new WebpackDevServer(webpack(config), {
+      open: devServerConfig.open,
+      contentBase: config.output.path,
+      publicPath: config.output.publicPath,
+      hot: true,
+      disableHostCheck: devServerConfig.disableHostCheck,
+      historyApiFallback: true,
+      inline: devServerConfig.inline,
+      watchContentBase: devServerConfig.watchContentBase,
+      before: function(app) {
+        
+      },
+      stats: {
+        colors: true
+      }
+    });
+
+    server.listen(devServerConfig.port, devServerConfig.host, function(err) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      }
+
+      console.log(`Listening at ${devPath}`);
+      resolve();
+    });
+  });
+};
+
+
+</code></pre></div><h2 id="统一构建和开发"><a href="#统一构建和开发" class="header-anchor">#</a> 统一构建和开发</h2> <p>因为使用的语言不一样，负责的页面不一样，Store和Route也不一样，想要统一的话，就必须解决这些问题</p> <h3 id="single-spa"><a href="#single-spa" class="header-anchor">#</a> single-spa</h3> <blockquote><p>SINGLE-SPA是一个 JavaScript 元框架，它允许我们使用不同的框架构建微前端，而这些框架可以共存于单个应用中。</p></blockquote> <p><img src="https://upload-images.jianshu.io/upload_images/2267652-a636f8d7cce8768f.png" alt="">
+后端微服务架构（microservice style）已经流行了一段时间了，那么前端能不能同样使用微服务呢？页面拆分成不同的部分，互相之间互不干扰又紧密相连，single-spa正是为此而出现的，而且更好的事，single-spa支持几乎所有的前端开发框架，是一个框架的元框架，而我们的迁移目标正好就是将原本的ng部分拆分成一个个小的app然后逐步迁移到vue上么</p> <h3 id="统一store"><a href="#统一store" class="header-anchor">#</a> 统一Store</h3> <p>最终决定使用vuex作为整个项目的Store，但是如何与ng本身的rootScope进行整合就又是一个问题了，好在通过import引入的js文件的作用域是共同的，只需要将ng的rootScope挂载上vuex，然后vuex使用插件的形式反过来触发更新ng就行了.</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">import</span> store <span class="token keyword">from</span> <span class="token string">'../store'</span>
+
+Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span>store<span class="token punctuation">.</span>state<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    _ng<span class="token operator">:</span> <span class="token punctuation">{</span>
+      $rootScope<span class="token operator">:</span> $rootScope<span class="token punctuation">,</span>
+      $state<span class="token operator">:</span> $state
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">/**
+ * 同步这些数据到ng的Scope里
+ * @param store
+ */</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">ngPlugin</span> <span class="token operator">=</span> <span class="token parameter">store</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 当 store 初始化后调用</span>
+  store<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> type<span class="token punctuation">,</span> payload <span class="token punctuation">}</span><span class="token punctuation">,</span> state</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>state<span class="token punctuation">.</span>_ng<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      state<span class="token punctuation">.</span>_ng<span class="token punctuation">.</span>$rootScope<span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">=</span> payload
+      state<span class="token punctuation">.</span>_ng<span class="token punctuation">.</span>$rootScope<span class="token punctuation">.</span><span class="token function">$apply</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><h3 id="统一路由"><a href="#统一路由" class="header-anchor">#</a> 统一路由</h3> <p>目前仍然各自为政，只不过路由跳转方式通过指令的方式，将vue和ng的跳转修改为使用single-spa的路由跳转方式. 当然，因为之前ng的路由是继续hash而不是history，所以还有一部分兼容操作</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> navigateToUrl <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'single-spa'</span>
+
+directives<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token comment">// spa链接</span>
+      <span class="token function">spaLink</span> <span class="token punctuation">(</span><span class="token parameter">element<span class="token punctuation">,</span> <span class="token punctuation">{</span>value<span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        element<span class="token punctuation">.</span>style<span class="token punctuation">.</span>display <span class="token operator">=</span> <span class="token string">'inline-block'</span>
+        element<span class="token punctuation">.</span>style<span class="token punctuation">.</span>width <span class="token operator">=</span> <span class="token string">'100%'</span>
+        <span class="token comment">// 自动判断hash类型</span>
+        <span class="token keyword">let</span> hash <span class="token operator">=</span> <span class="token punctuation">(</span>value <span class="token operator">||</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span><span class="token string">'#'</span><span class="token punctuation">)</span> <span class="token operator">?</span> value<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token string">'/#'</span><span class="token punctuation">,</span> <span class="token string">'#'</span><span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">#/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>value<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span>
+        element<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">'href'</span><span class="token punctuation">,</span> value <span class="token operator">?</span> hash <span class="token operator">:</span> <span class="token string">'javascript:void(0)'</span><span class="token punctuation">)</span>
+        element<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+          e<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">navigateToUrl</span><span class="token punctuation">(</span>hash<span class="token punctuation">)</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre></div><h3 id="目录结构统一"><a href="#目录结构统一" class="header-anchor">#</a> 目录结构统一</h3> <p>使用webpack的一个好处就是可以使用alias的方式 引入vue的相关组件，将原先平级的目录都移入src之后，只要修改alias，就能做到无缝迁移了</p> <h3 id="拆分app"><a href="#拆分app" class="header-anchor">#</a> 拆分app</h3> <p>没什么好说的，按照业务相关性和优先级拆分，使用single-spa进行管理</p> <h1 id="目前进度"><a href="#目前进度" class="header-anchor">#</a> 目前进度</h1> <p>当然啦，迁移也不是一朝一夕的事，其实主要把整个项目的侧边栏导航栏给换了，支持了一直吵着要做的搜索框，更换的过程中还出过不少问题，不过因为拆分了app，倒是没有影响整个项目的正常运行，看来迁移有望，起码现在启动项目不用各种切分支了😂，同时因为偷懒，还专门写了seed系统，通过定义数据结构快速生成项目页面，这也是后话了</p></div> <footer><!----> <hr> <!----></footer></article> <div class="sticker vuepress-toc"><div class="vuepress-toc-item vuepress-toc-h2 active"><a href="#项目的层级结构" title="项目的层级结构">项目的层级结构</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#原本的结构" title="原本的结构">原本的结构</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#新的结构" title="新的结构">新的结构</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#构建语言的混乱" title="构建语言的混乱">构建语言的混乱</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#原本的架构" title="原本的架构">原本的架构</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#更新之后的架构" title="更新之后的架构">更新之后的架构</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#逐步过渡" title="逐步过渡">逐步过渡</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#原本的方案" title="原本的方案">原本的方案</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#现在的方案" title="现在的方案">现在的方案</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#编译工具" title="编译工具">编译工具</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#小问题" title="小问题">小问题</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#统一构建和开发" title="统一构建和开发">统一构建和开发</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#single-spa" title="single-spa">single-spa</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#统一store" title="统一Store">统一Store</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#统一路由" title="统一路由">统一路由</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#目录结构统一" title="目录结构统一">目录结构统一</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#拆分app" title="拆分app">拆分app</a></div></div></div></div> <footer class="footer" data-v-3d9deeb8><div class="footer-left-wrap" data-v-3d9deeb8><ul class="contact" data-v-3d9deeb8></ul></div> <div class="footer-right-wrap" data-v-3d9deeb8><ul class="copyright" data-v-3d9deeb8><li class="copyright-item" data-v-3d9deeb8>感谢您的访问</li></ul></div></footer></div><div class="global-ui"><Live2d></Live2d></div></div>
+    <script src="/assets/js/app.581043e3.js" defer></script><script src="/assets/js/6.27b8f39e.js" defer></script><script src="/assets/js/3.b746408a.js" defer></script><script src="/assets/js/64.2bcbbaf3.js" defer></script>
+  </body>
+</html>

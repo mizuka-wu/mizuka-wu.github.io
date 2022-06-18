@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>github-actions分享 | 水华的博客</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="
+NPM 发布
+
+需要提前申请NPM的token,在secrets中新建NPM_TOKEN
+
+会在推送到master分支的时候自动触发
+
+name: publish to npm
+on:
+  push:
+    branche ...">
+    
+    <link rel="preload" href="/assets/css/0.styles.14e11ee4.css" as="style"><link rel="preload" href="/assets/js/app.581043e3.js" as="script"><link rel="preload" href="/assets/js/6.27b8f39e.js" as="script"><link rel="preload" href="/assets/js/3.b746408a.js" as="script"><link rel="preload" href="/assets/js/27.a655687b.js" as="script"><link rel="prefetch" href="/assets/js/10.bd78b44f.js"><link rel="prefetch" href="/assets/js/11.cccb581e.js"><link rel="prefetch" href="/assets/js/12.c4d9fb17.js"><link rel="prefetch" href="/assets/js/13.451744c1.js"><link rel="prefetch" href="/assets/js/14.cb23c625.js"><link rel="prefetch" href="/assets/js/15.276fc1ec.js"><link rel="prefetch" href="/assets/js/16.50ab774a.js"><link rel="prefetch" href="/assets/js/17.b3e1a905.js"><link rel="prefetch" href="/assets/js/18.1f05fac1.js"><link rel="prefetch" href="/assets/js/19.a5dfb226.js"><link rel="prefetch" href="/assets/js/20.99551f8c.js"><link rel="prefetch" href="/assets/js/21.142a33d4.js"><link rel="prefetch" href="/assets/js/22.b3265a2f.js"><link rel="prefetch" href="/assets/js/23.20ba1577.js"><link rel="prefetch" href="/assets/js/24.f26480d8.js"><link rel="prefetch" href="/assets/js/25.d7d02dee.js"><link rel="prefetch" href="/assets/js/26.18d519b2.js"><link rel="prefetch" href="/assets/js/28.8cd4ae5a.js"><link rel="prefetch" href="/assets/js/29.6fc8ecd3.js"><link rel="prefetch" href="/assets/js/30.a2f228e9.js"><link rel="prefetch" href="/assets/js/31.4c5a96c5.js"><link rel="prefetch" href="/assets/js/32.646e3c9c.js"><link rel="prefetch" href="/assets/js/33.c0d71f86.js"><link rel="prefetch" href="/assets/js/34.76cd3145.js"><link rel="prefetch" href="/assets/js/35.82857579.js"><link rel="prefetch" href="/assets/js/36.e69ae413.js"><link rel="prefetch" href="/assets/js/37.c7a68556.js"><link rel="prefetch" href="/assets/js/38.1ff2f31f.js"><link rel="prefetch" href="/assets/js/39.1011f266.js"><link rel="prefetch" href="/assets/js/4.3f7941a3.js"><link rel="prefetch" href="/assets/js/40.6d45b869.js"><link rel="prefetch" href="/assets/js/41.6fc34d0a.js"><link rel="prefetch" href="/assets/js/42.13c92e30.js"><link rel="prefetch" href="/assets/js/43.563568eb.js"><link rel="prefetch" href="/assets/js/44.2bec23bd.js"><link rel="prefetch" href="/assets/js/45.d67bba72.js"><link rel="prefetch" href="/assets/js/46.36ded28b.js"><link rel="prefetch" href="/assets/js/47.e81ec5fb.js"><link rel="prefetch" href="/assets/js/48.968e28cc.js"><link rel="prefetch" href="/assets/js/49.7325235a.js"><link rel="prefetch" href="/assets/js/5.e62bff07.js"><link rel="prefetch" href="/assets/js/50.04769635.js"><link rel="prefetch" href="/assets/js/51.66486a4b.js"><link rel="prefetch" href="/assets/js/52.3011a05c.js"><link rel="prefetch" href="/assets/js/53.f7878b1d.js"><link rel="prefetch" href="/assets/js/54.4d920fa7.js"><link rel="prefetch" href="/assets/js/55.2344dd49.js"><link rel="prefetch" href="/assets/js/56.0722a129.js"><link rel="prefetch" href="/assets/js/57.c070e86b.js"><link rel="prefetch" href="/assets/js/58.a6f0e04c.js"><link rel="prefetch" href="/assets/js/59.d0b7f397.js"><link rel="prefetch" href="/assets/js/60.246ab832.js"><link rel="prefetch" href="/assets/js/61.ca40389c.js"><link rel="prefetch" href="/assets/js/62.009ce5eb.js"><link rel="prefetch" href="/assets/js/63.6fd8f461.js"><link rel="prefetch" href="/assets/js/64.2bcbbaf3.js"><link rel="prefetch" href="/assets/js/65.9a0ac7ae.js"><link rel="prefetch" href="/assets/js/66.27ae5785.js"><link rel="prefetch" href="/assets/js/67.ca17da6a.js"><link rel="prefetch" href="/assets/js/68.19b32fd3.js"><link rel="prefetch" href="/assets/js/69.e55380a8.js"><link rel="prefetch" href="/assets/js/7.63751a72.js"><link rel="prefetch" href="/assets/js/70.a20875b8.js"><link rel="prefetch" href="/assets/js/71.0e9db509.js"><link rel="prefetch" href="/assets/js/72.0875b548.js"><link rel="prefetch" href="/assets/js/73.06644fba.js"><link rel="prefetch" href="/assets/js/74.77b60953.js"><link rel="prefetch" href="/assets/js/75.34e58c1a.js"><link rel="prefetch" href="/assets/js/76.8c9afc89.js"><link rel="prefetch" href="/assets/js/77.7a6c22f3.js"><link rel="prefetch" href="/assets/js/78.a10080c9.js"><link rel="prefetch" href="/assets/js/79.1ca7e959.js"><link rel="prefetch" href="/assets/js/8.2b605bad.js"><link rel="prefetch" href="/assets/js/80.7dcea5ed.js"><link rel="prefetch" href="/assets/js/81.6aa0d347.js"><link rel="prefetch" href="/assets/js/82.3b42ca98.js"><link rel="prefetch" href="/assets/js/83.31244ece.js"><link rel="prefetch" href="/assets/js/84.b5cf6f94.js"><link rel="prefetch" href="/assets/js/85.e406ea88.js"><link rel="prefetch" href="/assets/js/9.c0b7f601.js"><link rel="prefetch" href="/assets/js/vuejs-paginate.83765843.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.14e11ee4.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/" class="nav-link home-link">水华的博客 </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/" class="nav-link">Blog</a></li><li class="nav-item"><a href="/tag/" class="nav-link">Tags</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/" class="nav-link mobile-home-link">水华的博客 </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/" class="nav-link">Blog</a></li><li class="mobile-nav-item"><a href="/tag/" class="nav-link">Tags</a></li> <li class="mobile-nav-item"><!----></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        github-actions分享
+      </h1> <div class="post-meta"><!----> <div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2020-02-15T11:12:53.000Z">
+      2020-02-15
+    </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-42ccfcd5><a href="/tag/js" data-v-42ccfcd5><span data-v-42ccfcd5>js</span></a></li><li class="post-tag" data-v-42ccfcd5><a href="/tag/ecmascript" data-v-42ccfcd5><span data-v-42ccfcd5>ecmascript</span></a></li><li class="post-tag" data-v-42ccfcd5><a href="/tag/github" data-v-42ccfcd5><span data-v-42ccfcd5>github</span></a></li><li class="post-tag" data-v-42ccfcd5><a href="/tag/github actions" data-v-42ccfcd5><span data-v-42ccfcd5>github actions</span></a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><p><img src="https://www.wangbase.com/blogimg/asset/201909/bg2019091201.jpg" alt=""></p> <h1 id="npm-发布"><a href="#npm-发布" class="header-anchor">#</a> NPM 发布</h1> <p>需要提前申请<code>NPM</code>的<code>token</code>,在<code>secrets</code>中新建<code>NPM_TOKEN</code></p> <p>会在推送到<code>master</code>分支的时候自动触发</p> <div class="language-yml extra-class"><pre class="language-yml"><code><span class="token key atrule">name</span><span class="token punctuation">:</span> publish to npm
+<span class="token key atrule">on</span><span class="token punctuation">:</span>
+  <span class="token key atrule">push</span><span class="token punctuation">:</span>
+    <span class="token key atrule">branches</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> master
+  <span class="token key atrule">pull_request</span><span class="token punctuation">:</span>
+    <span class="token key atrule">branches</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> master
+
+<span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+  <span class="token key atrule">publish</span><span class="token punctuation">:</span>
+    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
+    <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Checkout
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v2 <span class="token comment"># If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.</span>
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">persist-credentials</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Install
+        <span class="token key atrule">run</span><span class="token punctuation">:</span> npm ci <span class="token important">&amp;&amp;</span> npm run build<span class="token punctuation">-</span>lib <span class="token important">&amp;&amp;</span> npm run changelog
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> publish
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> JS<span class="token punctuation">-</span>DevTools/npm<span class="token punctuation">-</span>publish@v1
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">token</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.NPM_TOKEN <span class="token punctuation">}</span><span class="token punctuation">}</span>
+</code></pre></div><h1 id="release-发布"><a href="#release-发布" class="header-anchor">#</a> release 发布</h1> <p>需要提前申请<code>GITHUB</code>的<code>token</code>,需要有<code>release</code>,权限,在<code>secrets</code>中新建<code>GH_TOKEN</code></p> <p>有<code>v1.0</code>这类 tag 时候触发</p> <div class="language-yml extra-class"><pre class="language-yml"><code><span class="token key atrule">name</span><span class="token punctuation">:</span> upload release asset
+<span class="token key atrule">on</span><span class="token punctuation">:</span>
+  <span class="token key atrule">push</span><span class="token punctuation">:</span>
+    <span class="token comment"># Sequence of patterns matched against refs/tags</span>
+    <span class="token key atrule">tags</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token string">&quot;v*&quot;</span> <span class="token comment"># Push events to matching v*, i.e. v1.0, v20.15.10</span>
+<span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+  <span class="token key atrule">build</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> Upload Release Asset
+    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
+    <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Checkout
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v2 <span class="token comment"># If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.</span>
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">persist-credentials</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Install
+        <span class="token key atrule">run</span><span class="token punctuation">:</span> npm ci <span class="token important">&amp;&amp;</span> npm run build<span class="token punctuation">-</span>lib
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Build project <span class="token comment"># This would actually build your project, using zip for an example artifact</span>
+        <span class="token key atrule">run</span><span class="token punctuation">:</span> zip <span class="token punctuation">-</span>r lib.zip lib
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Create Release
+        <span class="token key atrule">id</span><span class="token punctuation">:</span> create_release
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/create<span class="token punctuation">-</span>release@v1.0.0
+        <span class="token key atrule">env</span><span class="token punctuation">:</span>
+          <span class="token key atrule">GITHUB_TOKEN</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.GH_TOKEN <span class="token punctuation">}</span><span class="token punctuation">}</span>
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">tag_name</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> github.ref <span class="token punctuation">}</span><span class="token punctuation">}</span>
+          <span class="token key atrule">release_name</span><span class="token punctuation">:</span> Release $<span class="token punctuation">{</span><span class="token punctuation">{</span> github.ref <span class="token punctuation">}</span><span class="token punctuation">}</span>
+          <span class="token key atrule">body</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> steps.read_changelog.outputs.data <span class="token punctuation">}</span><span class="token punctuation">}</span>
+          <span class="token key atrule">draft</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+          <span class="token key atrule">prerelease</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Upload Release Asset
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/upload<span class="token punctuation">-</span>release<span class="token punctuation">-</span>asset@v1.0.1
+        <span class="token key atrule">env</span><span class="token punctuation">:</span>
+          <span class="token key atrule">GITHUB_TOKEN</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.GH_TOKEN <span class="token punctuation">}</span><span class="token punctuation">}</span>
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">upload_url</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> steps.create_release.outputs.upload_url <span class="token punctuation">}</span><span class="token punctuation">}</span> <span class="token comment"># This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps</span>
+          <span class="token key atrule">asset_path</span><span class="token punctuation">:</span> ./lib.zip
+          <span class="token key atrule">asset_name</span><span class="token punctuation">:</span> lib.zip
+          <span class="token key atrule">asset_content_type</span><span class="token punctuation">:</span> application/zip
+</code></pre></div><h1 id="doc-发布"><a href="#doc-发布" class="header-anchor">#</a> doc 发布</h1> <p>这里使用<code>vuepress</code>构建文档</p> <div class="language-yml extra-class"><pre class="language-yml"><code><span class="token key atrule">name</span><span class="token punctuation">:</span> Publish docs to github actions
+<span class="token key atrule">on</span><span class="token punctuation">:</span>
+  <span class="token key atrule">push</span><span class="token punctuation">:</span>
+    <span class="token key atrule">branches</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> master
+  <span class="token key atrule">pull_request</span><span class="token punctuation">:</span>
+    <span class="token key atrule">branches</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> master
+<span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+  <span class="token key atrule">build-and-deploy</span><span class="token punctuation">:</span>
+    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
+    <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Checkout
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v2 <span class="token comment"># If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.</span>
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">persist-credentials</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Install
+        <span class="token key atrule">run</span><span class="token punctuation">:</span> npm ci <span class="token important">&amp;&amp;</span> npm run<span class="token punctuation">-</span>script docs<span class="token punctuation">:</span>build
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Install SSH Client
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> webfactory/ssh<span class="token punctuation">-</span>agent@v0.2.0 <span class="token comment"># This step installs the ssh client into the workflow run. There's many options available for this on the action marketplace.</span>
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">ssh-private-key</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.DEPLOY_KEY <span class="token punctuation">}</span><span class="token punctuation">}</span>
+
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Build and Deploy Repo
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> JamesIves/github<span class="token punctuation">-</span>pages<span class="token punctuation">-</span>deploy<span class="token punctuation">-</span>action@releases/v3<span class="token punctuation">-</span>test
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">BASE_BRANCH</span><span class="token punctuation">:</span> master
+          <span class="token key atrule">BRANCH</span><span class="token punctuation">:</span> gh<span class="token punctuation">-</span>pages
+          <span class="token key atrule">FOLDER</span><span class="token punctuation">:</span> docs/.vuepress/dist
+          <span class="token key atrule">CLEAN</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+          <span class="token key atrule">SSH</span><span class="token punctuation">:</span> <span class="token boolean important">true</span> <span class="token comment"># SSH must be set to true so the deploy action knows which protocol to deploy with.</span>
+</code></pre></div><p>接下来生成 key ，首先</p> <div class="language-sh extra-class"><pre class="language-sh"><code>ssh-keygen -t rsa -b <span class="token number">4096</span> -C <span class="token string">&quot;<span class="token variable"><span class="token variable">$(</span><span class="token function">git</span> config user.email<span class="token variable">)</span></span>&quot;</span> -f gh-pages -N <span class="token string">&quot;&quot;</span>
+<span class="token comment"># You will get 2 files:</span>
+<span class="token comment">#   gh-pages.pub (public key)</span>
+<span class="token comment">#   gh-pages     (private key)</span>
+</code></pre></div><p>然后打开仓库的<code>settings</code>，再点击<code>Secrets</code>，然后添加咱们刚刚生成的私钥(<code>gh-pages</code>的内容)，name 为 DEPLOY_KEY</p> <p>然后点击<code>Deploy keys</code>，添加公钥(<code>gh-pages.pub</code>的内容)，<code>Allow write access</code>一定要勾上</p> <p>然后提交即可，接着就会自动发布了</p> <h1 id="gitee-同步"><a href="#gitee-同步" class="header-anchor">#</a> Gitee 同步</h1> <div class="language-yml extra-class"><pre class="language-yml"><code><span class="token key atrule">name</span><span class="token punctuation">:</span> Sync To Gitee
+<span class="token key atrule">on</span><span class="token punctuation">:</span> page_build
+<span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+  <span class="token key atrule">sync</span><span class="token punctuation">:</span>
+    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
+    <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> wearerequired/git<span class="token punctuation">-</span>mirror<span class="token punctuation">-</span>action@master
+        <span class="token key atrule">env</span><span class="token punctuation">:</span>
+          <span class="token key atrule">SSH_PRIVATE_KEY</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.GITEE_PRIVATE_KEY <span class="token punctuation">}</span><span class="token punctuation">}</span>
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">source-repo</span><span class="token punctuation">:</span> <span class="token string">&quot;git@gitee.com:mizuka/Mizuka.gitee.io.git&quot;</span>
+          <span class="token key atrule">destination-repo</span><span class="token punctuation">:</span> <span class="token string">&quot;git@gitee.com:mizuka/Mizuka.gitee.io.git&quot;</span>
+</code></pre></div></div> <footer><!----> <hr> <!----></footer></article> <!----></div></div> <footer class="footer" data-v-3d9deeb8><div class="footer-left-wrap" data-v-3d9deeb8><ul class="contact" data-v-3d9deeb8></ul></div> <div class="footer-right-wrap" data-v-3d9deeb8><ul class="copyright" data-v-3d9deeb8><li class="copyright-item" data-v-3d9deeb8>感谢您的访问</li></ul></div></footer></div><div class="global-ui"><Live2d></Live2d></div></div>
+    <script src="/assets/js/app.581043e3.js" defer></script><script src="/assets/js/6.27b8f39e.js" defer></script><script src="/assets/js/3.b746408a.js" defer></script><script src="/assets/js/27.a655687b.js" defer></script>
+  </body>
+</html>

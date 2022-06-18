@@ -1,0 +1,18 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "kueshishui.moc3",
+		"Textures": [
+			"kueshishui.4096/texture_00.png"
+		],
+		"Physics": "kueshishui.physics3.json",
+		"DisplayInfo": "kueshishui.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}
