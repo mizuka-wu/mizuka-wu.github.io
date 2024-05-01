@@ -1,3 +1,12 @@
+---
+title: 纯css让element-ui表格实现吸顶效果
+tags:
+  - 表格
+  - 补全
+  - 二进制
+  - 画画
+---
+
 # Position Sticky 与表格头
 
   
