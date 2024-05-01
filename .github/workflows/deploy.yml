@@ -29,7 +29,7 @@ jobs:
 
       - name: 步骤：第三步 -> 使用脚本部署
         env:
-          ACCESS_TOKEN_DEPLOY: ${{secrets.DEPLOY_KEY }}
+          ACCESS_TOKEN_DEPLOY: ${{secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: ./.vuepress/dist
           CNAME: www.mizuka.top
