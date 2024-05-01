@@ -11,7 +11,7 @@
 
 比如说，我自己的 github 博客的设计就是，vitepress
 对应的文档都是保存在 posts 下的 所以可以通过配置上传地址到这个地址下来实现自动构建
-![[./Pasted image 20240501131519.png|Pasted image 20240501131519.png]]
+![[./资源/Pasted image 20240501131519.png|Pasted image 20240501131519.png]]
 通过 github 的对应 workflow 即可实现自动构建
 给一个例子为
 `.github/workflows/deploy.yml`
