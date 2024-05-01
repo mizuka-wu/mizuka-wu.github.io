@@ -6,7 +6,7 @@ tags:
   - electron-builder
   - arm64
 date: 2021-01-09 12:11:57
-categories: 工作日志
+categories: 代码片段
 ---
 
 # 起因
