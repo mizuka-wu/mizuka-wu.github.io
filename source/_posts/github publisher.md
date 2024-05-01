@@ -1,3 +1,11 @@
+---
+title: github publisher
+tags:
+  - obsidian
+  - obsidian插件
+categories: 文字编辑
+---
+
 插件地址 https://obsidian-publisher.netlify.app/
 ## 插件使用指南
 1. 配置reponame
