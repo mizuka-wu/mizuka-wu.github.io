@@ -32,7 +32,7 @@ avatar:
 
 # 文章评论系统
 comments:
-  enable: true
+  enable: false
   # 目前仅支持gitalk, valine, disqus评论，选择喜欢的一种开启即可
 
   gitalk:
