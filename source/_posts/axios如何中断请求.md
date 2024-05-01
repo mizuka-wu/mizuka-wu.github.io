@@ -1,3 +1,10 @@
+---
+title: axios如何中断请求
+tags:
+  - axios
+date: 2018-10-15 22:04:25
+categories: 功能笔记
+---
 
 
 axios 是一个非常方便的请求库，但是缺没有原生提供一个 abort 接口，因为 axios 的返回是一个 promise，我们可以利用 promise 的特性来实现一个 abort 方法
