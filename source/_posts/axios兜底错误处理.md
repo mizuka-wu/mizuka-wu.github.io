@@ -4,6 +4,7 @@ tags:
   - axios
   - 兜底
 categories: 代码片段
+date: 2024-04-29
 ---
 
 项目的网络请求层使用了axios，axios是一个及其好用的库，但是在业务使用上出现了一些问题
