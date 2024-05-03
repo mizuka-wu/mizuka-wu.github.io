@@ -4,14 +4,28 @@ tags:
   - obsidian
   - obsidian插件
 categories: 文字编辑
+date: 2024-04-30
 ---
 
 插件地址 https://obsidian-publisher.netlify.app/
+
+```
+hello world
+```
+
 ## 插件使用指南
 1. 配置reponame
 2. 生成并且配置 github token
 3. 在 menu 上配置 右键菜单打开
 4. 之后即可右键点击上传
+
+
+结果：
+
+使用脚本部署完成后，可以下载到上传的内容的地址下来。
+
+如果需要更多信息，请查询用户端。
+
 
 ## 上传原理
 实际上这个上传纯粹就是会根据用户的配置自动上传到指定的文件夹内
