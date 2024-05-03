@@ -5,6 +5,7 @@ tags:
   - 群晖
   - 配置
 categories: nas 相关
+date: 2024-05-03
 ---
 # 我的 nas
 我的 nas 其实因为懒得进行继续折腾，所以最后还是购买了白群晖
@@ -36,6 +37,13 @@ image: https://www.synology.cn/img/home/img_og_image.jpg
 
 ### 最基础的就是 clxxs 服务
 主要就是旁路由的代理服务啦
-![[旁路由代理|旁路由代理]]
+-> [[旁路由代理|旁路由代理]]
 
 之后就是
+
+设置了一个 minio 服务
+
+-> [[minio|minio]]
+
+因为我需要将 minio 推送到外部，所以我还特别搭建了一个代理转发工具
+
