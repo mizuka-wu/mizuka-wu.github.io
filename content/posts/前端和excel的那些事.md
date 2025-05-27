@@ -102,7 +102,7 @@ XLSX.read(buffer, { type: "buffer" });
 
   
 
-### [exceljs]({{< relref "https://github.com/exceljs/exceljs/blob/master/README_zh.md" >*/}}#importing)
+### [exceljs](https://github.com/exceljs/exceljs/blob/master/README_zh.md#importing)
 
   
 
@@ -256,7 +256,7 @@ XLSX.write(wb, { bookType: "xlsx", type: "base64" });
 
   
 
-### [exceljs]({{< relref "https://github.com/exceljs/exceljs/blob/master/README_zh.md" >*/}}#importing)
+### [exceljs](https://github.com/exceljs/exceljs/blob/master/README_zh.md#importing)
 
   
 
