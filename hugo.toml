@@ -14,7 +14,7 @@ params:
   author: 水华
   defaultTheme: auto # dark, light
   disableThemeToggle: false
-   ShowReadingTime: true
+  ShowReadingTime: true
   ShowShareButtons: true
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
