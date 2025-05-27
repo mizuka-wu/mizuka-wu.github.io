@@ -14,7 +14,7 @@ categories: 可以公开的情报
 
   
 
-> [双十一背后的技术]({{< relref "https://github.com/digoal/blog/blob/462c0cf738380b0bfc080e99fd168c19bb2d4fce/201611/20161115_01.md" >*/}}) 参考此文 对其进行改进和自定义
+> [双十一背后的技术](https://github.com/digoal/blog/blob/462c0cf738380b0bfc080e99fd168c19bb2d4fce/201611/20161115_01.md) 参考此文 对其进行改进和自定义
 
 > 毫秒级的为[该文章](https://yq.aliyun.com/articles/68424?spm=a2c4e.11153959.blogcont61833.34.uwRpsS)
 
@@ -143,7 +143,7 @@ set zhparser.multi_zmain = on;
 
   
 
-**中文单字等特殊需求**[PostgreSQL 中英文混合分词特殊规则(中文单字、英文单词) - 中英分明]({{< relref "https://github.com/digoal/blog/blob/master/201711/20171104_03.md" >*/}})
+**中文单字等特殊需求**[PostgreSQL 中英文混合分词特殊规则(中文单字、英文单词) - 中英分明](https://github.com/digoal/blog/blob/master/201711/20171104_03.md)
 
   
 
@@ -197,7 +197,7 @@ $$ language sql strict immutable;
 
 3. COALESCE 函数防止 null
 
-4. 顺带一提行的 ts 列可以参考[该文章]({{< relref "https://github.com/digoal/blog/blob/8946988f885a3f16f159082610d6ec9027ae21dd/201604/20160419_01.md" >*/}}) 但是自定义权重就不行，使用手动构建
+4. 顺带一提行的 ts 列可以参考[该文章](https://github.com/digoal/blog/blob/8946988f885a3f16f159082610d6ec9027ae21dd/201604/20160419_01.md) 但是自定义权重就不行，使用手动构建
 
 5. 附带一个 weight 的作为行的权重，上市为:2 非上市为 1 投资机构为 0
 
@@ -699,14 +699,14 @@ create index idx_foreign_search_engine_split_gin_accelerate on foreign_search_en
 
   
 
-1. 搜索引擎支持权重查询(完成) [教程]({{< relref "https://github.com/digoal/blog/blob/master/201604/20160419_01.md" >*/}})
+1. 搜索引擎支持权重查询(完成) [教程](https://github.com/digoal/blog/blob/master/201604/20160419_01.md)
 
-2. 支持相似搜索 [教程]({{< relref "https://github.com/digoal/blog/blob/936be5892997fa312f8882977054066d852c77a4/201608/20160817_01.md" >*/}})
+2. 支持相似搜索 [教程](https://github.com/digoal/blog/blob/936be5892997fa312f8882977054066d852c77a4/201608/20160817_01.md)
 
-3. 支持拼音搜索(完成) [教程]({{< relref "https://github.com/digoal/blog/blob/master/201611/20161109_01.md?spm=5176.100239.blogcont64240.26.FVsDwc&file=20161109_01.md" >*/}}) [2]({{< relref "https://github.com/digoal/blog/blob/master/201605/20160511_01.md" >*/}}) [排序]({{< relref "https://github.com/digoal/blog/blob/master/201612/20161205_01.md" >*/}})
+3. 支持拼音搜索(完成) [教程](https://github.com/digoal/blog/blob/master/201611/20161109_01.md?spm=5176.100239.blogcont64240.26.FVsDwc&file=20161109_01.md) [2](https://github.com/digoal/blog/blob/master/201605/20160511_01.md) [排序](https://github.com/digoal/blog/blob/master/201612/20161205_01.md)
 
   
 
-4. 自定义词典 [文章]({{< relref "https://github.com/digoal/blog/blob/76b23d76ae9ce9ec80bc836e6a2850f7a965e808/201603/20160310_01.md" >*/}})
+4. 自定义词典 [文章](https://github.com/digoal/blog/blob/76b23d76ae9ce9ec80bc836e6a2850f7a965e808/201603/20160310_01.md)
 
-5. 高效筛选 [文章]({{< relref "https://github.com/digoal/blog/blob/master/201706/20170607_02.md" >*/}})
+5. 高效筛选 [文章](https://github.com/digoal/blog/blob/master/201706/20170607_02.md)
