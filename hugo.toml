@@ -1,25 +1,47 @@
 baseURL = 'https://mizuka-wu.github.io/'
 languageCode = 'zh-cn'
 title = '水华的博客'
-theme = 'diary'
+theme = 'PaperMod'
 
-copyright = "请随意转载，注明出处即可。"
+enableRobotsTXT: true
 
-[sitemap]
-  changefreq = "always"
-  filename = "sitemap.xml"
-  priority = 0.5
 
-[markup]
-  [markup.highlight]
-    codeFences = true
-    guessSyntax = false
-    hl_Lines = ""
-    lineNoStart = 1
-    lineNos = false
-    lineNumbersInTable = true
-    noClasses = true
-    style = "perldoc"
-    tabWidth = 4
+params:
+  env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  title: 水华的博客
+  description: "水华的博客，一些碎碎念分享"
+  keywords: [Blog, Portfolio, PaperMod]
+  author: 水华
+  defaultTheme: auto # dark, light
+  disableThemeToggle: false
+   ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: false
+  ShowWordCount: true
+  ShowRssButtonInSectionTermList: true
+  UseHugoToc: true
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  comments: false
+  hidemeta: false
+  hideSummary: false
+  showtoc: false
+  tocopen: false
 
+menu:
+  main:
+    - identifier: categories
+      name: categories
+      url: /categories/
+      weight: 10
+    - identifier: tags
+      name: tags
+      url: /tags/
+      weight: 20
+    - identifier: github
+      name: github
+      url: https://github.com/mizuka-wu
+      weight: 30
 
