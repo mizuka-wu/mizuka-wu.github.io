@@ -2,8 +2,7 @@ baseURL = 'https://mizuka-wu.github.io/'
 languageCode = 'zh-cn'
 title = '水华的博客'
 theme = 'PaperMod'
-
-enableRobotsTXT: true
+enableRobotsTXT = true
 
 
 params:
