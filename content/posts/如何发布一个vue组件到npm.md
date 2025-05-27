@@ -590,7 +590,7 @@ SSH: true # SSH must be set to true so the deploy action knows which protocol to
 
   
 
-```{{< relref "yml
+```yml
 
 name: upload release asset
 
@@ -634,7 +634,7 @@ uses: GenesisSam/get-simple-file-action@v1.0.4
 
 with:
 
-file-name: ${{ './dist/CHANGELOG.md" >*/}}' }}
+file-name: ${{ './dist/CHANGELOG.md' }}
 
 - name: Build project # This would actually build your project, using zip for an example artifact
 
