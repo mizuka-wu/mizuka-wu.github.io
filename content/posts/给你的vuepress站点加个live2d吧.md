@@ -18,7 +18,7 @@ categories: 可以公开的情报
 
   
 
-基于[pixi-live2d-display]({{< relref "https://github.com/guansss/pixi-live2d-display/blob/master/README.zh.md" >*/}})我封装了一个`vuepress`插件，叫[vuepress-plugin-pixi-live2d-display](https://www.npmjs.com/package/vuepress-plugin-pixi-live2d-display),可以自定义传入`model`的地址
+基于[pixi-live2d-display](https://github.com/guansss/pixi-live2d-display/blob/master/README.zh.md)我封装了一个`vuepress`插件，叫[vuepress-plugin-pixi-live2d-display](https://www.npmjs.com/package/vuepress-plugin-pixi-live2d-display),可以自定义传入`model`的地址
 
   
 
