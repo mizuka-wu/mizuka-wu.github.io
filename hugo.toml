@@ -2,3 +2,24 @@ baseURL = 'https://mizuka-wu.github.io/'
 languageCode = 'zh-cn'
 title = '水华的博客'
 theme = 'diary'
+
+copyright = "请随意转载，注明出处即可。"
+
+[sitemap]
+  changefreq = "always"
+  filename = "sitemap.xml"
+  priority = 0.5
+
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    style = "perldoc"
+    tabWidth = 4
+
+
