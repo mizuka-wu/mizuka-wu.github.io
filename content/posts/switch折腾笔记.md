@@ -1,3 +1,13 @@
+---
+title: 破解和折腾小记
+date: 2020-07-08 12
+tags:
+  - switch
+  - 折腾
+categories:
+  - 经验分享
+summary: 暂无摘要
+---
   - --
 title: switch折腾笔记
 tags:

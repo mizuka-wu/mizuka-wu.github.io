@@ -1,3 +1,16 @@
+---
+title: 目前进度
+date: 2019-01-03 21
+tags:
+  - vue
+  - ng
+  - 迁移
+  - angularJs
+  - 经验
+categories:
+  - 经验分享
+summary: 暂无摘要
+---
   - --
 title: 我们是怎么从ng迁移到vue的
 tags:
