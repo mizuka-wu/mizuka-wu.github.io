@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>开发 on 水华的博客</title><link>https://mizuka-wu.github.io/tags/%E5%BC%80%E5%8F%91/</link><description>Recent content in 开发 on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sun, 30 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml"/><item><title>搭建我的开发环境</title><link>https://mizuka-wu.github.io/posts/%E6%90%AD%E5%BB%BA%E6%88%91%E7%9A%84%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</link><pubDate>Sun, 30 Jun 2024 00:00:00 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E6%90%AD%E5%BB%BA%E6%88%91%E7%9A%84%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</guid><description>&lt;h1 id="通过react-native开发vision-os应用">通过react native开发vision os应用&lt;/h1>
+&lt;p>因为我是一个前端，所以一开始决定还是使用一个自己比较熟悉的平台进行第一次开发&lt;/p>
+&lt;p>那么最优解当然还是react native了
+好在react-native目前有一个startkits是支持visionos的&lt;/p>
+&lt;p>&lt;a href="https://github.com/callstack/react-native-visionos">https://github.com/callstack/react-native-visionos&lt;/a>&lt;/p>
+&lt;p>练手项目打算做一个简单的翻译工具&lt;/p>
+&lt;h2 id="初始化">初始化&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>npx @callstack/react-native-visionos@latest init YourApp
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;a href="https://callstack.github.io/react-native-visionos-docs/">https://callstack.github.io/react-native-visionos-docs/&lt;/a>&lt;/p></description></item><item><title>el-table拖拽开发实践</title><link>https://mizuka-wu.github.io/posts/el-table%E6%8B%96%E6%8B%BD%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/</link><pubDate>Mon, 02 Aug 2021 10:17:35 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/el-table%E6%8B%96%E6%8B%BD%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/</guid><description>&lt;h3 id="当前使用的">当前使用的&lt;/h3>
+&lt;p>&lt;code>element-ui-el-table-draggable&lt;/code> 提供了对&lt;code>element-ui&lt;/code>内&lt;code>el-table&lt;/code>的行进行拖拽排序的能力&lt;/p>
+&lt;h3 id="不足之处">不足之处&lt;/h3>
+&lt;h4 id="element-ui-el-table-draggable">element-ui-el-table-draggable&lt;/h4>
+&lt;p>只能配置两个参数，不支持列拖拽，不支持类似&lt;code>group&lt;/code>等参数&lt;/p>
+&lt;h2 id="改进和开发记录">改进和开发记录&lt;/h2>
+&lt;p>基本属于重写了, 根据核心原理做了一个出来, 也就是，&lt;code>dom&lt;/code>结构使用&lt;code>.el-table__body-wrapper tbody&lt;/code>，然后直接交换&lt;code>el-table&lt;/code>这个&lt;code>data&lt;/code>对应&lt;code>index&lt;/code>的数据&lt;/p>
+&lt;p>&lt;strong>重点提示，需要给el-table增加row-key，保证交换之后重新渲染的数据正确！！！&lt;/strong>&lt;/p>
+&lt;pre tabindex="0">&lt;code>
+const elTableContext = this.$children[0] // 因为是通过slot引入
+const container = elTableContext.$el.querySelector(&amp;#39;.el-table__body-wrapper tbody&amp;#39;)
+Sortable.create(container, {
+onEnd(evt) {
+let { newIndex, oldIndex, } = evt
+// 交换elTableContext.data里的位置，不展开了
+exchange(oldIndex, newIndex)
+this.$emit(&amp;#39;sort&amp;#39;)
+}
+})
+&lt;/code>&lt;/pre>&lt;p>之后我们解决几个核心问题&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>不能使用sortable.js的配置（例如group属性来多列表之间拖拽）&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>跨表格数据更新&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>支持列拖拽&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>expanded的row特殊处理&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>空处理&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="sortablejs配置">sortable.js配置&lt;/h3>
+&lt;p>这个好解决，一方面是可以配置&lt;code>props&lt;/code>, 另一方面，我们可以使用&lt;code>$attrs&lt;/code>这个属性，将未在&lt;code>props&lt;/code>内定义的属性直接获取&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">Sortable&lt;/span>.&lt;span style="color:#a6e22e">create&lt;/span>(&lt;span style="color:#a6e22e">container&lt;/span>, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>...&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">$attrs&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// sortable的onXXX事件转为vue的事件格式emit掉
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>...Object.&lt;span style="color:#a6e22e">keys&lt;/span>(&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">$listeners&lt;/span>).&lt;span style="color:#a6e22e">reduce&lt;/span>((&lt;span style="color:#a6e22e">events&lt;/span>, &lt;span style="color:#a6e22e">key&lt;/span>) =&amp;gt; {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">handler&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">$listeners&lt;/span>[&lt;span style="color:#a6e22e">key&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 首字母大写
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">eventName&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">`on&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>&lt;span style="color:#a6e22e">key&lt;/span>.&lt;span style="color:#a6e22e">replace&lt;/span>(&lt;span style="color:#e6db74">/\b(\w)(\w*)/g&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">$0&lt;/span>, &lt;span style="color:#a6e22e">$1&lt;/span>, &lt;span style="color:#a6e22e">$2&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">$1&lt;/span>.&lt;span style="color:#a6e22e">toUpperCase&lt;/span>() &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">$2&lt;/span>.&lt;span style="color:#a6e22e">toLowerCase&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">)}`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">events&lt;/span>[&lt;span style="color:#a6e22e">eventName&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> (...&lt;span style="color:#a6e22e">args&lt;/span>) =&amp;gt; &lt;span style="color:#a6e22e">handler&lt;/span>(...&lt;span style="color:#a6e22e">args&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">events&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}, {}),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">onEnd&lt;/span>(&lt;span style="color:#a6e22e">evt&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 之前的处理代码
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">$emit&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;end&amp;#39;&lt;/span>, &lt;span style="color:#a6e22e">evt&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>同时增加一个监听，自动更新对应的参数&lt;/p></description></item><item><title>上传app卡在通过app store进行鉴定</title><link>https://mizuka-wu.github.io/posts/%E4%B8%8A%E4%BC%A0app%E5%8D%A1%E5%9C%A8%E9%80%9A%E8%BF%87app-store%E8%BF%9B%E8%A1%8C%E9%89%B4%E5%AE%9A/</link><pubDate>Tue, 09 Jul 2019 18:17:35 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E4%B8%8A%E4%BC%A0app%E5%8D%A1%E5%9C%A8%E9%80%9A%E8%BF%87app-store%E8%BF%9B%E8%A1%8C%E9%89%B4%E5%AE%9A/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd ~
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mv .itmstransporter/ .old_itmstransporter/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&amp;#34;/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/itms/bin/iTMSTransporter&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>

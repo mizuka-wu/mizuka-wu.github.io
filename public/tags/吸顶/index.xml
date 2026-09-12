@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>吸顶 on 水华的博客</title><link>https://mizuka-wu.github.io/tags/%E5%90%B8%E9%A1%B6/</link><description>Recent content in 吸顶 on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Mon, 09 Sep 2019 12:11:57 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/%E5%90%B8%E9%A1%B6/index.xml" rel="self" type="application/rss+xml"/><item><title>纯css实现table表头吸顶</title><link>https://mizuka-wu.github.io/posts/position-sticky-%E4%B8%8E%E8%A1%A8%E6%A0%BC%E5%A4%B4/</link><pubDate>Mon, 09 Sep 2019 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/position-sticky-%E4%B8%8E%E8%A1%A8%E6%A0%BC%E5%A4%B4/</guid><description>&lt;blockquote>
+&lt;p>原文章&lt;a href="https://css-tricks.com/position-sticky-and-table-headers/">https://css-tricks.com/position-sticky-and-table-headers/&lt;/a>. 本身产品有个需求需要表格自动吸顶，本身用了 antd design 的 scroll 实现的，现在使用 css 实现，效果更好&lt;/p>&lt;/blockquote>
+&lt;p>&lt;code>thead&lt;/code>和&lt;code>tr&lt;/code>上无法设置 style&lt;code>position: sticky;&lt;/code>,&lt;/p>
+&lt;p>到那时在&lt;code>th&lt;/code>上却可以，这也意味着，其实你可以在一个传统的&lt;code>table&lt;/code>上实现吸顶 header 效果，如果你不清楚吸顶实现的原理，大概实现起来会很棘手吧，使用 css 总比原先用 js 去监听事件然后改变&lt;code>position&lt;/code>好得多&lt;/p>
+&lt;h2 id="兼容性">兼容性&lt;/h2>
+&lt;p>&lt;a href="https://caniuse.com/#search=sticky">查看兼容性&lt;/a>&lt;/p>
+&lt;p>只要不是 ie 这种活化石，基本都已经支持了&lt;/p>
+&lt;h2 id="使用">使用&lt;/h2>
+&lt;ol>
+&lt;li>
+&lt;p>保证 table 的 position 为 relative&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>给每个 th 加上 sticky&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="例子">例子&lt;/h2>
+&lt;pre tabindex="0">&lt;code class="language-less" data-lang="less">
+.stickyTable {
+:global(table) {
+position: relative;
+:global(th) {
+position: sticky;
+top: 0;
+z-index: 9999;
+}
+}
+}
+&lt;/code>&lt;/pre></description></item></channel></rss>

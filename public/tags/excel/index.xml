@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Excel on 水华的博客</title><link>https://mizuka-wu.github.io/tags/excel/</link><description>Recent content in Excel on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 14 May 2020 21:11:57 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/excel/index.xml" rel="self" type="application/rss+xml"/><item><title>前端工程师该如何愉快的用Excel画画</title><link>https://mizuka-wu.github.io/posts/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E8%AF%A5%E5%A6%82%E4%BD%95%E6%84%89%E5%BF%AB%E7%9A%84%E7%94%A8excel%E7%94%BB%E7%94%BB/</link><pubDate>Thu, 14 May 2020 21:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E8%AF%A5%E5%A6%82%E4%BD%95%E6%84%89%E5%BF%AB%E7%9A%84%E7%94%A8excel%E7%94%BB%E7%94%BB/</guid><description>&lt;p>虽然微软推出的Excel是一个强大的表格工具，但是世界上总有那么些人可以把一些常见的东西玩出花来&lt;a href="https://baijiahao.baidu.com/s?id=1601995793246815437&amp;amp;wfr=spider&amp;amp;for=pc">就像日本老人用Excel画画一样&lt;/a>&lt;/p>
+&lt;p>当然，作为一个程序员，当然还是靠程序自动来画啦&lt;/p>
+&lt;h1 id="需要了解的知识">需要了解的知识&lt;/h1>
+&lt;h2 id="canvas">canvas&lt;/h2>
+&lt;p>html5新增加的一种html元素，平时都是把它当作画布使用，但是正因为有了操纵像素的能力 其也能用在播放视频，截图，压缩图片等操作上，当然啦，这一次，我们主要用到它的像素分析能力&lt;/p>
+&lt;h3 id="getcontext">getContext&lt;/h3>
+&lt;p>canvas最常用的api，获取一个用来画画的上下文，图片一般都是2d格式，所以我们通常用&lt;code>getContext(2d)&lt;/code>&lt;/p>
+&lt;h3 id="drawimage">drawImage&lt;/h3>
+&lt;p>将图片绘制到canvas上，这样才能获取到每个点的信息&lt;/p>
+&lt;h3 id="getimagedata">getImageData&lt;/h3>
+&lt;p>获取到canvas的图像信息，不过返回值中的data是个被打平的一位数组 每四个值代表了一组rgba&lt;/p>
+&lt;h2 id="input">input&lt;/h2>
+&lt;p>这里我们靠input来获取输入值&lt;/p>
+&lt;h3 id="accept属性">accept属性&lt;/h3>
+&lt;p>&lt;code>image/*&lt;/code>来限定只能选择图片，不过某些浏览器上因为要从国外获取mime的原因，推荐还是写成&lt;code>image/png,image/jpg&lt;/code>&lt;/p>
+&lt;h3 id="获取选中的图片">获取选中的图片&lt;/h3>
+&lt;h4 id="onchange">onchange&lt;/h4>
+&lt;p>如果选择了图片，会触发change这个事件，我们对此监听即可，e.target为触发事件的input，我们取他的files[0]拿到图片对象&lt;/p>
+&lt;p>&lt;strong>注意&lt;/strong>如果再点击选择同一图片的话，是不会触发事件的，所以每次获取之后推荐&lt;code>e.target.value = “”&lt;/code>来清空掉已选择的文件&lt;/p>
+&lt;h4 id="filereader">fileReader&lt;/h4>
+&lt;p>我们获取到的图片仅仅只是个&lt;code>file&lt;/code>是没办法直接转换成一个图片元素来获取宽高和放置在&lt;code>canvas&lt;/code>内的，所以我们需要借助&lt;code>fileReader&lt;/code>的力量&lt;/p>
+&lt;p>新建一个&lt;code>const fileReader = new FileReader()&lt;/code>&lt;/p>
+&lt;p>然后在fileReader的onload回调中获取&lt;code>e.result&lt;/code>作为url&lt;/p>
+&lt;p>那么如何开始读取？用&lt;code>fileReader.readAsDataURL(file)&lt;/code>就行，之后再将这个url生成一个image就可以使用上文提到的drawImage方法了&lt;/p>
+&lt;h4 id="image">image&lt;/h4>
+&lt;p>和fileReader有点类似，需要&lt;code>const image = new Image()&lt;/code>, &lt;code>image.src = url&lt;/code>之后在onload回调中继续&lt;/p>
+&lt;h2 id="exceljs">exceljs&lt;/h2>
+&lt;p>本次的导出框架，控制了每个excel格子的背景之后生成&lt;code>Array Buffer&lt;/code>&lt;/p>
+&lt;h1 id="开始工作">开始工作&lt;/h1>
+&lt;p>既然有了知识储备，就开始规划一下步骤吧&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>做一个&lt;code>&amp;lt;input type=“file” accept=“image/*”&amp;gt;&lt;/code>的按钮&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在其change事件中获取file&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>file转image&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>新建一个canvas元素，将image绘制上去，同时控制canvas宽高和image一致&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>用getImageData获取每个像素信息&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>像素信息我们再根据图片宽高转一个二维数组&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>用二维数组在excel中改变对应格子的背景色&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>导出excel&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>具体实现代码在&lt;code>https://github.com/mizuka-wu/image2excel&lt;/code>上&lt;/p>
+&lt;h2 id="可改进的点">可改进的点&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>图片太大会崩溃&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>规定最大大小，因为excel只能缩放到10%&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>自动压缩&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>图片大小检测&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>进度条&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>转移到webworker上做一部分工作&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>想直接使用？访问&lt;a href="https://www.mizuka.top/image2excel">我做好的demo吧&lt;/a>&lt;/p></description></item><item><title>前端和excel的那些事</title><link>https://mizuka-wu.github.io/posts/%E5%89%8D%E7%AB%AF%E5%92%8Cexcel%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</link><pubDate>Fri, 14 Feb 2020 23:17:35 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E5%89%8D%E7%AB%AF%E5%92%8Cexcel%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid><description>&lt;p>在开发需求中，经常会遇到需要和&lt;code>excel&lt;/code>相关的需求，毕竟不是所有人都是程序员，很多的业务都是通过&lt;code>excel&lt;/code>去进行数据的整理归类计算的，&lt;code>excel&lt;/code>中提供的一系列快捷功能，统计功能也非常的实用，但是这也就造成了除了和接口打交道，前端也需要和&lt;code>excel&lt;/code>打一下交道&lt;/p>
+&lt;h2 id="excel-是什么">excel 是什么&lt;/h2>
+&lt;p>&lt;code>excel&lt;/code>是微软出的一款电子表格软件，&lt;code>wps&lt;/code>是国内知名的免费办公软件，以及苹果的&lt;code>Numbers&lt;/code>同样都支持编辑和生成&lt;code>excel&lt;/code>文件&lt;/p>
+&lt;h2 id="excel-的格式">excel 的格式&lt;/h2>
+&lt;p>这里说的不是单纯的&lt;code>excel&lt;/code>而是平时前端开发的时候所使用到的**&lt;code>excel&lt;/code>类型**的文件格式，主要有&lt;/p>
+&lt;h3 id="csv">csv&lt;/h3>
+&lt;p>csv 是一种纯文本的格式，非常的简单，每一行代表一行，没一列通过&lt;code>,&lt;/code>进行分割，我们只需要通过&lt;code>split&lt;/code>函数就能直接分割成对应的二维数组结构&lt;/p>
+&lt;h3 id="xslsxls">xsls/xls&lt;/h3>
+&lt;p>区别在于 &lt;code>xls&lt;/code>类型的文件我们可以通过存储网页的形式存储下来，&lt;code>xsls&lt;/code>就是一个纯的二进制文件了，这一类更倾向于使用类库进行操作&lt;/p>
+&lt;h1 id="读取">读取&lt;/h1>
+&lt;p>如果是&lt;code>csv&lt;/code>，最简单的情况下，就直接使用&lt;code>&amp;lt;input type=&amp;quot;file&amp;quot;&amp;gt;&lt;/code>,只有用&lt;code>fileReader&lt;/code>读取为纯文本就行了&lt;/p>
+&lt;p>&lt;code>nodejs&lt;/code>和&lt;code>browser&lt;/code>唯一的区别就在于，&lt;code>node&lt;/code>还支持直接通过&lt;code>steam&lt;/code>等概念进行输入，而&lt;code>browser&lt;/code>只有&lt;code>arrayBuffer&lt;/code>这一种手段&lt;/p>
+&lt;p>在一般情况下，直接&lt;code>fileReader&lt;/code>读取&lt;code>excel&lt;/code>都会是二进制流，不过根据其编码规范是可以进行还原的，其中的对应关系比较负责&lt;/p>
+&lt;h2 id="常用的库">常用的库&lt;/h2>
+&lt;p>库的左右就在于，他们能将&lt;code>excel&lt;/code>的文件专为对应的&lt;code>js&lt;/code>对象供我们操作&lt;/p>
+&lt;h3 id="sheetjs">&lt;a href="https://github.com/SheetJS/sheetjs">sheet.js&lt;/a>&lt;/h3>
+&lt;p>社区开源版本的&lt;code>xlsx.js&lt;/code>就可以完成读取和写入的工作了，&lt;/p>
+&lt;p>以下是 sheet.js 的对应数据结构.&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://segmentfault.com/img/bVbn0TI?w=387&amp;h=634">&lt;/p>
+&lt;p>读取也狠方便&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">XLSX&lt;/span>.&lt;span style="color:#a6e22e">read&lt;/span>(&lt;span style="color:#a6e22e">buffer&lt;/span>, { &lt;span style="color:#a6e22e">type&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;buffer&amp;#34;&lt;/span> });
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>不过官方的文档相对还是比较难以理解的，一般日常我用另外一个库&lt;/p>
+&lt;h3 id="exceljs">&lt;a href="https://github.com/exceljs/exceljs/blob/master/README_zh.md#importing">exceljs&lt;/a>&lt;/h3>
+&lt;p>js-xlsx 的 思想构成也是通过将二进制流转为&lt;code>js&lt;/code>对象的方式方便我们操作，不过 api 方面设计的更加友好一点&lt;/p>
+&lt;p>最主要的两点。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>中文文档&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>demo 易懂&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>读取也很容易，通过&lt;code>fileReader.readAsArrayBuffer&lt;/code> 就能直接读取，如果是在&lt;code>node&lt;/code>环境下，更能直接通过&lt;code>steam&lt;/code>和&lt;code>file&lt;/code>接口直接获取数据&lt;/p>
+&lt;pre tabindex="0">&lt;code>
+// load from buffer
+var workbook = new Excel.Workbook();
+workbook.xlsx.load(data)
+.then(function() {
+// use workbook
+});
+&lt;/code>&lt;/pre>&lt;h1 id="写入">写入&lt;/h1>
+&lt;h2 id="原生-js">原生 js&lt;/h2>
+&lt;p>这个只适用于 js&lt;/p>
+&lt;h3 id="xls">xls&lt;/h3>
+&lt;p>2013 之前的&lt;code>xls&lt;/code>模式是可以将一个&lt;code>html&lt;/code>文件导出成一个&lt;code>.xls&lt;/code>文件的所以我们首先定义一个&lt;code>html&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">table&lt;/span> &lt;span style="color:#a6e22e">id&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;tblData&amp;#34;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">th&lt;/span>&amp;gt;Name&amp;lt;/&lt;span style="color:#f92672">th&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">th&lt;/span>&amp;gt;Email&amp;lt;/&lt;span style="color:#f92672">th&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">th&lt;/span>&amp;gt;Country&amp;lt;/&lt;span style="color:#f92672">th&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;John Doe&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;john@gmail.com&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;USA&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;Michael Addison&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;michael@gmail.com&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;UK&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;Sam Farmer&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;sam@gmail.com&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;France&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">table&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>接着获取&lt;code>html&lt;/code>之后导出&lt;/p></description></item></channel></rss>

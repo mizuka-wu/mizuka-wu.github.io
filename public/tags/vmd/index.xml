@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Vmd on 水华的博客</title><link>https://mizuka-wu.github.io/tags/vmd/</link><description>Recent content in Vmd on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sun, 06 Dec 2020 12:11:57 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/vmd/index.xml" rel="self" type="application/rss+xml"/><item><title>用JS去读取【MMD】中vmd文件的那些事</title><link>https://mizuka-wu.github.io/posts/%E7%94%A8js%E5%8E%BB%E8%AF%BB%E5%8F%96mmd%E4%B8%ADvmd%E6%96%87%E4%BB%B6%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</link><pubDate>Sun, 06 Dec 2020 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E7%94%A8js%E5%8E%BB%E8%AF%BB%E5%8F%96mmd%E4%B8%ADvmd%E6%96%87%E4%BB%B6%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid><description>&lt;blockquote>
+&lt;p>未来能用&lt;code>js&lt;/code>编写的软件，都会用&lt;code>js&lt;/code>编写&lt;/p>&lt;/blockquote>
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>MikuMikuDance，简称MMD，如果是b站用户的话，应该都看到过一个专门的mmd分区，里面是各类舞蹈视频，这个是早期（真的很久了）给v家角色制作舞蹈动画的一个软件，当然除了v家6人以外，崩坏3，元神各类角色相关的宅舞投稿都有&lt;/p>
+&lt;p>&lt;code>mmd&lt;/code>其实本质上还是一款三维动画制作软件，包含 模型 动作 关键帧等一系列相关的概念，模型的话，TGA式，大妈式，很多都有相关的配布，模型和镜头也有相关的发布，其实相关产业已经很完善了，但是这一次，我打算对&lt;code>mmd&lt;/code>中保存&lt;strong>动作&lt;/strong>，&lt;strong>镜头&lt;/strong>，&lt;strong>表情&lt;/strong>和&lt;strong>关键帧&lt;/strong>的&lt;code>VMD（Vocaload Mation Data）&lt;/code>文件下手了，当然主要还是因为。。。&lt;/p>
+&lt;p>&lt;code>mmd&lt;/code>不支持&lt;code>mac&lt;/code>!我不想装&lt;code>windows&lt;/code>啊，作为前端工程师的我，如果想实现类似的渲染，那么，一方面是需要搞定模型的渲染**(Tree.js永远的神)**,另一方面就是能够编辑解析其中的&lt;code>vmd&lt;/code>文件了&lt;/p>
+&lt;p>当然，为了解决动作的问题, 一方面，&lt;code>mmd&lt;/code>提供了&lt;code>kinect&lt;/code>进行捕捉，另一方面，我也想试试用&lt;code>posenet&lt;/code>来解析动作，不过在这之前，先得吧&lt;code>vmd&lt;/code>搞定&lt;/p>
+&lt;p>顺便，练习一下用&lt;code>js&lt;/code>读取二进制流嘛&lt;/p>
+&lt;h2 id="几个概念">几个概念&lt;/h2>
+&lt;h3 id="二进制流">二进制流&lt;/h3>
+&lt;p>文件其实就是一堆 &lt;strong>0，1&lt;/strong> 组成的二进制码流，在&lt;code>javascript&lt;/code>的世界中，这种文件叫做&lt;a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer">&lt;code>ArrayBuffer&lt;/code>&lt;/a>, 虽然我们不能直接操作，但是做相应的读取还是没用问题的&lt;/p>
+&lt;blockquote>
+&lt;p>你不能直接操作 ArrayBuffer 的内容，而是要通过类型数组对象或 DataView 对象来操作，它们会将缓冲区中的数据表示为特定的格式，并通过这些格式来读写缓冲区的内容。&lt;/p>&lt;/blockquote>
+&lt;p>用&lt;code>js&lt;/code>获取二进制流有几种办法，最常用的就是从&lt;code>file&lt;/code>直接转过来，这里我们通过&lt;a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/readAsArrayBuffer">FileReader&lt;/a>即可&lt;/p>
+&lt;blockquote>
+&lt;p>FileReader 接口提供的 readAsArrayBuffer() 方法用于启动读取指定的 Blob 或 File 内容。当读取操作完成时，readyState 变成 DONE（已完成），并触发 loadend 事件，同时 result 属性中将包含一个 ArrayBuffer 对象以表示所读取文件的数据。&lt;/p>&lt;/blockquote>
+&lt;p>当然啦，还有很多种办法，比如把请求头设置成&lt;code>arrayBuffer&lt;/code>等等，这里请查阅相关的文档吧&lt;/p>
+&lt;h3 id="typedarray">TypedArray&lt;/h3>
+&lt;p>在真实的使用场景（比如其他语言体系，例如c）其实对&lt;code>bytes&lt;/code>有很多种不同的编码方案，用来表示不同的类型，&lt;code>int&lt;/code>型一般&lt;code>2&lt;/code>个字节这种，在js中也有相对应的&lt;a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Typed_arrays">TypedArrays&lt;/a>&lt;/p>
+&lt;p>只要参考对照表，其实读取方面就比较简单了&lt;/p>
+&lt;table>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array">&lt;code>Int8Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>-128&lt;/code> to &lt;code>127&lt;/code>&lt;/td>
+&lt;td>1&lt;/td>
+&lt;td>8-bit two's complement signed integer&lt;/td>
+&lt;td>&lt;code>byte&lt;/code>&lt;/td>
+&lt;td>&lt;code>int8_t&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array">&lt;code>Uint8Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>0&lt;/code> to &lt;code>255&lt;/code>&lt;/td>
+&lt;td>1&lt;/td>
+&lt;td>8-bit unsigned integer&lt;/td>
+&lt;td>&lt;code>octet&lt;/code>&lt;/td>
+&lt;td>&lt;code>uint8_t&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray">&lt;code>Uint8ClampedArray&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>0&lt;/code> to &lt;code>255&lt;/code>&lt;/td>
+&lt;td>1&lt;/td>
+&lt;td>8-bit unsigned integer (clamped)&lt;/td>
+&lt;td>&lt;code>octet&lt;/code>&lt;/td>
+&lt;td>&lt;code>uint8_t&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array">&lt;code>Int16Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>-32768&lt;/code> to &lt;code>32767&lt;/code>&lt;/td>
+&lt;td>2&lt;/td>
+&lt;td>16-bit two's complement signed integer&lt;/td>
+&lt;td>&lt;code>short&lt;/code>&lt;/td>
+&lt;td>&lt;code>int16_t&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array">&lt;code>Uint16Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>0&lt;/code> to &lt;code>65535&lt;/code>&lt;/td>
+&lt;td>2&lt;/td>
+&lt;td>16-bit unsigned integer&lt;/td>
+&lt;td>&lt;code>unsigned short&lt;/code>&lt;/td>
+&lt;td>&lt;code>uint16_t&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array">&lt;code>Int32Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>-2147483648&lt;/code> to &lt;code>2147483647&lt;/code>&lt;/td>
+&lt;td>4&lt;/td>
+&lt;td>32-bit two's complement signed integer&lt;/td>
+&lt;td>&lt;code>long&lt;/code>&lt;/td>
+&lt;td>&lt;code>int32_t&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array">&lt;code>Uint32Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>0&lt;/code> to &lt;code>4294967295&lt;/code>&lt;/td>
+&lt;td>4&lt;/td>
+&lt;td>32-bit unsigned integer&lt;/td>
+&lt;td>&lt;code>unsigned long&lt;/code>&lt;/td>
+&lt;td>&lt;code>uint32_t&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array">&lt;code>Float32Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>1.2&lt;/code>&lt;span>×&lt;/span>&lt;code>10&lt;sup>-38&lt;/sup>&lt;/code> to &lt;code>3.4&lt;/code>&lt;span>×&lt;/span>&lt;code>10&lt;sup>38&lt;/sup>&lt;/code>&lt;/td>
+&lt;td>4&lt;/td>
+&lt;td>32-bit IEEE&amp;nbsp;floating point number (7 significant digits e.g.,&amp;nbsp;&lt;code>1.1234567&lt;/code>)&lt;/td>
+&lt;td>&lt;code>unrestricted float&lt;/code>&lt;/td>
+&lt;td>&lt;code>float&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array">&lt;code>Float64Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>5.0&lt;/code>&lt;span>×&lt;/span>&lt;code>10&lt;sup>-324&lt;/sup>&lt;/code> to &lt;code>1.8&lt;/code>&lt;span>×&lt;/span>&lt;code>10&lt;sup>308&lt;/sup>&lt;/code>&lt;/td>
+&lt;td>8&lt;/td>
+&lt;td>64-bit IEEE floating point number (16 significant digits e.g.,&amp;nbsp;&lt;code>1.123...15&lt;/code>)&lt;/td>
+&lt;td>&lt;code>unrestricted double&lt;/code>&lt;/td>
+&lt;td>&lt;code>double&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt64Array">&lt;code>BigInt64Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>-2&lt;sup>63&lt;/sup>&lt;/code> to&amp;nbsp;&lt;code>2&lt;sup>63&lt;/sup>-1&lt;/code>&lt;/td>
+&lt;td>8&lt;/td>
+&lt;td>64-bit two's complement signed integer&lt;/td>
+&lt;td>&lt;code>bigint&lt;/code>&lt;/td>
+&lt;td>&lt;code>int64_t (signed long long)&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigUint64Array">&lt;code>BigUint64Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>0&lt;/code> to&amp;nbsp;&lt;code>2&lt;sup>64&lt;/sup>-1&lt;/code>&lt;/td>
+&lt;td>8&lt;/td>
+&lt;td>64-bit unsigned integer&lt;/td>
+&lt;td>&lt;code>bigint&lt;/code>&lt;/td>
+&lt;td>&lt;code>uint64_t (unsigned long long)&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;/table>
+&lt;h3 id="vmd文件的格式">VMD文件的格式&lt;/h3>
+&lt;p>光有文件流，还需要一套相应的读取方案才行，感谢国内两位大佬的相关文章，解惑了&lt;/p></description></item></channel></rss>

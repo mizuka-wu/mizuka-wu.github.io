@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Dotnet on 水华的博客</title><link>https://mizuka-wu.github.io/tags/dotnet/</link><description>Recent content in Dotnet on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Mon, 10 May 2021 12:11:57 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/dotnet/index.xml" rel="self" type="application/rss+xml"/><item><title>借助Blazor在浏览器运行dotnet代码</title><link>https://mizuka-wu.github.io/posts/%E5%80%9F%E5%8A%A9blazor%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%90%E8%A1%8Cdotnet%E4%BB%A3%E7%A0%81/</link><pubDate>Mon, 10 May 2021 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E5%80%9F%E5%8A%A9blazor%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%90%E8%A1%8Cdotnet%E4%BB%A3%E7%A0%81/</guid><description>&lt;h1 id="借助blazor在浏览器运行dotnet代码">借助Blazor在浏览器运行dotnet代码&lt;/h1>
+&lt;p>&lt;strong>本文重点&lt;/strong>，想看步骤的请直接移步&lt;a href="%E5%80%9F%E5%8A%A9Blazor%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%90%E8%A1%8Cdotnet%E4%BB%A3%E7%A0%81.md##%E6%AD%A3%E6%96%87%E5%BC%80%E5%A7%8B">正文&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>如何精简&lt;code>Blazor&lt;/code>的代码，移除界面部分&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>如何和&lt;code>c#&lt;/code>部分交互&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>如何访问&lt;code>FS&lt;/code>部分&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>打包构建&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>因为工作上的需要，需要在网页上进行&lt;code>usm&lt;/code>格式的视频，但是&lt;code>usm&lt;/code>的视频格式并没有相关的说明，导致也没办法和之前一样直接通过读取二进制流的方式解码然后转mp4流喂给&lt;code>&amp;lt;video&amp;gt;&lt;/code>&lt;/p>
+&lt;p>不过业内也都是使用&lt;code>CriDemuxer&lt;/code>来对&lt;code>usm&lt;/code>视频格式进行解交织的，而且&lt;code>CriDemuxer&lt;/code>有开源，只不过代码是基于&lt;code>C#&lt;/code>的，所以最后问题变成了，怎么在网页中运行&lt;code>C#&lt;/code>代码&lt;/p>
+&lt;p>碎碎念结束&lt;/p>
+&lt;h2 id="blazor">BLAZOR&lt;/h2>
+&lt;p>目前将&lt;code>c#&lt;/code>运行在浏览器端主要靠编译成&lt;code>wasm&lt;/code>运行，在&lt;code>net5&lt;/code>之前，想让&lt;code>dotnet&lt;/code>多端运行就得借助&lt;code>mono&lt;/code>进行编译，然后&lt;code>mono&lt;/code>有推出过一个&lt;code>mono-wasm0.1&lt;/code>的包，可以将编译为&lt;code>wasm&lt;/code>可以因为维护的原因，已经下不到了&lt;/p>
+&lt;p>不过好在微软官方有一个借助&lt;code>mono-wasm&lt;/code>的项目 &lt;code>Blazor&lt;/code> 来实现用 &lt;code>C#&lt;/code> 来构建网页，虽然用不上他的页面功能，但是四舍五入一下，却可以用它来实现在浏览器端运行 &lt;code>C#&lt;/code> 代码&lt;/p>
+&lt;h2 id="实现步骤">实现步骤&lt;/h2>
+&lt;h3 id="安装环境">安装环境&lt;/h3>
+&lt;p>根据官方教程即可&lt;/p>
+&lt;p>&lt;a href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor">https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor&lt;/a>&lt;/p>
+&lt;h3 id="创建项目">创建项目&lt;/h3>
+&lt;p>我们创建一个基于&lt;code>wasm&lt;/code>的&lt;code>app&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dotnet new blazorwasm -o BlazorApp --no-https
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后项目就创建完了，记住和官方教程不一样，是&lt;code>blazorwasm&lt;/code>&lt;/p>
+&lt;h3 id="dev">dev&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd BlazorApp
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dotnet watch run
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>一个基础项目就起来了，之后开始进行改造&lt;/p>
+&lt;h3 id="移除页面相关文件">移除页面相关文件&lt;/h3>
+&lt;h4 id="目录">目录&lt;/h4>
+&lt;ul>
+&lt;li>
+&lt;p>pages&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Shared&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="文件">文件&lt;/h4>
+&lt;ul>
+&lt;li>
+&lt;p>App.razor&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>_Imports.razor&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="修改">修改&lt;/h4>
+&lt;p>&lt;code>Program.cs&lt;/code>移除` builder.RootComponents.Add&lt;App>(&amp;quot;#app&amp;quot;);&lt;/p>
+&lt;p>`这行&lt;/p>
+&lt;p>这个时候运行，页面上应该就只有一个&lt;code>Loading...&lt;/code>了，如果觉得难受，可以修改&lt;code>wwwroot&lt;/code>下的&lt;code>index.html&lt;/code>文件&lt;/p>
+&lt;h3 id="编写代码">编写代码&lt;/h3>
+&lt;p>之后整个项目其实就是一个标准的&lt;code>dotnet&lt;/code>项目了，可以直接将编写的代码移动进来，比如我这里就直接把&lt;code>CriDemuxerCore&lt;/code>的代码直接移动进来&lt;/p>
+&lt;h3 id="编写调用代码">编写调用代码&lt;/h3>
+&lt;p>在&lt;code>Program.cs&lt;/code>内注入相关的js入口即可&lt;/p>
+&lt;p>这样的话，在浏览器内就能调用&lt;code>c#&lt;/code>的代码了&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c#" data-lang="c#">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">using&lt;/span> Microsoft.JSInterop;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">[JSInvokable]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">async&lt;/span> Task&amp;lt;&lt;span style="color:#66d9ef">string&lt;/span>&amp;gt; Demux(&lt;span style="color:#66d9ef">string&lt;/span> filePath)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> (File.Exists(filePath))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>MpegStream.DemuxOptionsStruct demuxOptions = &lt;span style="color:#66d9ef">new&lt;/span> MpegStream.DemuxOptionsStruct();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>demuxOptions.ExtractVideo = &lt;span style="color:#66d9ef">true&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">await&lt;/span> Task.Run(() =&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Console.WriteLine(&lt;span style="color:#e6db74">&amp;#34;Start&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>CriUsmStream criUsmStream = &lt;span style="color:#66d9ef">new&lt;/span> CriUsmStream(filePath);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> criUsmStream.DemultiplexStreams(demuxOptions)[&lt;span style="color:#ae81ff">0&lt;/span>];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>});
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">throw&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> Exception(filePath + &lt;span style="color:#e6db74">&amp;#34; Not exists&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>在浏览器中的调用方法&lt;/p></description></item></channel></rss>

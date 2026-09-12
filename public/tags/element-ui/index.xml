@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Element UI on 水华的博客</title><link>https://mizuka-wu.github.io/tags/element-ui/</link><description>Recent content in Element UI on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 02 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/element-ui/index.xml" rel="self" type="application/rss+xml"/><item><title>纯css让element-ui表格实现吸顶效果</title><link>https://mizuka-wu.github.io/posts/%E7%BA%AFcss%E8%AE%A9element-ui%E8%A1%A8%E6%A0%BC%E5%AE%9E%E7%8E%B0%E5%90%B8%E9%A1%B6%E6%95%88%E6%9E%9C/</link><pubDate>Thu, 02 May 2024 00:00:00 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E7%BA%AFcss%E8%AE%A9element-ui%E8%A1%A8%E6%A0%BC%E5%AE%9E%E7%8E%B0%E5%90%B8%E9%A1%B6%E6%95%88%E6%9E%9C/</guid><description>&lt;h2 id="position-sticky-与表格头">Position Sticky 与表格头&lt;/h2>
+&lt;blockquote>
+&lt;p>原文章&lt;a href="https://css-tricks.com/position-sticky-and-table-headers/">https://css-tricks.com/position-sticky-and-table-headers/&lt;/a>. 本身产品有个需求需要表格自动吸顶，本身用了 antd design 的 scroll 实现的，现在使用 css 实现，效果更好&lt;/p>&lt;/blockquote>
+&lt;p>&lt;code>thead&lt;/code>和&lt;code>tr&lt;/code>上无法设置 style&lt;code>position: sticky;&lt;/code>,&lt;/p>
+&lt;p>到那时在&lt;code>th&lt;/code>上却可以，这也意味着，其实你可以在一个传统的&lt;code>table&lt;/code>上实现吸顶 header 效果，如果你不清楚吸顶实现的原理，大概实现起来会很棘手吧，使用 css 总比原先用 js 去监听事件然后改变&lt;code>position&lt;/code>好得多&lt;/p>
+&lt;h2 id="兼容性">兼容性&lt;/h2>
+&lt;p>&lt;a href="https://caniuse.com/#search=sticky">查看兼容性&lt;/a>&lt;/p>
+&lt;p>只要不是 ie 这种活化石，基本都已经支持了&lt;/p>
+&lt;h2 id="使用">使用&lt;/h2>
+&lt;ol>
+&lt;li>保证 table 的 position 为 relative&lt;/li>
+&lt;li>给每个 th 加上 sticky&lt;/li>
+&lt;li>保证其父容器没有&lt;code>overflow: hidden&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;h2 id="例子">例子&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-stylus" data-lang="stylus">&lt;span style="display:flex;">&lt;span>.&lt;span style="color:#a6e22e">sticky-head&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;gt;&amp;gt;&amp;gt;&lt;/span>.&lt;span style="color:#a6e22e">el-table&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> overflow &lt;span style="color:#66d9ef">visible&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">el-table__header-wrapper&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> overflow &lt;span style="color:#66d9ef">visible&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> position &lt;span style="color:#66d9ef">sticky&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">top&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> z-index &lt;span style="color:#960050;background-color:#1e0010">10&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">table&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> position &lt;span style="color:#66d9ef">sticky&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">top&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">thead&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> position &lt;span style="color:#66d9ef">relative&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">th&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> position &lt;span style="color:#66d9ef">sticky&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">top&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> z-index &lt;span style="color:#960050;background-color:#1e0010">10&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>关于element-ui 自适应高度的问题以及解决思路</title><link>https://mizuka-wu.github.io/posts/%E5%85%B3%E4%BA%8Eelement-ui-%E8%87%AA%E9%80%82%E5%BA%94%E9%AB%98%E5%BA%A6%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/</link><pubDate>Thu, 09 Apr 2020 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E5%85%B3%E4%BA%8Eelement-ui-%E8%87%AA%E9%80%82%E5%BA%94%E9%AB%98%E5%BA%A6%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/</guid><description>&lt;h1 id="起因">起因&lt;/h1>
+&lt;p>还是接手了之前同事的代码，之前他的代码遗留了一个历史问题，一个element-ui的表格高度只有&lt;code>500&lt;/code> 当然，在开发用的mac电脑上看还是很正常的，但是在实际的业务场景中，会有一些使用人使用的是一些大号的屏幕，实际效果上表格只占了页面的一小部分，又因为表格的内容很多，所以空了一大块页面，但是浏览数据却需要不停的滚轮&lt;/p>
+&lt;h1 id="改进过程">改进过程&lt;/h1>
+&lt;h2 id="分析要做什么">分析要做什么&lt;/h2>
+&lt;p>首先分析了一波造成这样现象的原因，发现是&lt;code>element-ui table&lt;/code>的高度被钉死了，但是又由于是历史项目，页面被包裹在一个iframe里，同时&lt;code>element-ui&lt;/code>不支持使用&lt;code>auto&lt;/code>属性&lt;/p>
+&lt;p>综上所述，为了一个顺溜的滚动条体验，只能让&lt;code>table&lt;/code>自动填满剩余高度了，盘算了一下需要做&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>监听页面大小变化&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>防抖，省的卡顿&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>获取剩余高度&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>设定一个最小高度&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>做好各类检测，防止报错&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="开写">开写&lt;/h2>
+&lt;h3 id="监听问题">监听问题&lt;/h3>
+&lt;p>&lt;code>window.addEventListener(‘resize’, handler)&lt;/code>&lt;/p>
+&lt;p>记得也要在对应时间销毁&lt;/p>
+&lt;h3 id="防抖">防抖&lt;/h3>
+&lt;p>这里直接上debounce&lt;/p>
+&lt;h3 id="高度">高度&lt;/h3>
+&lt;ol>
+&lt;li>
+&lt;p>首先获取页面高度&lt;code>window.innerHeight&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>然后获取table距离顶部的高度&lt;code>el.getBoundingClientRect().top&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>这里有个小问题，就是定义的高度是&lt;code>body&lt;/code>的高度，但是剩余区域是包括&lt;code>head&lt;/code>的所以我们获取对应的高度&lt;code>el.querySelector(‘.el-table__header-wrapper’).offsetHeight&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>空余高度计算&lt;code>Math.max(innerHeight - offsetTop - tableHeaderHeight - OFFSET_BUTTON, MIN_TABLE_MAX_HEIGHT)&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>这个是考虑了一个最小高度和空余页面底部距离的算式&lt;/p>
+&lt;h3 id="整合">整合&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">TABLE_OFFSET_BOTTOM&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">10&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">MIN_TABLE_MAX_HEIGHT&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">500&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>window.&lt;span style="color:#a6e22e">addEventListener&lt;/span>(&lt;span style="color:#960050;background-color:#1e0010">‘&lt;/span>&lt;span style="color:#a6e22e">resize&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">’&lt;/span>, &lt;span style="color:#a6e22e">_&lt;/span>.&lt;span style="color:#a6e22e">debounce&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">innerHeight&lt;/span> &lt;span style="color:#f92672">=&lt;/span> window.&lt;span style="color:#a6e22e">innerHeight&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">table&lt;/span> &lt;span style="color:#f92672">=&lt;/span> document.&lt;span style="color:#a6e22e">getElementById&lt;/span>(&lt;span style="color:#960050;background-color:#1e0010">‘&lt;/span>&lt;span style="color:#a6e22e">table&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">’&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#f92672">!&lt;/span>&lt;span style="color:#a6e22e">table&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">offsetTop&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">table&lt;/span>.&lt;span style="color:#a6e22e">getBoundingClientRect&lt;/span>().&lt;span style="color:#a6e22e">top&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">tableHeaderHeight&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">table&lt;/span>.&lt;span style="color:#a6e22e">querySelector&lt;/span>(&lt;span style="color:#960050;background-color:#1e0010">‘&lt;/span>.&lt;span style="color:#a6e22e">el&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#a6e22e">table__header&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#a6e22e">wrapper&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">’&lt;/span>).&lt;span style="color:#a6e22e">offsetHeight&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">maxTableHeight&lt;/span> &lt;span style="color:#f92672">=&lt;/span> Math.&lt;span style="color:#a6e22e">max&lt;/span>(&lt;span style="color:#a6e22e">innerHeight&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">offsetTop&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">tableHeaderHeight&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">TABLE_OFFSET_BOTTOM&lt;/span>, &lt;span style="color:#a6e22e">MIN_TABLE_MAX_HEIGHT&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 改变element的参数即可
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>},&lt;span style="color:#ae81ff">300&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="结果">结果&lt;/h1>
+&lt;p>很完美，哎嘿&lt;/p></description></item></channel></rss>

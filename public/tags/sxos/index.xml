@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Sxos on 水华的博客</title><link>https://mizuka-wu.github.io/tags/sxos/</link><description>Recent content in Sxos on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 08 Aug 2020 12:11:57 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/sxos/index.xml" rel="self" type="application/rss+xml"/><item><title>switch折腾笔记2-sxos链接ps4手柄</title><link>https://mizuka-wu.github.io/posts/switch%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B02-sxos%E9%93%BE%E6%8E%A5ps4%E6%89%8B%E6%9F%84/</link><pubDate>Sat, 08 Aug 2020 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/switch%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B02-sxos%E9%93%BE%E6%8E%A5ps4%E6%89%8B%E6%9F%84/</guid><description>&lt;h1 id="手柄危机">手柄危机&lt;/h1>
+&lt;p>起因是还想买一个手柄，毕竟双人游戏的话，&lt;code>joycon&lt;/code>其实不是很舒服，当然啦，还是因为动森更新了花火大会，想和自家女票一起看来着，所以需要两个手柄&lt;/p>
+&lt;p>自身是一个双机党，所以闲了两个&lt;code>ps4&lt;/code>手柄在家，所以，就不考虑买一个&lt;code>switch pro&lt;/code>了&lt;/p>
+&lt;h2 id="以下是教程时间">以下是教程时间&lt;/h2>
+&lt;p>本人配置&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>switch国行&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>sxos&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>ps4 手柄&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="你需要的东西">你需要的东西&lt;/h3>
+&lt;ul>
+&lt;li>
+&lt;p>一台破解的&lt;code>switch&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>ftp client&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>手柄(ps4/xbox)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>usb数据连接线&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>[sys-con](&lt;a href="https://github.com/cathery/sys-con/releases">https://github.com/cathery/sys-con/releases&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="步骤">步骤&lt;/h3>
+&lt;ol>
+&lt;li>
+&lt;p>首先得确认线是否能够链接&lt;code>switch&lt;/code>和手柄，基本操作就是，能充电&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>将&lt;code>sys-con.zip&lt;/code>解压，看到里面的&lt;code>config&lt;/code>和&lt;code>atmosphere&lt;/code>文件夹&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>如果是大气层玩家，直接拷贝两个文件夹到&lt;code>switch&lt;/code>sd卡根目录&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>如果是sxos玩家，将&lt;code>atmosphhere/contents&lt;/code>内的文件夹直接拷贝到&lt;code>sxos/titles&lt;/code>下&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>重启&lt;code>switch&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>插上手柄再看你的手柄界面应该有个手柄了吧&lt;/p>
+&lt;/li>
+&lt;/ol></description></item></channel></rss>

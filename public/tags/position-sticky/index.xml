@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Position Sticky on 水华的博客</title><link>https://mizuka-wu.github.io/tags/position-sticky/</link><description>Recent content in Position Sticky on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 02 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/position-sticky/index.xml" rel="self" type="application/rss+xml"/><item><title>纯css让element-ui表格实现吸顶效果</title><link>https://mizuka-wu.github.io/posts/%E7%BA%AFcss%E8%AE%A9element-ui%E8%A1%A8%E6%A0%BC%E5%AE%9E%E7%8E%B0%E5%90%B8%E9%A1%B6%E6%95%88%E6%9E%9C/</link><pubDate>Thu, 02 May 2024 00:00:00 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E7%BA%AFcss%E8%AE%A9element-ui%E8%A1%A8%E6%A0%BC%E5%AE%9E%E7%8E%B0%E5%90%B8%E9%A1%B6%E6%95%88%E6%9E%9C/</guid><description>&lt;h2 id="position-sticky-与表格头">Position Sticky 与表格头&lt;/h2>
+&lt;blockquote>
+&lt;p>原文章&lt;a href="https://css-tricks.com/position-sticky-and-table-headers/">https://css-tricks.com/position-sticky-and-table-headers/&lt;/a>. 本身产品有个需求需要表格自动吸顶，本身用了 antd design 的 scroll 实现的，现在使用 css 实现，效果更好&lt;/p>&lt;/blockquote>
+&lt;p>&lt;code>thead&lt;/code>和&lt;code>tr&lt;/code>上无法设置 style&lt;code>position: sticky;&lt;/code>,&lt;/p>
+&lt;p>到那时在&lt;code>th&lt;/code>上却可以，这也意味着，其实你可以在一个传统的&lt;code>table&lt;/code>上实现吸顶 header 效果，如果你不清楚吸顶实现的原理，大概实现起来会很棘手吧，使用 css 总比原先用 js 去监听事件然后改变&lt;code>position&lt;/code>好得多&lt;/p>
+&lt;h2 id="兼容性">兼容性&lt;/h2>
+&lt;p>&lt;a href="https://caniuse.com/#search=sticky">查看兼容性&lt;/a>&lt;/p>
+&lt;p>只要不是 ie 这种活化石，基本都已经支持了&lt;/p>
+&lt;h2 id="使用">使用&lt;/h2>
+&lt;ol>
+&lt;li>保证 table 的 position 为 relative&lt;/li>
+&lt;li>给每个 th 加上 sticky&lt;/li>
+&lt;li>保证其父容器没有&lt;code>overflow: hidden&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;h2 id="例子">例子&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-stylus" data-lang="stylus">&lt;span style="display:flex;">&lt;span>.&lt;span style="color:#a6e22e">sticky-head&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;gt;&amp;gt;&amp;gt;&lt;/span>.&lt;span style="color:#a6e22e">el-table&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> overflow &lt;span style="color:#66d9ef">visible&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">el-table__header-wrapper&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> overflow &lt;span style="color:#66d9ef">visible&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> position &lt;span style="color:#66d9ef">sticky&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">top&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> z-index &lt;span style="color:#960050;background-color:#1e0010">10&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">table&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> position &lt;span style="color:#66d9ef">sticky&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">top&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">thead&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> position &lt;span style="color:#66d9ef">relative&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">th&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> position &lt;span style="color:#66d9ef">sticky&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">top&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> z-index &lt;span style="color:#960050;background-color:#1e0010">10&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>

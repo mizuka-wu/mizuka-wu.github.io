@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Overflow on 水华的博客</title><link>https://mizuka-wu.github.io/tags/overflow/</link><description>Recent content in Overflow on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Fri, 18 Oct 2019 12:11:57 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/overflow/index.xml" rel="self" type="application/rss+xml"/><item><title>文字超过x行后补上省略号的几种办法</title><link>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</link><pubDate>Fri, 18 Oct 2019 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</guid><description>&lt;h2 id="文字超过-x-行后补上省略号的几种办法">文字超过 x 行后补上省略号的几种办法&lt;/h2>
+&lt;p>&lt;a href="https://css-tricks.com/line-clampin/">原文&lt;/a>&lt;/p>
+&lt;p>简单来说，在 pc 端，文字过长溢出的话，溢出的部分会被替换成&lt;code>...&lt;/code>,然而在显示情况中，更多的是在超过 x 行之后才启用这个特性，例如&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">div&lt;/span> &lt;span style="color:#a6e22e">class&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;module&amp;#34;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">p&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Pellentesque habitant morbi tristique senectus et netus et malesuada fames
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ultricies mi vitae est. Mauris placerat eleifend leo.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">p&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">div&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>最终希望三行之后到这种效果:&lt;/p>
+&lt;p>&lt;img alt="省略号效果图" loading="lazy" src="https://css-tricks.com/wp-content/uploads/2013/05/clamped.png">&lt;/p>
+&lt;p>为了演示，我们先定义基础的 css，剩下的方法都在这个 css 的基础之上&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-css" data-lang="css">&lt;span style="display:flex;">&lt;span>.&lt;span style="color:#a6e22e">module&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">width&lt;/span>: &lt;span style="color:#ae81ff">250&lt;/span>&lt;span style="color:#66d9ef">px&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">overflow&lt;/span>: &lt;span style="color:#66d9ef">hidden&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="weird-webkit-flexbox-way">Weird WebKit Flexbox Way&lt;/h2>
+&lt;p>使用 webkit 内置的方案&lt;/p></description></item></channel></rss>

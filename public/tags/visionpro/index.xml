@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Visionpro on 水华的博客</title><link>https://mizuka-wu.github.io/tags/visionpro/</link><description>Recent content in Visionpro on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sun, 30 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/visionpro/index.xml" rel="self" type="application/rss+xml"/><item><title>搭建我的开发环境</title><link>https://mizuka-wu.github.io/posts/%E6%90%AD%E5%BB%BA%E6%88%91%E7%9A%84%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</link><pubDate>Sun, 30 Jun 2024 00:00:00 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E6%90%AD%E5%BB%BA%E6%88%91%E7%9A%84%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</guid><description>&lt;h1 id="通过react-native开发vision-os应用">通过react native开发vision os应用&lt;/h1>
+&lt;p>因为我是一个前端，所以一开始决定还是使用一个自己比较熟悉的平台进行第一次开发&lt;/p>
+&lt;p>那么最优解当然还是react native了
+好在react-native目前有一个startkits是支持visionos的&lt;/p>
+&lt;p>&lt;a href="https://github.com/callstack/react-native-visionos">https://github.com/callstack/react-native-visionos&lt;/a>&lt;/p>
+&lt;p>练手项目打算做一个简单的翻译工具&lt;/p>
+&lt;h2 id="初始化">初始化&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>npx @callstack/react-native-visionos@latest init YourApp
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;a href="https://callstack.github.io/react-native-visionos-docs/">https://callstack.github.io/react-native-visionos-docs/&lt;/a>&lt;/p></description></item></channel></rss>

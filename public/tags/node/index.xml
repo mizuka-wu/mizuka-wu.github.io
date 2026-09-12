@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Node on 水华的博客</title><link>https://mizuka-wu.github.io/tags/node/</link><description>Recent content in Node on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 07 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/node/index.xml" rel="self" type="application/rss+xml"/><item><title>通过 node 上传大文件</title><link>https://mizuka-wu.github.io/posts/%E9%80%9A%E8%BF%87-node-%E4%B8%8A%E4%BC%A0%E5%A4%A7%E6%96%87%E4%BB%B6/</link><pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E9%80%9A%E8%BF%87-node-%E4%B8%8A%E4%BC%A0%E5%A4%A7%E6%96%87%E4%BB%B6/</guid><description>&lt;h2 id="通过-node-上传大文件">通过 node 上传大文件&lt;/h2>
+&lt;h2 id="背景">背景&lt;/h2>
+&lt;p>因为工作上的原因，开发了一个客户端文件，用来做数据迁移&lt;/p>
+&lt;p>实际上的流程很简单，下载，清洗，再调用接口导入到另一个网站上&lt;/p>
+&lt;h2 id="出现问题">出现问题&lt;/h2>
+&lt;p>本地的上传其实是通过&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">formData&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">FormData&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">formData&lt;/span>.&lt;span style="color:#a6e22e">append&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;file&amp;#39;&lt;/span>, &lt;span style="color:#a6e22e">blob&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">axios&lt;/span>.&lt;span style="color:#a6e22e">post&lt;/span>(&lt;span style="color:#a6e22e">xxx&lt;/span>, &lt;span style="color:#a6e22e">formdata&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过在 nodejs 里边写 formdata 并且通过 axios 进行上传的
+遇到的第一个问题是&lt;/p>
+&lt;p>Buffer问题，因为 formdata 需要使用 blob 作为 file 字段进行上传的&lt;/p>
+&lt;p>最开始的时候我们的 blob 是通过 fs.readFileSync()生成的&lt;/p>
+&lt;p>但是在 node 环境下，我们的 node 实际上对 buffer 是有大小限制的&lt;/p>
+&lt;p>所以我一开始采用的方案是通过流式获取所有的 buffer 之后一起生成一个 blob&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">blob&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">await&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> Promise((&lt;span style="color:#a6e22e">resolve&lt;/span>, &lt;span style="color:#a6e22e">reject&lt;/span>) =&amp;gt; {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">stream&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">fs&lt;/span>.&lt;span style="color:#a6e22e">createReadStream&lt;/span>();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">blobData&lt;/span> &lt;span style="color:#f92672">=&lt;/span> [];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">stream&lt;/span>.&lt;span style="color:#a6e22e">on&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;data&amp;#39;&lt;/span>, &lt;span style="color:#a6e22e">chunk&lt;/span> =&amp;gt; &lt;span style="color:#a6e22e">blobData&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(&lt;span style="color:#a6e22e">chunk&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">stream&lt;/span>.&lt;span style="color:#a6e22e">on&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;end&amp;#39;&lt;/span>, () =&amp;gt; &lt;span style="color:#a6e22e">resolve&lt;/span>(&lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">Blob&lt;/span>(&lt;span style="color:#a6e22e">blobData&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样一开始解决了读取 buffer 过大的问题&lt;/p>
+&lt;h2 id="实际问题解决">实际问题解决&lt;/h2>
+&lt;p>实际问题还是上传下载的时候，如果读取为 blob的话，也是需要占用一段内存的&lt;/p>
+&lt;p>这也就造成了在传输 2g 以上大文件的时候出现了闪退&lt;/p>
+&lt;p>这个时候其实应该会有好几种解决方案&lt;/p>
+&lt;ol>
+&lt;li>通过分片进行上传，实际上因为后端采用 minio 这个也是天然支持的，但是经过询问之后，发现上传 minio 其实也是后端额外封装了一层接口实现的，但是后端没有实现分片合并的逻辑，所以通过分片的方案就不行了&lt;/li>
+&lt;li>流式上传，这样可以减少内存的占用&lt;/li>
+&lt;/ol>
+&lt;p>所以上传的时候其实是需要将整个上传流程的 form 也转换成一个 stream&lt;/p></description></item></channel></rss>

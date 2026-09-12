@@ -1,0 +1,828 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>前端 on 水华的博客</title><link>https://mizuka-wu.github.io/tags/%E5%89%8D%E7%AB%AF/</link><description>Recent content in 前端 on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sun, 30 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/%E5%89%8D%E7%AB%AF/index.xml" rel="self" type="application/rss+xml"/><item><title>搭建我的开发环境</title><link>https://mizuka-wu.github.io/posts/%E6%90%AD%E5%BB%BA%E6%88%91%E7%9A%84%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</link><pubDate>Sun, 30 Jun 2024 00:00:00 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E6%90%AD%E5%BB%BA%E6%88%91%E7%9A%84%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</guid><description>&lt;h1 id="通过react-native开发vision-os应用">通过react native开发vision os应用&lt;/h1>
+&lt;p>因为我是一个前端，所以一开始决定还是使用一个自己比较熟悉的平台进行第一次开发&lt;/p>
+&lt;p>那么最优解当然还是react native了
+好在react-native目前有一个startkits是支持visionos的&lt;/p>
+&lt;p>&lt;a href="https://github.com/callstack/react-native-visionos">https://github.com/callstack/react-native-visionos&lt;/a>&lt;/p>
+&lt;p>练手项目打算做一个简单的翻译工具&lt;/p>
+&lt;h2 id="初始化">初始化&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>npx @callstack/react-native-visionos@latest init YourApp
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;a href="https://callstack.github.io/react-native-visionos-docs/">https://callstack.github.io/react-native-visionos-docs/&lt;/a>&lt;/p></description></item><item><title>opencv 编译</title><link>https://mizuka-wu.github.io/posts/opencv-%E7%BC%96%E8%AF%91/</link><pubDate>Sun, 05 May 2024 00:00:00 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/opencv-%E7%BC%96%E8%AF%91/</guid><description>&lt;h1 id="为啥要编译opencv">为啥要编译opencv&lt;/h1>
+&lt;p>因为 opencv 是频域水印需要的一个功能
+但是本体这个包实在是太大了&lt;/p>
+&lt;p>所以打算编译一个最多 2m 的包出来&lt;/p>
+&lt;h2 id="编译参考">编译参考&lt;/h2>
+&lt;pre tabindex="0">&lt;code class="language-cardlink" data-lang="cardlink">url: https://docs.opencv.org/4.x/d4/da1/tutorial_js_setup.html
+title: &amp;#34;OpenCV: Build OpenCV.js&amp;#34;
+host: docs.opencv.org
+&lt;/code>&lt;/pre>&lt;h3 id="环境搭建">环境搭建&lt;/h3>
+&lt;p>首先还得是安装 emsdk
+通过万能的 homebrew 进行安装&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>brew install emscripten
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre tabindex="0">&lt;code class="language-cardlink" data-lang="cardlink">url: https://www.cnblogs.com/Wayou/p/webassembly_quick_start.html
+title: &amp;#34;WebAssembly 上手 - 刘哇勇 - 博客园&amp;#34;
+description: &amp;#34;安装 Mac 上最便捷的安装方式当然是通过 Homebrew: $ brew install emscripten 安装好之后讲道理就已经自动配置好一切，然后 emcc 命令便可用了。 下面看非 Homebrew 安装的方式。 通过官方 WebAssembly Developer’s Guide 提&amp;#34;
+host: www.cnblogs.com
+&lt;/code>&lt;/pre>&lt;h3 id="构建基础版的-opencv">构建基础版的 opencv&lt;/h3>
+&lt;p>跟着教程&lt;/p>
+&lt;p>首先得复制一份到本地&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git clone git clone https://github.com/opencv/opencv.git
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd opencv
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>emcmake python ./opencv/platforms/js/build_js.py build_wasm --build_wasm
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>vue-cli项目如何同时打包一个express项目</title><link>https://mizuka-wu.github.io/posts/vue-cli%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E6%89%93%E5%8C%85%E4%B8%80%E4%B8%AAexpress%E9%A1%B9%E7%9B%AE/</link><pubDate>Sat, 18 Jun 2022 18:17:35 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/vue-cli%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E6%89%93%E5%8C%85%E4%B8%80%E4%B8%AAexpress%E9%A1%B9%E7%9B%AE/</guid><description>&lt;blockquote>
+&lt;p>&lt;code>vue-cli&lt;/code>项目一般只会生成一个纯前端的&lt;code>vue&lt;/code>项目，不过有时候，如果我们想开发一个&lt;code>express&lt;/code>项目同时又想用&lt;code>vue&lt;/code>作为前端该怎么搞呢？&lt;/p>&lt;/blockquote>
+&lt;h2 id="几个解决方案">几个解决方案&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>两个项目分别开发&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>mono-repo&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>其他方案&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="vueexpress一个项目一次打包">vue/express一个项目一次打包&lt;/h3>
+&lt;p>其实因为怕打包麻烦，所以我是希望一个项目内，可以同时开发&lt;code>express&lt;/code>/&lt;code>vue&lt;/code>打包的时候又能只打包输出到一个文件夹下&lt;/p>
+&lt;p>所以我选择在&lt;code>vue-cli&lt;/code>生产的项目内，增加一个&lt;code>server&lt;/code>文件夹，用来开发&lt;code>express&lt;/code>相关的代码，只有在最后打包的时候，变为一个&lt;code>express&lt;/code>项目&lt;/p>
+&lt;h4 id="改造的要点">改造的要点&lt;/h4>
+&lt;ol>
+&lt;li>
+&lt;p>前后端独立的hmr&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>前后端最终成果打包在一起&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="改造过程">改造过程&lt;/h3>
+&lt;h4 id="独立热更同时前端可调用express服务">独立热更同时前端可调用express服务&lt;/h4>
+&lt;p>首先，我们在文件目录下建立&lt;code>server&lt;/code>文件夹，将&lt;code>express&lt;/code>服务器的开发，&lt;code>src&lt;/code>下为原先前端相关的代码&lt;/p>
+&lt;p>其次，安装&lt;code>nodemon&lt;/code>用来做&lt;code>express&lt;/code>项目的开发启动&lt;/p>
+&lt;p>&lt;code>package.json&lt;/code>添加命令&lt;code>&amp;quot;start:be&amp;quot;: &amp;quot;nodemon ./server/index.js&amp;quot;&lt;/code>&lt;/p>
+&lt;p>添加&lt;code>vue.config.js&lt;/code>, 加入&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">module&lt;/span>.&lt;span style="color:#a6e22e">exports&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">devServer&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">proxy&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&amp;#39;/{express服务的路径，例如api}&amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">target&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">&amp;#39;&lt;/span>&lt;span style="color:#a6e22e">http&lt;/span>&lt;span style="color:#f92672">:&lt;/span>&lt;span style="color:#75715e">//127.0.0.1:{express端口},
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">ws&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样，启动&lt;code>npm run serve&lt;/code>的时候同时启动&lt;code>start: be&lt;/code>即可同时开启前后端&lt;/p>
+&lt;h4 id="打包让express应用调用vue结果">打包让express应用调用vue结果&lt;/h4>
+&lt;p>&lt;code>express&lt;/code>有&lt;code>static&lt;/code>功能，假定用的是&lt;code>public&lt;/code> 文件夹&lt;/p>
+&lt;p>&lt;code>package.json&lt;/code>添加命令&lt;code>&amp;quot;build:be&amp;quot;: &amp;quot;cp package.json ./dist/ &amp;amp;&amp;amp; cp server/* ./dist/&amp;quot;&lt;/code>&lt;/p>
+&lt;p>这样来打包&lt;code>express&lt;/code>应用&lt;/p>
+&lt;p>同时express内添加一行，&lt;code>app.use(express.static('./public'))&lt;/code>&lt;/p>
+&lt;p>接着，来改造&lt;code>vue.config.js&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>
+module.exports = {
+outputDir: &amp;#34;./dist/public&amp;#34;
+}
+&lt;/code>&lt;/pre>&lt;p>之后build命令运行完，运行build:fe即可&lt;/p></description></item><item><title>如何实现表格的列拖拽的</title><link>https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%A1%A8%E6%A0%BC%E7%9A%84%E5%88%97%E6%8B%96%E6%8B%BD%E7%9A%84/</link><pubDate>Sat, 11 Dec 2021 11:41:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%A1%A8%E6%A0%BC%E7%9A%84%E5%88%97%E6%8B%96%E6%8B%BD%E7%9A%84/</guid><description>&lt;blockquote>
+&lt;p>因为使用el-table实现，所以一些抓取dom的class类通过el-table内置的类实现，实际如果是简单表格的话，可以自行增加&lt;code>class来实现&lt;/code>&lt;/p>&lt;/blockquote>
+&lt;h2 id="底层框架原理">底层框架/原理&lt;/h2>
+&lt;p>&lt;a href="http://www.sortablejs.com/options.html">sortablejs&lt;/a>&lt;/p>
+&lt;p>核心的拖拽原理，我们通过使用&lt;code>sortablejs&lt;/code>提供的&lt;code>dom&lt;/code>拖拽方案，实现&lt;/p>
+&lt;p>我们通过让&lt;code>sortablejs&lt;/code>的&lt;code>el&lt;/code>参数指定到&lt;code>el-table&lt;/code>的&lt;code>header&lt;/code>上&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">query&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;.el-table__header-wrapper thead tr&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">el&lt;/span> &lt;span style="color:#a6e22e">docuemnt&lt;/span>.&lt;span style="color:#a6e22e">querySelector&lt;/span>(&lt;span style="color:#a6e22e">query&lt;/span>) &lt;span style="color:#75715e">// this.$el.querySelector(query)
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>那么表头的那一行的所有&lt;code>th&lt;/code>就变为拖拽目标了，之后根据&lt;code>index&lt;/code>的顺序变化，可以反推到列的切换上&lt;/p>
+&lt;p>核心代码&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">sortable&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">Sortable&lt;/span>(&lt;span style="color:#a6e22e">el&lt;/span>, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">onEnd&lt;/span>(&lt;span style="color:#a6e22e">evt&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">let&lt;/span> { &lt;span style="color:#a6e22e">newIndex&lt;/span>, &lt;span style="color:#a6e22e">oldIndex&lt;/span>, &lt;span style="color:#a6e22e">item&lt;/span> } &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">evt&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 通知上级交换column位置
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="其他一些实现">其他一些实现&lt;/h2>
+&lt;h3 id="跨表格实现">跨表格实现&lt;/h3>
+&lt;p>跨表格实现思路在于，通过在&lt;code>window&lt;/code>上建立一个桥接用的&lt;code>map&lt;/code>&lt;/p>
+&lt;p>缓存&lt;code>table&lt;/code>的dom =&amp;gt; vue实例对应关系&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">sortable&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">Sortable&lt;/span>(&lt;span style="color:#a6e22e">el&lt;/span>, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">onEnd&lt;/span>(&lt;span style="color:#a6e22e">evt&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> { &lt;span style="color:#a6e22e">to&lt;/span>, &lt;span style="color:#a6e22e">from&lt;/span>, &lt;span style="color:#a6e22e">pullMode&lt;/span> } &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">evt&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">toContext&lt;/span> &lt;span style="color:#f92672">=&lt;/span> window.&lt;span style="color:#a6e22e">bridge&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#a6e22e">to&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">fromContext&lt;/span> &lt;span style="color:#f92672">=&lt;/span> window.&lt;span style="color:#a6e22e">bridge&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#a6e22e">from&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">let&lt;/span> { &lt;span style="color:#a6e22e">newIndex&lt;/span>, &lt;span style="color:#a6e22e">oldIndex&lt;/span>, &lt;span style="color:#a6e22e">item&lt;/span> } &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">evt&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 通知from和to对应的数据进行切换即可
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="拖拽优化">拖拽优化&lt;/h3>
+&lt;p>虽然核心代码很简单，但是不够完美，拖拽的时候只有表头可以进行拖动，实际上整列是没有跟着一起拖动的&lt;/p>
+&lt;p>所以我们需要进行样式上的优化，主要有两点&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>拖拽时候的影子&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>该列所有td跟随表头拖动&lt;/p></description></item><item><title>el-table拖拽开发实践</title><link>https://mizuka-wu.github.io/posts/el-table%E6%8B%96%E6%8B%BD%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/</link><pubDate>Mon, 02 Aug 2021 10:17:35 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/el-table%E6%8B%96%E6%8B%BD%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/</guid><description>&lt;h3 id="当前使用的">当前使用的&lt;/h3>
+&lt;p>&lt;code>element-ui-el-table-draggable&lt;/code> 提供了对&lt;code>element-ui&lt;/code>内&lt;code>el-table&lt;/code>的行进行拖拽排序的能力&lt;/p>
+&lt;h3 id="不足之处">不足之处&lt;/h3>
+&lt;h4 id="element-ui-el-table-draggable">element-ui-el-table-draggable&lt;/h4>
+&lt;p>只能配置两个参数，不支持列拖拽，不支持类似&lt;code>group&lt;/code>等参数&lt;/p>
+&lt;h2 id="改进和开发记录">改进和开发记录&lt;/h2>
+&lt;p>基本属于重写了, 根据核心原理做了一个出来, 也就是，&lt;code>dom&lt;/code>结构使用&lt;code>.el-table__body-wrapper tbody&lt;/code>，然后直接交换&lt;code>el-table&lt;/code>这个&lt;code>data&lt;/code>对应&lt;code>index&lt;/code>的数据&lt;/p>
+&lt;p>&lt;strong>重点提示，需要给el-table增加row-key，保证交换之后重新渲染的数据正确！！！&lt;/strong>&lt;/p>
+&lt;pre tabindex="0">&lt;code>
+const elTableContext = this.$children[0] // 因为是通过slot引入
+const container = elTableContext.$el.querySelector(&amp;#39;.el-table__body-wrapper tbody&amp;#39;)
+Sortable.create(container, {
+onEnd(evt) {
+let { newIndex, oldIndex, } = evt
+// 交换elTableContext.data里的位置，不展开了
+exchange(oldIndex, newIndex)
+this.$emit(&amp;#39;sort&amp;#39;)
+}
+})
+&lt;/code>&lt;/pre>&lt;p>之后我们解决几个核心问题&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>不能使用sortable.js的配置（例如group属性来多列表之间拖拽）&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>跨表格数据更新&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>支持列拖拽&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>expanded的row特殊处理&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>空处理&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="sortablejs配置">sortable.js配置&lt;/h3>
+&lt;p>这个好解决，一方面是可以配置&lt;code>props&lt;/code>, 另一方面，我们可以使用&lt;code>$attrs&lt;/code>这个属性，将未在&lt;code>props&lt;/code>内定义的属性直接获取&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">Sortable&lt;/span>.&lt;span style="color:#a6e22e">create&lt;/span>(&lt;span style="color:#a6e22e">container&lt;/span>, {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>...&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">$attrs&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// sortable的onXXX事件转为vue的事件格式emit掉
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>...Object.&lt;span style="color:#a6e22e">keys&lt;/span>(&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">$listeners&lt;/span>).&lt;span style="color:#a6e22e">reduce&lt;/span>((&lt;span style="color:#a6e22e">events&lt;/span>, &lt;span style="color:#a6e22e">key&lt;/span>) =&amp;gt; {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">handler&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">$listeners&lt;/span>[&lt;span style="color:#a6e22e">key&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 首字母大写
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">eventName&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">`on&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>&lt;span style="color:#a6e22e">key&lt;/span>.&lt;span style="color:#a6e22e">replace&lt;/span>(&lt;span style="color:#e6db74">/\b(\w)(\w*)/g&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">$0&lt;/span>, &lt;span style="color:#a6e22e">$1&lt;/span>, &lt;span style="color:#a6e22e">$2&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">$1&lt;/span>.&lt;span style="color:#a6e22e">toUpperCase&lt;/span>() &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">$2&lt;/span>.&lt;span style="color:#a6e22e">toLowerCase&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">)}`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">events&lt;/span>[&lt;span style="color:#a6e22e">eventName&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> (...&lt;span style="color:#a6e22e">args&lt;/span>) =&amp;gt; &lt;span style="color:#a6e22e">handler&lt;/span>(...&lt;span style="color:#a6e22e">args&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">events&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}, {}),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">onEnd&lt;/span>(&lt;span style="color:#a6e22e">evt&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 之前的处理代码
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">$emit&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;end&amp;#39;&lt;/span>, &lt;span style="color:#a6e22e">evt&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>同时增加一个监听，自动更新对应的参数&lt;/p></description></item><item><title>借助Blazor在浏览器运行dotnet代码</title><link>https://mizuka-wu.github.io/posts/%E5%80%9F%E5%8A%A9blazor%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%90%E8%A1%8Cdotnet%E4%BB%A3%E7%A0%81/</link><pubDate>Mon, 10 May 2021 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E5%80%9F%E5%8A%A9blazor%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%90%E8%A1%8Cdotnet%E4%BB%A3%E7%A0%81/</guid><description>&lt;h1 id="借助blazor在浏览器运行dotnet代码">借助Blazor在浏览器运行dotnet代码&lt;/h1>
+&lt;p>&lt;strong>本文重点&lt;/strong>，想看步骤的请直接移步&lt;a href="%E5%80%9F%E5%8A%A9Blazor%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%90%E8%A1%8Cdotnet%E4%BB%A3%E7%A0%81.md##%E6%AD%A3%E6%96%87%E5%BC%80%E5%A7%8B">正文&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>如何精简&lt;code>Blazor&lt;/code>的代码，移除界面部分&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>如何和&lt;code>c#&lt;/code>部分交互&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>如何访问&lt;code>FS&lt;/code>部分&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>打包构建&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>因为工作上的需要，需要在网页上进行&lt;code>usm&lt;/code>格式的视频，但是&lt;code>usm&lt;/code>的视频格式并没有相关的说明，导致也没办法和之前一样直接通过读取二进制流的方式解码然后转mp4流喂给&lt;code>&amp;lt;video&amp;gt;&lt;/code>&lt;/p>
+&lt;p>不过业内也都是使用&lt;code>CriDemuxer&lt;/code>来对&lt;code>usm&lt;/code>视频格式进行解交织的，而且&lt;code>CriDemuxer&lt;/code>有开源，只不过代码是基于&lt;code>C#&lt;/code>的，所以最后问题变成了，怎么在网页中运行&lt;code>C#&lt;/code>代码&lt;/p>
+&lt;p>碎碎念结束&lt;/p>
+&lt;h2 id="blazor">BLAZOR&lt;/h2>
+&lt;p>目前将&lt;code>c#&lt;/code>运行在浏览器端主要靠编译成&lt;code>wasm&lt;/code>运行，在&lt;code>net5&lt;/code>之前，想让&lt;code>dotnet&lt;/code>多端运行就得借助&lt;code>mono&lt;/code>进行编译，然后&lt;code>mono&lt;/code>有推出过一个&lt;code>mono-wasm0.1&lt;/code>的包，可以将编译为&lt;code>wasm&lt;/code>可以因为维护的原因，已经下不到了&lt;/p>
+&lt;p>不过好在微软官方有一个借助&lt;code>mono-wasm&lt;/code>的项目 &lt;code>Blazor&lt;/code> 来实现用 &lt;code>C#&lt;/code> 来构建网页，虽然用不上他的页面功能，但是四舍五入一下，却可以用它来实现在浏览器端运行 &lt;code>C#&lt;/code> 代码&lt;/p>
+&lt;h2 id="实现步骤">实现步骤&lt;/h2>
+&lt;h3 id="安装环境">安装环境&lt;/h3>
+&lt;p>根据官方教程即可&lt;/p>
+&lt;p>&lt;a href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor">https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor&lt;/a>&lt;/p>
+&lt;h3 id="创建项目">创建项目&lt;/h3>
+&lt;p>我们创建一个基于&lt;code>wasm&lt;/code>的&lt;code>app&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dotnet new blazorwasm -o BlazorApp --no-https
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后项目就创建完了，记住和官方教程不一样，是&lt;code>blazorwasm&lt;/code>&lt;/p>
+&lt;h3 id="dev">dev&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd BlazorApp
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dotnet watch run
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>一个基础项目就起来了，之后开始进行改造&lt;/p>
+&lt;h3 id="移除页面相关文件">移除页面相关文件&lt;/h3>
+&lt;h4 id="目录">目录&lt;/h4>
+&lt;ul>
+&lt;li>
+&lt;p>pages&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Shared&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="文件">文件&lt;/h4>
+&lt;ul>
+&lt;li>
+&lt;p>App.razor&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>_Imports.razor&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="修改">修改&lt;/h4>
+&lt;p>&lt;code>Program.cs&lt;/code>移除` builder.RootComponents.Add&lt;App>(&amp;quot;#app&amp;quot;);&lt;/p>
+&lt;p>`这行&lt;/p>
+&lt;p>这个时候运行，页面上应该就只有一个&lt;code>Loading...&lt;/code>了，如果觉得难受，可以修改&lt;code>wwwroot&lt;/code>下的&lt;code>index.html&lt;/code>文件&lt;/p>
+&lt;h3 id="编写代码">编写代码&lt;/h3>
+&lt;p>之后整个项目其实就是一个标准的&lt;code>dotnet&lt;/code>项目了，可以直接将编写的代码移动进来，比如我这里就直接把&lt;code>CriDemuxerCore&lt;/code>的代码直接移动进来&lt;/p>
+&lt;h3 id="编写调用代码">编写调用代码&lt;/h3>
+&lt;p>在&lt;code>Program.cs&lt;/code>内注入相关的js入口即可&lt;/p>
+&lt;p>这样的话，在浏览器内就能调用&lt;code>c#&lt;/code>的代码了&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c#" data-lang="c#">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">using&lt;/span> Microsoft.JSInterop;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">[JSInvokable]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">async&lt;/span> Task&amp;lt;&lt;span style="color:#66d9ef">string&lt;/span>&amp;gt; Demux(&lt;span style="color:#66d9ef">string&lt;/span> filePath)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> (File.Exists(filePath))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>MpegStream.DemuxOptionsStruct demuxOptions = &lt;span style="color:#66d9ef">new&lt;/span> MpegStream.DemuxOptionsStruct();
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>demuxOptions.ExtractVideo = &lt;span style="color:#66d9ef">true&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">await&lt;/span> Task.Run(() =&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Console.WriteLine(&lt;span style="color:#e6db74">&amp;#34;Start&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>CriUsmStream criUsmStream = &lt;span style="color:#66d9ef">new&lt;/span> CriUsmStream(filePath);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> criUsmStream.DemultiplexStreams(demuxOptions)[&lt;span style="color:#ae81ff">0&lt;/span>];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>});
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">throw&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> Exception(filePath + &lt;span style="color:#e6db74">&amp;#34; Not exists&amp;#34;&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>在浏览器中的调用方法&lt;/p></description></item><item><title>用JS去读取【MMD】中vmd文件的那些事</title><link>https://mizuka-wu.github.io/posts/%E7%94%A8js%E5%8E%BB%E8%AF%BB%E5%8F%96mmd%E4%B8%ADvmd%E6%96%87%E4%BB%B6%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</link><pubDate>Sun, 06 Dec 2020 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E7%94%A8js%E5%8E%BB%E8%AF%BB%E5%8F%96mmd%E4%B8%ADvmd%E6%96%87%E4%BB%B6%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid><description>&lt;blockquote>
+&lt;p>未来能用&lt;code>js&lt;/code>编写的软件，都会用&lt;code>js&lt;/code>编写&lt;/p>&lt;/blockquote>
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>MikuMikuDance，简称MMD，如果是b站用户的话，应该都看到过一个专门的mmd分区，里面是各类舞蹈视频，这个是早期（真的很久了）给v家角色制作舞蹈动画的一个软件，当然除了v家6人以外，崩坏3，元神各类角色相关的宅舞投稿都有&lt;/p>
+&lt;p>&lt;code>mmd&lt;/code>其实本质上还是一款三维动画制作软件，包含 模型 动作 关键帧等一系列相关的概念，模型的话，TGA式，大妈式，很多都有相关的配布，模型和镜头也有相关的发布，其实相关产业已经很完善了，但是这一次，我打算对&lt;code>mmd&lt;/code>中保存&lt;strong>动作&lt;/strong>，&lt;strong>镜头&lt;/strong>，&lt;strong>表情&lt;/strong>和&lt;strong>关键帧&lt;/strong>的&lt;code>VMD（Vocaload Mation Data）&lt;/code>文件下手了，当然主要还是因为。。。&lt;/p>
+&lt;p>&lt;code>mmd&lt;/code>不支持&lt;code>mac&lt;/code>!我不想装&lt;code>windows&lt;/code>啊，作为前端工程师的我，如果想实现类似的渲染，那么，一方面是需要搞定模型的渲染**(Tree.js永远的神)**,另一方面就是能够编辑解析其中的&lt;code>vmd&lt;/code>文件了&lt;/p>
+&lt;p>当然，为了解决动作的问题, 一方面，&lt;code>mmd&lt;/code>提供了&lt;code>kinect&lt;/code>进行捕捉，另一方面，我也想试试用&lt;code>posenet&lt;/code>来解析动作，不过在这之前，先得吧&lt;code>vmd&lt;/code>搞定&lt;/p>
+&lt;p>顺便，练习一下用&lt;code>js&lt;/code>读取二进制流嘛&lt;/p>
+&lt;h2 id="几个概念">几个概念&lt;/h2>
+&lt;h3 id="二进制流">二进制流&lt;/h3>
+&lt;p>文件其实就是一堆 &lt;strong>0，1&lt;/strong> 组成的二进制码流，在&lt;code>javascript&lt;/code>的世界中，这种文件叫做&lt;a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer">&lt;code>ArrayBuffer&lt;/code>&lt;/a>, 虽然我们不能直接操作，但是做相应的读取还是没用问题的&lt;/p>
+&lt;blockquote>
+&lt;p>你不能直接操作 ArrayBuffer 的内容，而是要通过类型数组对象或 DataView 对象来操作，它们会将缓冲区中的数据表示为特定的格式，并通过这些格式来读写缓冲区的内容。&lt;/p>&lt;/blockquote>
+&lt;p>用&lt;code>js&lt;/code>获取二进制流有几种办法，最常用的就是从&lt;code>file&lt;/code>直接转过来，这里我们通过&lt;a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/readAsArrayBuffer">FileReader&lt;/a>即可&lt;/p>
+&lt;blockquote>
+&lt;p>FileReader 接口提供的 readAsArrayBuffer() 方法用于启动读取指定的 Blob 或 File 内容。当读取操作完成时，readyState 变成 DONE（已完成），并触发 loadend 事件，同时 result 属性中将包含一个 ArrayBuffer 对象以表示所读取文件的数据。&lt;/p>&lt;/blockquote>
+&lt;p>当然啦，还有很多种办法，比如把请求头设置成&lt;code>arrayBuffer&lt;/code>等等，这里请查阅相关的文档吧&lt;/p>
+&lt;h3 id="typedarray">TypedArray&lt;/h3>
+&lt;p>在真实的使用场景（比如其他语言体系，例如c）其实对&lt;code>bytes&lt;/code>有很多种不同的编码方案，用来表示不同的类型，&lt;code>int&lt;/code>型一般&lt;code>2&lt;/code>个字节这种，在js中也有相对应的&lt;a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Typed_arrays">TypedArrays&lt;/a>&lt;/p>
+&lt;p>只要参考对照表，其实读取方面就比较简单了&lt;/p>
+&lt;table>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array">&lt;code>Int8Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>-128&lt;/code> to &lt;code>127&lt;/code>&lt;/td>
+&lt;td>1&lt;/td>
+&lt;td>8-bit two's complement signed integer&lt;/td>
+&lt;td>&lt;code>byte&lt;/code>&lt;/td>
+&lt;td>&lt;code>int8_t&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array">&lt;code>Uint8Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>0&lt;/code> to &lt;code>255&lt;/code>&lt;/td>
+&lt;td>1&lt;/td>
+&lt;td>8-bit unsigned integer&lt;/td>
+&lt;td>&lt;code>octet&lt;/code>&lt;/td>
+&lt;td>&lt;code>uint8_t&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray">&lt;code>Uint8ClampedArray&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>0&lt;/code> to &lt;code>255&lt;/code>&lt;/td>
+&lt;td>1&lt;/td>
+&lt;td>8-bit unsigned integer (clamped)&lt;/td>
+&lt;td>&lt;code>octet&lt;/code>&lt;/td>
+&lt;td>&lt;code>uint8_t&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array">&lt;code>Int16Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>-32768&lt;/code> to &lt;code>32767&lt;/code>&lt;/td>
+&lt;td>2&lt;/td>
+&lt;td>16-bit two's complement signed integer&lt;/td>
+&lt;td>&lt;code>short&lt;/code>&lt;/td>
+&lt;td>&lt;code>int16_t&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array">&lt;code>Uint16Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>0&lt;/code> to &lt;code>65535&lt;/code>&lt;/td>
+&lt;td>2&lt;/td>
+&lt;td>16-bit unsigned integer&lt;/td>
+&lt;td>&lt;code>unsigned short&lt;/code>&lt;/td>
+&lt;td>&lt;code>uint16_t&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array">&lt;code>Int32Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>-2147483648&lt;/code> to &lt;code>2147483647&lt;/code>&lt;/td>
+&lt;td>4&lt;/td>
+&lt;td>32-bit two's complement signed integer&lt;/td>
+&lt;td>&lt;code>long&lt;/code>&lt;/td>
+&lt;td>&lt;code>int32_t&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array">&lt;code>Uint32Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>0&lt;/code> to &lt;code>4294967295&lt;/code>&lt;/td>
+&lt;td>4&lt;/td>
+&lt;td>32-bit unsigned integer&lt;/td>
+&lt;td>&lt;code>unsigned long&lt;/code>&lt;/td>
+&lt;td>&lt;code>uint32_t&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array">&lt;code>Float32Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>1.2&lt;/code>&lt;span>×&lt;/span>&lt;code>10&lt;sup>-38&lt;/sup>&lt;/code> to &lt;code>3.4&lt;/code>&lt;span>×&lt;/span>&lt;code>10&lt;sup>38&lt;/sup>&lt;/code>&lt;/td>
+&lt;td>4&lt;/td>
+&lt;td>32-bit IEEE&amp;nbsp;floating point number (7 significant digits e.g.,&amp;nbsp;&lt;code>1.1234567&lt;/code>)&lt;/td>
+&lt;td>&lt;code>unrestricted float&lt;/code>&lt;/td>
+&lt;td>&lt;code>float&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array">&lt;code>Float64Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>5.0&lt;/code>&lt;span>×&lt;/span>&lt;code>10&lt;sup>-324&lt;/sup>&lt;/code> to &lt;code>1.8&lt;/code>&lt;span>×&lt;/span>&lt;code>10&lt;sup>308&lt;/sup>&lt;/code>&lt;/td>
+&lt;td>8&lt;/td>
+&lt;td>64-bit IEEE floating point number (16 significant digits e.g.,&amp;nbsp;&lt;code>1.123...15&lt;/code>)&lt;/td>
+&lt;td>&lt;code>unrestricted double&lt;/code>&lt;/td>
+&lt;td>&lt;code>double&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt64Array">&lt;code>BigInt64Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>-2&lt;sup>63&lt;/sup>&lt;/code> to&amp;nbsp;&lt;code>2&lt;sup>63&lt;/sup>-1&lt;/code>&lt;/td>
+&lt;td>8&lt;/td>
+&lt;td>64-bit two's complement signed integer&lt;/td>
+&lt;td>&lt;code>bigint&lt;/code>&lt;/td>
+&lt;td>&lt;code>int64_t (signed long long)&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://mizuka-wu.github.io/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigUint64Array">&lt;code>BigUint64Array&lt;/code>&lt;/a>&lt;/td>
+&lt;td>&lt;code>0&lt;/code> to&amp;nbsp;&lt;code>2&lt;sup>64&lt;/sup>-1&lt;/code>&lt;/td>
+&lt;td>8&lt;/td>
+&lt;td>64-bit unsigned integer&lt;/td>
+&lt;td>&lt;code>bigint&lt;/code>&lt;/td>
+&lt;td>&lt;code>uint64_t (unsigned long long)&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;/table>
+&lt;h3 id="vmd文件的格式">VMD文件的格式&lt;/h3>
+&lt;p>光有文件流，还需要一套相应的读取方案才行，感谢国内两位大佬的相关文章，解惑了&lt;/p></description></item><item><title>前端工程师该如何愉快的用Excel画画</title><link>https://mizuka-wu.github.io/posts/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E8%AF%A5%E5%A6%82%E4%BD%95%E6%84%89%E5%BF%AB%E7%9A%84%E7%94%A8excel%E7%94%BB%E7%94%BB/</link><pubDate>Thu, 14 May 2020 21:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E8%AF%A5%E5%A6%82%E4%BD%95%E6%84%89%E5%BF%AB%E7%9A%84%E7%94%A8excel%E7%94%BB%E7%94%BB/</guid><description>&lt;p>虽然微软推出的Excel是一个强大的表格工具，但是世界上总有那么些人可以把一些常见的东西玩出花来&lt;a href="https://baijiahao.baidu.com/s?id=1601995793246815437&amp;amp;wfr=spider&amp;amp;for=pc">就像日本老人用Excel画画一样&lt;/a>&lt;/p>
+&lt;p>当然，作为一个程序员，当然还是靠程序自动来画啦&lt;/p>
+&lt;h1 id="需要了解的知识">需要了解的知识&lt;/h1>
+&lt;h2 id="canvas">canvas&lt;/h2>
+&lt;p>html5新增加的一种html元素，平时都是把它当作画布使用，但是正因为有了操纵像素的能力 其也能用在播放视频，截图，压缩图片等操作上，当然啦，这一次，我们主要用到它的像素分析能力&lt;/p>
+&lt;h3 id="getcontext">getContext&lt;/h3>
+&lt;p>canvas最常用的api，获取一个用来画画的上下文，图片一般都是2d格式，所以我们通常用&lt;code>getContext(2d)&lt;/code>&lt;/p>
+&lt;h3 id="drawimage">drawImage&lt;/h3>
+&lt;p>将图片绘制到canvas上，这样才能获取到每个点的信息&lt;/p>
+&lt;h3 id="getimagedata">getImageData&lt;/h3>
+&lt;p>获取到canvas的图像信息，不过返回值中的data是个被打平的一位数组 每四个值代表了一组rgba&lt;/p>
+&lt;h2 id="input">input&lt;/h2>
+&lt;p>这里我们靠input来获取输入值&lt;/p>
+&lt;h3 id="accept属性">accept属性&lt;/h3>
+&lt;p>&lt;code>image/*&lt;/code>来限定只能选择图片，不过某些浏览器上因为要从国外获取mime的原因，推荐还是写成&lt;code>image/png,image/jpg&lt;/code>&lt;/p>
+&lt;h3 id="获取选中的图片">获取选中的图片&lt;/h3>
+&lt;h4 id="onchange">onchange&lt;/h4>
+&lt;p>如果选择了图片，会触发change这个事件，我们对此监听即可，e.target为触发事件的input，我们取他的files[0]拿到图片对象&lt;/p>
+&lt;p>&lt;strong>注意&lt;/strong>如果再点击选择同一图片的话，是不会触发事件的，所以每次获取之后推荐&lt;code>e.target.value = “”&lt;/code>来清空掉已选择的文件&lt;/p>
+&lt;h4 id="filereader">fileReader&lt;/h4>
+&lt;p>我们获取到的图片仅仅只是个&lt;code>file&lt;/code>是没办法直接转换成一个图片元素来获取宽高和放置在&lt;code>canvas&lt;/code>内的，所以我们需要借助&lt;code>fileReader&lt;/code>的力量&lt;/p>
+&lt;p>新建一个&lt;code>const fileReader = new FileReader()&lt;/code>&lt;/p>
+&lt;p>然后在fileReader的onload回调中获取&lt;code>e.result&lt;/code>作为url&lt;/p>
+&lt;p>那么如何开始读取？用&lt;code>fileReader.readAsDataURL(file)&lt;/code>就行，之后再将这个url生成一个image就可以使用上文提到的drawImage方法了&lt;/p>
+&lt;h4 id="image">image&lt;/h4>
+&lt;p>和fileReader有点类似，需要&lt;code>const image = new Image()&lt;/code>, &lt;code>image.src = url&lt;/code>之后在onload回调中继续&lt;/p>
+&lt;h2 id="exceljs">exceljs&lt;/h2>
+&lt;p>本次的导出框架，控制了每个excel格子的背景之后生成&lt;code>Array Buffer&lt;/code>&lt;/p>
+&lt;h1 id="开始工作">开始工作&lt;/h1>
+&lt;p>既然有了知识储备，就开始规划一下步骤吧&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>做一个&lt;code>&amp;lt;input type=“file” accept=“image/*”&amp;gt;&lt;/code>的按钮&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在其change事件中获取file&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>file转image&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>新建一个canvas元素，将image绘制上去，同时控制canvas宽高和image一致&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>用getImageData获取每个像素信息&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>像素信息我们再根据图片宽高转一个二维数组&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>用二维数组在excel中改变对应格子的背景色&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>导出excel&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>具体实现代码在&lt;code>https://github.com/mizuka-wu/image2excel&lt;/code>上&lt;/p>
+&lt;h2 id="可改进的点">可改进的点&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>图片太大会崩溃&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>规定最大大小，因为excel只能缩放到10%&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>自动压缩&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>图片大小检测&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>进度条&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>转移到webworker上做一部分工作&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>想直接使用？访问&lt;a href="https://www.mizuka.top/image2excel">我做好的demo吧&lt;/a>&lt;/p></description></item><item><title>关于element-ui 自适应高度的问题以及解决思路</title><link>https://mizuka-wu.github.io/posts/%E5%85%B3%E4%BA%8Eelement-ui-%E8%87%AA%E9%80%82%E5%BA%94%E9%AB%98%E5%BA%A6%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/</link><pubDate>Thu, 09 Apr 2020 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E5%85%B3%E4%BA%8Eelement-ui-%E8%87%AA%E9%80%82%E5%BA%94%E9%AB%98%E5%BA%A6%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/</guid><description>&lt;h1 id="起因">起因&lt;/h1>
+&lt;p>还是接手了之前同事的代码，之前他的代码遗留了一个历史问题，一个element-ui的表格高度只有&lt;code>500&lt;/code> 当然，在开发用的mac电脑上看还是很正常的，但是在实际的业务场景中，会有一些使用人使用的是一些大号的屏幕，实际效果上表格只占了页面的一小部分，又因为表格的内容很多，所以空了一大块页面，但是浏览数据却需要不停的滚轮&lt;/p>
+&lt;h1 id="改进过程">改进过程&lt;/h1>
+&lt;h2 id="分析要做什么">分析要做什么&lt;/h2>
+&lt;p>首先分析了一波造成这样现象的原因，发现是&lt;code>element-ui table&lt;/code>的高度被钉死了，但是又由于是历史项目，页面被包裹在一个iframe里，同时&lt;code>element-ui&lt;/code>不支持使用&lt;code>auto&lt;/code>属性&lt;/p>
+&lt;p>综上所述，为了一个顺溜的滚动条体验，只能让&lt;code>table&lt;/code>自动填满剩余高度了，盘算了一下需要做&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>监听页面大小变化&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>防抖，省的卡顿&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>获取剩余高度&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>设定一个最小高度&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>做好各类检测，防止报错&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="开写">开写&lt;/h2>
+&lt;h3 id="监听问题">监听问题&lt;/h3>
+&lt;p>&lt;code>window.addEventListener(‘resize’, handler)&lt;/code>&lt;/p>
+&lt;p>记得也要在对应时间销毁&lt;/p>
+&lt;h3 id="防抖">防抖&lt;/h3>
+&lt;p>这里直接上debounce&lt;/p>
+&lt;h3 id="高度">高度&lt;/h3>
+&lt;ol>
+&lt;li>
+&lt;p>首先获取页面高度&lt;code>window.innerHeight&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>然后获取table距离顶部的高度&lt;code>el.getBoundingClientRect().top&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>这里有个小问题，就是定义的高度是&lt;code>body&lt;/code>的高度，但是剩余区域是包括&lt;code>head&lt;/code>的所以我们获取对应的高度&lt;code>el.querySelector(‘.el-table__header-wrapper’).offsetHeight&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>空余高度计算&lt;code>Math.max(innerHeight - offsetTop - tableHeaderHeight - OFFSET_BUTTON, MIN_TABLE_MAX_HEIGHT)&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>这个是考虑了一个最小高度和空余页面底部距离的算式&lt;/p>
+&lt;h3 id="整合">整合&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">TABLE_OFFSET_BOTTOM&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">10&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">MIN_TABLE_MAX_HEIGHT&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">500&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>window.&lt;span style="color:#a6e22e">addEventListener&lt;/span>(&lt;span style="color:#960050;background-color:#1e0010">‘&lt;/span>&lt;span style="color:#a6e22e">resize&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">’&lt;/span>, &lt;span style="color:#a6e22e">_&lt;/span>.&lt;span style="color:#a6e22e">debounce&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">innerHeight&lt;/span> &lt;span style="color:#f92672">=&lt;/span> window.&lt;span style="color:#a6e22e">innerHeight&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">table&lt;/span> &lt;span style="color:#f92672">=&lt;/span> document.&lt;span style="color:#a6e22e">getElementById&lt;/span>(&lt;span style="color:#960050;background-color:#1e0010">‘&lt;/span>&lt;span style="color:#a6e22e">table&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">’&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#f92672">!&lt;/span>&lt;span style="color:#a6e22e">table&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">offsetTop&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">table&lt;/span>.&lt;span style="color:#a6e22e">getBoundingClientRect&lt;/span>().&lt;span style="color:#a6e22e">top&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">tableHeaderHeight&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">table&lt;/span>.&lt;span style="color:#a6e22e">querySelector&lt;/span>(&lt;span style="color:#960050;background-color:#1e0010">‘&lt;/span>.&lt;span style="color:#a6e22e">el&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#a6e22e">table__header&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#a6e22e">wrapper&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">’&lt;/span>).&lt;span style="color:#a6e22e">offsetHeight&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">maxTableHeight&lt;/span> &lt;span style="color:#f92672">=&lt;/span> Math.&lt;span style="color:#a6e22e">max&lt;/span>(&lt;span style="color:#a6e22e">innerHeight&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">offsetTop&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">tableHeaderHeight&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">TABLE_OFFSET_BOTTOM&lt;/span>, &lt;span style="color:#a6e22e">MIN_TABLE_MAX_HEIGHT&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 改变element的参数即可
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>},&lt;span style="color:#ae81ff">300&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="结果">结果&lt;/h1>
+&lt;p>很完美，哎嘿&lt;/p></description></item><item><title>给你的vuepress站点加个live2d吧</title><link>https://mizuka-wu.github.io/posts/%E7%BB%99%E4%BD%A0%E7%9A%84vuepress%E7%AB%99%E7%82%B9%E5%8A%A0%E4%B8%AAlive2d%E5%90%A7/</link><pubDate>Mon, 09 Mar 2020 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E7%BB%99%E4%BD%A0%E7%9A%84vuepress%E7%AB%99%E7%82%B9%E5%8A%A0%E4%B8%AAlive2d%E5%90%A7/</guid><description>&lt;p>很早以前，个人博客站点用的是&lt;code>hexo&lt;/code>构建的，当时因为好玩给自己的站点加了一个&lt;code>live2d&lt;/code>挂件，现在倒是将博客迁移到了&lt;code>vuepress&lt;/code>上，可是找了半天没有一个&lt;code>vuepress&lt;/code>的插件可以让我使用自定义的&lt;code>live2d&lt;/code>模型，没办法只能自己封装了一个&lt;/p>
+&lt;h2 id="如何使用">如何使用&lt;/h2>
+&lt;p>基于&lt;a href="https://github.com/guansss/pixi-live2d-display/blob/master/README.zh.md">pixi-live2d-display&lt;/a>我封装了一个&lt;code>vuepress&lt;/code>插件，叫&lt;a href="https://www.npmjs.com/package/vuepress-plugin-pixi-live2d-display">vuepress-plugin-pixi-live2d-display&lt;/a>,可以自定义传入&lt;code>model&lt;/code>的地址&lt;/p>
+&lt;p>不过只支持&lt;code>model3&lt;/code>之后的模型版本&lt;/p>
+&lt;h3 id="安装">安装&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>npm i vuepress-plugin-pixi-live2d-display
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>or
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>yarn add vuepress-plugin-pixi-live2d-display
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="上传模型">上传模型&lt;/h3>
+&lt;p>可以上传到第三方平台比如&lt;code>oss&lt;/code>, 或者在&lt;code>vuepress&lt;/code>的&lt;code>.vuepress/public&lt;/code>文件夹下&lt;/p>
+&lt;p>拿到对应的&lt;code>model3.json&lt;/code>文件地址&lt;/p>
+&lt;h3 id="添加配置">添加配置&lt;/h3>
+&lt;p>在&lt;code>.vuepress.config.js&lt;/code>中添加&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">module&lt;/span>.&lt;span style="color:#a6e22e">exports&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">plugins&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>[&lt;span style="color:#e6db74">&amp;#39;vuepress-plugin-pixi-live2d-display&amp;#39;&lt;/span>, { &lt;span style="color:#a6e22e">model&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;你的模型地址&amp;#34;&lt;/span> }]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>就可以使用啦&lt;/p>
+&lt;p>当然，因为底层依赖包是通过&lt;code>script&lt;/code>引入的，本身存在时间差，所以&lt;code>live2d&lt;/code>加载一开始会比较慢，也有可能会因为依赖库未加载完成报错&lt;/p>
+&lt;p>其他还有一些配置参数可以参考组件配置&lt;a href="https://www.npmjs.com/package/vuepress-plugin-pixi-live2d-display">https://www.npmjs.com/package/vuepress-plugin-pixi-live2d-display&lt;/a>&lt;/p></description></item><item><title>前端和excel的那些事</title><link>https://mizuka-wu.github.io/posts/%E5%89%8D%E7%AB%AF%E5%92%8Cexcel%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</link><pubDate>Fri, 14 Feb 2020 23:17:35 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E5%89%8D%E7%AB%AF%E5%92%8Cexcel%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</guid><description>&lt;p>在开发需求中，经常会遇到需要和&lt;code>excel&lt;/code>相关的需求，毕竟不是所有人都是程序员，很多的业务都是通过&lt;code>excel&lt;/code>去进行数据的整理归类计算的，&lt;code>excel&lt;/code>中提供的一系列快捷功能，统计功能也非常的实用，但是这也就造成了除了和接口打交道，前端也需要和&lt;code>excel&lt;/code>打一下交道&lt;/p>
+&lt;h2 id="excel-是什么">excel 是什么&lt;/h2>
+&lt;p>&lt;code>excel&lt;/code>是微软出的一款电子表格软件，&lt;code>wps&lt;/code>是国内知名的免费办公软件，以及苹果的&lt;code>Numbers&lt;/code>同样都支持编辑和生成&lt;code>excel&lt;/code>文件&lt;/p>
+&lt;h2 id="excel-的格式">excel 的格式&lt;/h2>
+&lt;p>这里说的不是单纯的&lt;code>excel&lt;/code>而是平时前端开发的时候所使用到的**&lt;code>excel&lt;/code>类型**的文件格式，主要有&lt;/p>
+&lt;h3 id="csv">csv&lt;/h3>
+&lt;p>csv 是一种纯文本的格式，非常的简单，每一行代表一行，没一列通过&lt;code>,&lt;/code>进行分割，我们只需要通过&lt;code>split&lt;/code>函数就能直接分割成对应的二维数组结构&lt;/p>
+&lt;h3 id="xslsxls">xsls/xls&lt;/h3>
+&lt;p>区别在于 &lt;code>xls&lt;/code>类型的文件我们可以通过存储网页的形式存储下来，&lt;code>xsls&lt;/code>就是一个纯的二进制文件了，这一类更倾向于使用类库进行操作&lt;/p>
+&lt;h1 id="读取">读取&lt;/h1>
+&lt;p>如果是&lt;code>csv&lt;/code>，最简单的情况下，就直接使用&lt;code>&amp;lt;input type=&amp;quot;file&amp;quot;&amp;gt;&lt;/code>,只有用&lt;code>fileReader&lt;/code>读取为纯文本就行了&lt;/p>
+&lt;p>&lt;code>nodejs&lt;/code>和&lt;code>browser&lt;/code>唯一的区别就在于，&lt;code>node&lt;/code>还支持直接通过&lt;code>steam&lt;/code>等概念进行输入，而&lt;code>browser&lt;/code>只有&lt;code>arrayBuffer&lt;/code>这一种手段&lt;/p>
+&lt;p>在一般情况下，直接&lt;code>fileReader&lt;/code>读取&lt;code>excel&lt;/code>都会是二进制流，不过根据其编码规范是可以进行还原的，其中的对应关系比较负责&lt;/p>
+&lt;h2 id="常用的库">常用的库&lt;/h2>
+&lt;p>库的左右就在于，他们能将&lt;code>excel&lt;/code>的文件专为对应的&lt;code>js&lt;/code>对象供我们操作&lt;/p>
+&lt;h3 id="sheetjs">&lt;a href="https://github.com/SheetJS/sheetjs">sheet.js&lt;/a>&lt;/h3>
+&lt;p>社区开源版本的&lt;code>xlsx.js&lt;/code>就可以完成读取和写入的工作了，&lt;/p>
+&lt;p>以下是 sheet.js 的对应数据结构.&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://segmentfault.com/img/bVbn0TI?w=387&amp;h=634">&lt;/p>
+&lt;p>读取也狠方便&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">XLSX&lt;/span>.&lt;span style="color:#a6e22e">read&lt;/span>(&lt;span style="color:#a6e22e">buffer&lt;/span>, { &lt;span style="color:#a6e22e">type&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;buffer&amp;#34;&lt;/span> });
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>不过官方的文档相对还是比较难以理解的，一般日常我用另外一个库&lt;/p>
+&lt;h3 id="exceljs">&lt;a href="https://github.com/exceljs/exceljs/blob/master/README_zh.md#importing">exceljs&lt;/a>&lt;/h3>
+&lt;p>js-xlsx 的 思想构成也是通过将二进制流转为&lt;code>js&lt;/code>对象的方式方便我们操作，不过 api 方面设计的更加友好一点&lt;/p>
+&lt;p>最主要的两点。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>中文文档&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>demo 易懂&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>读取也很容易，通过&lt;code>fileReader.readAsArrayBuffer&lt;/code> 就能直接读取，如果是在&lt;code>node&lt;/code>环境下，更能直接通过&lt;code>steam&lt;/code>和&lt;code>file&lt;/code>接口直接获取数据&lt;/p>
+&lt;pre tabindex="0">&lt;code>
+// load from buffer
+var workbook = new Excel.Workbook();
+workbook.xlsx.load(data)
+.then(function() {
+// use workbook
+});
+&lt;/code>&lt;/pre>&lt;h1 id="写入">写入&lt;/h1>
+&lt;h2 id="原生-js">原生 js&lt;/h2>
+&lt;p>这个只适用于 js&lt;/p>
+&lt;h3 id="xls">xls&lt;/h3>
+&lt;p>2013 之前的&lt;code>xls&lt;/code>模式是可以将一个&lt;code>html&lt;/code>文件导出成一个&lt;code>.xls&lt;/code>文件的所以我们首先定义一个&lt;code>html&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">table&lt;/span> &lt;span style="color:#a6e22e">id&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;tblData&amp;#34;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">th&lt;/span>&amp;gt;Name&amp;lt;/&lt;span style="color:#f92672">th&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">th&lt;/span>&amp;gt;Email&amp;lt;/&lt;span style="color:#f92672">th&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">th&lt;/span>&amp;gt;Country&amp;lt;/&lt;span style="color:#f92672">th&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;John Doe&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;john@gmail.com&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;USA&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;Michael Addison&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;michael@gmail.com&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;UK&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;Sam Farmer&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;sam@gmail.com&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">td&lt;/span>&amp;gt;France&amp;lt;/&lt;span style="color:#f92672">td&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">tr&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">table&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>接着获取&lt;code>html&lt;/code>之后导出&lt;/p></description></item><item><title>文字超过x行后补上省略号的几种办法</title><link>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</link><pubDate>Fri, 18 Oct 2019 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</guid><description>&lt;h2 id="文字超过-x-行后补上省略号的几种办法">文字超过 x 行后补上省略号的几种办法&lt;/h2>
+&lt;p>&lt;a href="https://css-tricks.com/line-clampin/">原文&lt;/a>&lt;/p>
+&lt;p>简单来说，在 pc 端，文字过长溢出的话，溢出的部分会被替换成&lt;code>...&lt;/code>,然而在显示情况中，更多的是在超过 x 行之后才启用这个特性，例如&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">div&lt;/span> &lt;span style="color:#a6e22e">class&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;module&amp;#34;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">p&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Pellentesque habitant morbi tristique senectus et netus et malesuada fames
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ultricies mi vitae est. Mauris placerat eleifend leo.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">p&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">div&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>最终希望三行之后到这种效果:&lt;/p>
+&lt;p>&lt;img alt="省略号效果图" loading="lazy" src="https://css-tricks.com/wp-content/uploads/2013/05/clamped.png">&lt;/p>
+&lt;p>为了演示，我们先定义基础的 css，剩下的方法都在这个 css 的基础之上&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-css" data-lang="css">&lt;span style="display:flex;">&lt;span>.&lt;span style="color:#a6e22e">module&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">width&lt;/span>: &lt;span style="color:#ae81ff">250&lt;/span>&lt;span style="color:#66d9ef">px&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">overflow&lt;/span>: &lt;span style="color:#66d9ef">hidden&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="weird-webkit-flexbox-way">Weird WebKit Flexbox Way&lt;/h2>
+&lt;p>使用 webkit 内置的方案&lt;/p></description></item><item><title>自动给表格空单元格补上字符串</title><link>https://mizuka-wu.github.io/posts/%E8%87%AA%E5%8A%A8%E7%BB%99%E8%A1%A8%E6%A0%BC%E7%A9%BA%E5%8D%95%E5%85%83%E6%A0%BC%E8%A1%A5%E4%B8%8A%E5%AD%97%E7%AC%A6%E4%B8%B2/</link><pubDate>Mon, 23 Sep 2019 09:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E8%87%AA%E5%8A%A8%E7%BB%99%E8%A1%A8%E6%A0%BC%E7%A9%BA%E5%8D%95%E5%85%83%E6%A0%BC%E8%A1%A5%E4%B8%8A%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid><description>&lt;h2 id="自动给表格空单元格补上字符串">自动给表格空单元格补上字符串&lt;/h2>
+&lt;h2 id="背景">背景&lt;/h2>
+&lt;p>ui 设计中，如果单元格内部为空的话，需要填充一个默认字符串标明是个空格子，本身计划使用 js 来做的，但是考虑到要需要遍历，判断等等一系列操作，而且 js 里 &lt;code>0&lt;/code> 做 boolean 判断也是返回 false，无形中增加了判断的步骤，所以这个时候还是求助于万能的 css 吧&lt;/p>
+&lt;p>以下为 less 代码&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-less" data-lang="less">td:empty {
+&amp;amp;::after {
+content: &amp;#34;-&amp;#34;;
+}
+}
+&lt;/code>&lt;/pre></description></item><item><title>纯css实现table表头吸顶</title><link>https://mizuka-wu.github.io/posts/position-sticky-%E4%B8%8E%E8%A1%A8%E6%A0%BC%E5%A4%B4/</link><pubDate>Mon, 09 Sep 2019 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/position-sticky-%E4%B8%8E%E8%A1%A8%E6%A0%BC%E5%A4%B4/</guid><description>&lt;blockquote>
+&lt;p>原文章&lt;a href="https://css-tricks.com/position-sticky-and-table-headers/">https://css-tricks.com/position-sticky-and-table-headers/&lt;/a>. 本身产品有个需求需要表格自动吸顶，本身用了 antd design 的 scroll 实现的，现在使用 css 实现，效果更好&lt;/p>&lt;/blockquote>
+&lt;p>&lt;code>thead&lt;/code>和&lt;code>tr&lt;/code>上无法设置 style&lt;code>position: sticky;&lt;/code>,&lt;/p>
+&lt;p>到那时在&lt;code>th&lt;/code>上却可以，这也意味着，其实你可以在一个传统的&lt;code>table&lt;/code>上实现吸顶 header 效果，如果你不清楚吸顶实现的原理，大概实现起来会很棘手吧，使用 css 总比原先用 js 去监听事件然后改变&lt;code>position&lt;/code>好得多&lt;/p>
+&lt;h2 id="兼容性">兼容性&lt;/h2>
+&lt;p>&lt;a href="https://caniuse.com/#search=sticky">查看兼容性&lt;/a>&lt;/p>
+&lt;p>只要不是 ie 这种活化石，基本都已经支持了&lt;/p>
+&lt;h2 id="使用">使用&lt;/h2>
+&lt;ol>
+&lt;li>
+&lt;p>保证 table 的 position 为 relative&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>给每个 th 加上 sticky&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="例子">例子&lt;/h2>
+&lt;pre tabindex="0">&lt;code class="language-less" data-lang="less">
+.stickyTable {
+:global(table) {
+position: relative;
+:global(th) {
+position: sticky;
+top: 0;
+z-index: 9999;
+}
+}
+}
+&lt;/code>&lt;/pre></description></item><item><title>一次node内存泄漏排查和解决</title><link>https://mizuka-wu.github.io/posts/%E4%B8%80%E6%AC%A1node%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%8E%92%E6%9F%A5%E5%92%8C%E8%A7%A3%E5%86%B3/</link><pubDate>Sat, 01 Jun 2019 10:41:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E4%B8%80%E6%AC%A1node%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%8E%92%E6%9F%A5%E5%92%8C%E8%A7%A3%E5%86%B3/</guid><description>&lt;h1 id="背景">背景&lt;/h1>
+&lt;p>公司需要对接各种渠道，进行渠道管理进行了统一规范，生成了 ChannelManager 这个类，上线后发现一直报警，内存居高不下，而且走势呈阶梯上升，判断发生了内存泄漏&lt;/p>
+&lt;h2 id="技术栈">技术栈&lt;/h2>
+&lt;h3 id="nuxt">Nuxt&lt;/h3>
+&lt;p>基于 nuxt 和 vue 开发的一套前端代码&lt;/p>
+&lt;h3 id="nodejs-性能平台">nodejs 性能平台&lt;/h3>
+&lt;p>alinode，一个 ali 官方出的用来监控整个 node 内存和机器运行情况的程序，非常好用，问题是数据有一定延时&lt;/p>
+&lt;h2 id="解决的步骤">解决的步骤&lt;/h2>
+&lt;h3 id="首先尝试临时解决问题">首先尝试临时解决问题&lt;/h3>
+&lt;p>因为线上一共有四台机器跑 ssr，所以通过设置不同的 crontab 进行分批重启 pm2，使得服务不间断&lt;/p>
+&lt;h3 id="下线问题的-feture">下线问题的 feture&lt;/h3>
+&lt;p>最近上线的 feture 只有 channelManager，于是回滚代码之后重新发布，发现问题解决，找到问题代码区域&lt;/p>
+&lt;h3 id="codereview">CodeReview&lt;/h3>
+&lt;p>开会大家回顾整个问题代码，分析之后发现可能的问题在于使用了 global 的 mixin，改成 Vue plugin 的形式使用，具体可以参考&lt;a href="https://github.com/vuejs/vue/issues/5089#issuecomment-284260111">这个 issue&lt;/a>&lt;/p>
+&lt;p>测试环境下发现问题依旧没有解决&lt;/p>
+&lt;h3 id="验尸">验尸&lt;/h3>
+&lt;p>对比了最近几次 alinode 抓下的堆快照，发现所有的闭包都是 vue 实例，而且都会有一个同样的 key&lt;code>$channelManager&lt;/code>&lt;/p>
+&lt;h3 id="找出问题所在">找出问题所在&lt;/h3>
+&lt;p>最终发现是上 channelManager 的时候在 nuxt 的 plugin 中使用了 inject，因为 inject 的时候是同一个实例，本身的目的是可以获取 channel 列表&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">module&lt;/span>.&lt;span style="color:#a6e22e">exports&lt;/span> &lt;span style="color:#f92672">=&lt;/span> (&lt;span style="color:#a6e22e">ctx&lt;/span>, &lt;span style="color:#a6e22e">inject&lt;/span>) =&amp;gt; {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">ChannelManager&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;ChannelManager&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">inject&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;channelManager&amp;#39;&lt;/span>, &lt;span style="color:#a6e22e">ChannelManager&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="原因">原因&lt;/h2>
+&lt;p>在于 v8 的整个 gc 机制在于是否能够被访问到，因为 inject 之后不知道为何从 channelManager 能够访问到所有 inject 之后的 vue 实例，所以这一系列的 vue 对象都不可被回收&lt;/p></description></item><item><title>electron开机自动启动</title><link>https://mizuka-wu.github.io/posts/electron%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8/</link><pubDate>Mon, 11 Feb 2019 11:41:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/electron%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8/</guid><description>&lt;p>直接&lt;/p>
+&lt;p>直接上&lt;/p>
+&lt;p>直接上代码&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">exeName&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">path&lt;/span>.&lt;span style="color:#a6e22e">basename&lt;/span>(&lt;span style="color:#a6e22e">process&lt;/span>.&lt;span style="color:#a6e22e">execPath&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">app&lt;/span>.&lt;span style="color:#a6e22e">setLoginItemSettings&lt;/span>({
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">openAtLogin&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#f92672">!&lt;/span>&lt;span style="color:#a6e22e">openAtLogin&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">path&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">process&lt;/span>.&lt;span style="color:#a6e22e">execPath&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">args&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&amp;#39;--processStart&amp;#39;&lt;/span>, &lt;span style="color:#e6db74">`&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>&lt;span style="color:#a6e22e">exeName&lt;/span>&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>
