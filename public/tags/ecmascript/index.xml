@@ -1,33 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Ecmascript on 水华的博客</title>
-    <link>https://mizuka-wu.github.io/tags/ecmascript/</link>
-    <description>Recent content in Ecmascript on 水华的博客</description>
-    <generator>Hugo</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Thu, 18 Oct 2018 11:12:53 +0000</lastBuildDate>
-    <atom:link href="https://mizuka-wu.github.io/tags/ecmascript/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>一段从js数组中获取重复数据的代码</title>
-      <link>https://mizuka-wu.github.io/posts/%E4%B8%80%E6%AE%B5%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E8%8E%B7%E5%8F%96%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BB%A3%E7%A0%81/</link>
-      <pubDate>Thu, 18 Oct 2018 11:12:53 +0000</pubDate>
-      <guid>https://mizuka-wu.github.io/posts/%E4%B8%80%E6%AE%B5%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E8%8E%B7%E5%8F%96%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BB%A3%E7%A0%81/</guid>
-      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Ecmascript on 水华的博客</title><link>https://mizuka-wu.github.io/tags/ecmascript/</link><description>Recent content in Ecmascript on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 18 Oct 2018 11:12:53 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/ecmascript/index.xml" rel="self" type="application/rss+xml"/><item><title>一段从js数组中获取重复数据的代码</title><link>https://mizuka-wu.github.io/posts/%E4%B8%80%E6%AE%B5%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E8%8E%B7%E5%8F%96%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BB%A3%E7%A0%81/</link><pubDate>Thu, 18 Oct 2018 11:12:53 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E4%B8%80%E6%AE%B5%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E8%8E%B7%E5%8F%96%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BB%A3%E7%A0%81/</guid><description>&lt;pre tabindex="0">&lt;code>
 Array.prototype.duplicate=function() {
-
 let tmp = [];
-
 this.concat().sort().sort(function(a,b){
-
 if(a==b &amp;amp;&amp;amp; tmp.indexOf(a) === -1) tmp.push(a);
-
 });
-
 return tmp;
-
 }
-&lt;/code&gt;&lt;/pre&gt;</description>
-    </item>
-  </channel>
-</rss>
+&lt;/code>&lt;/pre></description></item></channel></rss>

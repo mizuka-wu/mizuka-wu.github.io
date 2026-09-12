@@ -1,78 +1,60 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Electron-Builder on 水华的博客</title>
-    <link>https://mizuka-wu.github.io/tags/electron-builder/</link>
-    <description>Recent content in Electron-Builder on 水华的博客</description>
-    <generator>Hugo</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Sat, 09 Jan 2021 12:11:57 +0000</lastBuildDate>
-    <atom:link href="https://mizuka-wu.github.io/tags/electron-builder/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Electron构建如何支持m1芯片</title>
-      <link>https://mizuka-wu.github.io/posts/electron%E6%9E%84%E5%BB%BA%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81m1%E8%8A%AF%E7%89%87/</link>
-      <pubDate>Sat, 09 Jan 2021 12:11:57 +0000</pubDate>
-      <guid>https://mizuka-wu.github.io/posts/electron%E6%9E%84%E5%BB%BA%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81m1%E8%8A%AF%E7%89%87/</guid>
-      <description>&lt;h1 id=&#34;起因&#34;&gt;起因&lt;/h1&gt;
-&lt;p&gt;换了台&lt;code&gt;m1&lt;/code&gt;的macbook, 我之前的&lt;code&gt;看板electron&lt;/code&gt;程序构建的还是老的x64版本，使用上还需要使用&lt;code&gt;rosetta2&lt;/code&gt;进行转译，性能损失不说，说不定还有潜在的问题，所幸看到 &lt;code&gt;electron11&lt;/code&gt;开始支持使用&lt;code&gt;arm64&lt;/code&gt;芯片的&lt;code&gt;mac&lt;/code&gt;了，正好升级一波&lt;/p&gt;
-&lt;h2 id=&#34;写在前面&#34;&gt;写在前面&lt;/h2&gt;
-&lt;p&gt;目前工具库还在&lt;code&gt;preview&lt;/code&gt;，taobao镜像不可用&lt;/p&gt;
-&lt;p&gt;顺带提一下我之前的项目结构&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;基于 &lt;code&gt;@vue/cli4&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;使用 &lt;a href=&#34;https://github.com/nklayman/vue-cli-plugin-electron-builder&#34;&gt;vue-cli-plugin-electron-builder&lt;/a&gt;注入的&lt;code&gt;electron&lt;/code&gt;相关&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;构建流 本地正常构建，自动构建流基于&lt;code&gt;samuelmeuli/action-electron-builder@v1&lt;/code&gt;自动构建&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;项目地址&lt;a href=&#34;https://github.com/mizuka-wu/kanban&#34;&gt;点击这里&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;开工&#34;&gt;开工&lt;/h2&gt;
-&lt;h3 id=&#34;升级依赖&#34;&gt;升级依赖&lt;/h3&gt;
-&lt;p&gt;首先需要升级使用的&lt;code&gt;electron&lt;/code&gt;到支持新芯片的版本，目前能够使用的是&lt;a href=&#34;https://www.infoq.cn/article/towhhg7ik65o57horszr&#34;&gt;electron11&lt;/a&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;npm install --save electron@11
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同时我们需要升级&lt;code&gt;electron-builder&lt;/code&gt;到支持打包新芯片的版本, 根据&lt;a href=&#34;https://github.com/electron-userland/electron-builder/blob/master/packages/app-builder-lib/scheme.json#L4955-L4980&#34;&gt;最新的方案&lt;/a&gt;，&lt;code&gt;arch&lt;/code&gt;需要支持&lt;code&gt;arm64&lt;/code&gt;并且可以打包&lt;code&gt;dmg&lt;/code&gt;的话，需要升级到&lt;code&gt;22.10.4&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;npm install --save-dev electron-builder@22.10.4
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;不过因为还在&lt;code&gt;preview&lt;/code&gt; 只有&lt;code&gt;npm&lt;/code&gt;官方仓库可以安装&lt;/p&gt;
-&lt;p&gt;接下来我们改造构建选项，因为我使用&lt;code&gt;vue&lt;/code&gt;的插件, 所以我写在&lt;code&gt;vue.config.js&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;module&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;exports&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;pluginOptions&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;electronBuilder&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;builderOptions&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;artifactName&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${productName}-${version}-${os}-${arch}.${ext}&amp;#39;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;mac&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;arch&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;universal&amp;#39;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;dmg&amp;#39;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;},
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样可以打包一个自适应芯片的版本，当然你想打两个包可以把&lt;code&gt;arch&lt;/code&gt;换成&lt;code&gt;arch: [&#39;x64&#39;, &#39;arm64&#39;]&lt;/code&gt;&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Electron-Builder on 水华的博客</title><link>https://mizuka-wu.github.io/tags/electron-builder/</link><description>Recent content in Electron-Builder on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 09 Jan 2021 12:11:57 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/electron-builder/index.xml" rel="self" type="application/rss+xml"/><item><title>Electron构建如何支持m1芯片</title><link>https://mizuka-wu.github.io/posts/electron%E6%9E%84%E5%BB%BA%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81m1%E8%8A%AF%E7%89%87/</link><pubDate>Sat, 09 Jan 2021 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/electron%E6%9E%84%E5%BB%BA%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81m1%E8%8A%AF%E7%89%87/</guid><description>&lt;h1 id="起因">起因&lt;/h1>
+&lt;p>换了台&lt;code>m1&lt;/code>的macbook, 我之前的&lt;code>看板electron&lt;/code>程序构建的还是老的x64版本，使用上还需要使用&lt;code>rosetta2&lt;/code>进行转译，性能损失不说，说不定还有潜在的问题，所幸看到 &lt;code>electron11&lt;/code>开始支持使用&lt;code>arm64&lt;/code>芯片的&lt;code>mac&lt;/code>了，正好升级一波&lt;/p>
+&lt;h2 id="写在前面">写在前面&lt;/h2>
+&lt;p>目前工具库还在&lt;code>preview&lt;/code>，taobao镜像不可用&lt;/p>
+&lt;p>顺带提一下我之前的项目结构&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>基于 &lt;code>@vue/cli4&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>使用 &lt;a href="https://github.com/nklayman/vue-cli-plugin-electron-builder">vue-cli-plugin-electron-builder&lt;/a>注入的&lt;code>electron&lt;/code>相关&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>构建流 本地正常构建，自动构建流基于&lt;code>samuelmeuli/action-electron-builder@v1&lt;/code>自动构建&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>项目地址&lt;a href="https://github.com/mizuka-wu/kanban">点击这里&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="开工">开工&lt;/h2>
+&lt;h3 id="升级依赖">升级依赖&lt;/h3>
+&lt;p>首先需要升级使用的&lt;code>electron&lt;/code>到支持新芯片的版本，目前能够使用的是&lt;a href="https://www.infoq.cn/article/towhhg7ik65o57horszr">electron11&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>npm install --save electron@11
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>同时我们需要升级&lt;code>electron-builder&lt;/code>到支持打包新芯片的版本, 根据&lt;a href="https://github.com/electron-userland/electron-builder/blob/master/packages/app-builder-lib/scheme.json#L4955-L4980">最新的方案&lt;/a>，&lt;code>arch&lt;/code>需要支持&lt;code>arm64&lt;/code>并且可以打包&lt;code>dmg&lt;/code>的话，需要升级到&lt;code>22.10.4&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>npm install --save-dev electron-builder@22.10.4
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>不过因为还在&lt;code>preview&lt;/code> 只有&lt;code>npm&lt;/code>官方仓库可以安装&lt;/p>
+&lt;p>接下来我们改造构建选项，因为我使用&lt;code>vue&lt;/code>的插件, 所以我写在&lt;code>vue.config.js&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">module&lt;/span>.&lt;span style="color:#a6e22e">exports&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">pluginOptions&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">electronBuilder&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">builderOptions&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">artifactName&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;${productName}-${version}-${os}-${arch}.${ext}&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">mac&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">target&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">arch&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;universal&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">target&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;dmg&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样可以打包一个自适应芯片的版本，当然你想打两个包可以把&lt;code>arch&lt;/code>换成&lt;code>arch: ['x64', 'arm64']&lt;/code>&lt;/p></description></item></channel></rss>

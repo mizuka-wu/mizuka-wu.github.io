@@ -1,129 +1,104 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>工作日志 on 水华的博客</title>
-    <link>https://mizuka-wu.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/</link>
-    <description>Recent content in 工作日志 on 水华的博客</description>
-    <generator>Hugo</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Sun, 05 May 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://mizuka-wu.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>opencv 编译</title>
-      <link>https://mizuka-wu.github.io/posts/opencv-%E7%BC%96%E8%AF%91/</link>
-      <pubDate>Sun, 05 May 2024 00:00:00 +0000</pubDate>
-      <guid>https://mizuka-wu.github.io/posts/opencv-%E7%BC%96%E8%AF%91/</guid>
-      <description>&lt;h1 id=&#34;为啥要编译opencv&#34;&gt;为啥要编译opencv&lt;/h1&gt;
-&lt;p&gt;因为 opencv 是频域水印需要的一个功能
-但是本体这个包实在是太大了&lt;/p&gt;
-&lt;p&gt;所以打算编译一个最多 2m 的包出来&lt;/p&gt;
-&lt;h2 id=&#34;编译参考&#34;&gt;编译参考&lt;/h2&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-cardlink&#34; data-lang=&#34;cardlink&#34;&gt;url: https://docs.opencv.org/4.x/d4/da1/tutorial_js_setup.html
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>工作日志 on 水华的博客</title><link>https://mizuka-wu.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/</link><description>Recent content in 工作日志 on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sun, 05 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/index.xml" rel="self" type="application/rss+xml"/><item><title>opencv 编译</title><link>https://mizuka-wu.github.io/posts/opencv-%E7%BC%96%E8%AF%91/</link><pubDate>Sun, 05 May 2024 00:00:00 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/opencv-%E7%BC%96%E8%AF%91/</guid><description>&lt;h1 id="为啥要编译opencv">为啥要编译opencv&lt;/h1>
+&lt;p>因为 opencv 是频域水印需要的一个功能
+但是本体这个包实在是太大了&lt;/p>
+&lt;p>所以打算编译一个最多 2m 的包出来&lt;/p>
+&lt;h2 id="编译参考">编译参考&lt;/h2>
+&lt;pre tabindex="0">&lt;code class="language-cardlink" data-lang="cardlink">url: https://docs.opencv.org/4.x/d4/da1/tutorial_js_setup.html
 title: &amp;#34;OpenCV: Build OpenCV.js&amp;#34;
 host: docs.opencv.org
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;环境搭建&#34;&gt;环境搭建&lt;/h3&gt;
-&lt;p&gt;首先还得是安装 emsdk
-通过万能的 homebrew 进行安装&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;brew install emscripten
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-cardlink&#34; data-lang=&#34;cardlink&#34;&gt;url: https://www.cnblogs.com/Wayou/p/webassembly_quick_start.html
+&lt;/code>&lt;/pre>&lt;h3 id="环境搭建">环境搭建&lt;/h3>
+&lt;p>首先还得是安装 emsdk
+通过万能的 homebrew 进行安装&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>brew install emscripten
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre tabindex="0">&lt;code class="language-cardlink" data-lang="cardlink">url: https://www.cnblogs.com/Wayou/p/webassembly_quick_start.html
 title: &amp;#34;WebAssembly 上手 - 刘哇勇 - 博客园&amp;#34;
 description: &amp;#34;安装 Mac 上最便捷的安装方式当然是通过 Homebrew: $ brew install emscripten 安装好之后讲道理就已经自动配置好一切，然后 emcc 命令便可用了。 下面看非 Homebrew 安装的方式。 通过官方 WebAssembly Developer’s Guide 提&amp;#34;
 host: www.cnblogs.com
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;构建基础版的-opencv&#34;&gt;构建基础版的 opencv&lt;/h3&gt;
-&lt;p&gt;跟着教程&lt;/p&gt;
-&lt;p&gt;首先得复制一份到本地&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git clone git clone https://github.com/opencv/opencv.git
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd opencv
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;emcmake python ./opencv/platforms/js/build_js.py build_wasm --build_wasm
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
-    </item>
-    <item>
-      <title>关于element-ui 自适应高度的问题以及解决思路</title>
-      <link>https://mizuka-wu.github.io/posts/%E5%85%B3%E4%BA%8Eelement-ui-%E8%87%AA%E9%80%82%E5%BA%94%E9%AB%98%E5%BA%A6%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/</link>
-      <pubDate>Thu, 09 Apr 2020 12:11:57 +0000</pubDate>
-      <guid>https://mizuka-wu.github.io/posts/%E5%85%B3%E4%BA%8Eelement-ui-%E8%87%AA%E9%80%82%E5%BA%94%E9%AB%98%E5%BA%A6%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/</guid>
-      <description>&lt;h1 id=&#34;起因&#34;&gt;起因&lt;/h1&gt;
-&lt;p&gt;还是接手了之前同事的代码，之前他的代码遗留了一个历史问题，一个element-ui的表格高度只有&lt;code&gt;500&lt;/code&gt; 当然，在开发用的mac电脑上看还是很正常的，但是在实际的业务场景中，会有一些使用人使用的是一些大号的屏幕，实际效果上表格只占了页面的一小部分，又因为表格的内容很多，所以空了一大块页面，但是浏览数据却需要不停的滚轮&lt;/p&gt;
-&lt;h1 id=&#34;改进过程&#34;&gt;改进过程&lt;/h1&gt;
-&lt;h2 id=&#34;分析要做什么&#34;&gt;分析要做什么&lt;/h2&gt;
-&lt;p&gt;首先分析了一波造成这样现象的原因，发现是&lt;code&gt;element-ui table&lt;/code&gt;的高度被钉死了，但是又由于是历史项目，页面被包裹在一个iframe里，同时&lt;code&gt;element-ui&lt;/code&gt;不支持使用&lt;code&gt;auto&lt;/code&gt;属性&lt;/p&gt;
-&lt;p&gt;综上所述，为了一个顺溜的滚动条体验，只能让&lt;code&gt;table&lt;/code&gt;自动填满剩余高度了，盘算了一下需要做&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;监听页面大小变化&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;防抖，省的卡顿&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;获取剩余高度&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;设定一个最小高度&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;做好各类检测，防止报错&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;开写&#34;&gt;开写&lt;/h2&gt;
-&lt;h3 id=&#34;监听问题&#34;&gt;监听问题&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;window.addEventListener(‘resize’, handler)&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;记得也要在对应时间销毁&lt;/p&gt;
-&lt;h3 id=&#34;防抖&#34;&gt;防抖&lt;/h3&gt;
-&lt;p&gt;这里直接上debounce&lt;/p&gt;
-&lt;h3 id=&#34;高度&#34;&gt;高度&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;首先获取页面高度&lt;code&gt;window.innerHeight&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;然后获取table距离顶部的高度&lt;code&gt;el.getBoundingClientRect().top&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;这里有个小问题，就是定义的高度是&lt;code&gt;body&lt;/code&gt;的高度，但是剩余区域是包括&lt;code&gt;head&lt;/code&gt;的所以我们获取对应的高度&lt;code&gt;el.querySelector(‘.el-table__header-wrapper’).offsetHeight&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;空余高度计算&lt;code&gt;Math.max(innerHeight - offsetTop - tableHeaderHeight - OFFSET_BUTTON, MIN_TABLE_MAX_HEIGHT)&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;这个是考虑了一个最小高度和空余页面底部距离的算式&lt;/p&gt;
-&lt;h3 id=&#34;整合&#34;&gt;整合&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TABLE_OFFSET_BOTTOM&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;MIN_TABLE_MAX_HEIGHT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;window.&lt;span style=&#34;color:#a6e22e&#34;&gt;addEventListener&lt;/span&gt;(&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;‘&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;resize&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;’&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;debounce&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;() {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;innerHeight&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; window.&lt;span style=&#34;color:#a6e22e&#34;&gt;innerHeight&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;table&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; document.&lt;span style=&#34;color:#a6e22e&#34;&gt;getElementById&lt;/span&gt;(&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;‘&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;table&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;’&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;table&lt;/span&gt;) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;offsetTop&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;table&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;getBoundingClientRect&lt;/span&gt;().&lt;span style=&#34;color:#a6e22e&#34;&gt;top&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;tableHeaderHeight&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;table&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;querySelector&lt;/span&gt;(&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;‘&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;el&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;table__header&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;wrapper&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;’&lt;/span&gt;).&lt;span style=&#34;color:#a6e22e&#34;&gt;offsetHeight&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;maxTableHeight&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Math.&lt;span style=&#34;color:#a6e22e&#34;&gt;max&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;innerHeight&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;offsetTop&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;tableHeaderHeight&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TABLE_OFFSET_BOTTOM&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;MIN_TABLE_MAX_HEIGHT&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 改变element的参数即可
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;},&lt;span style=&#34;color:#ae81ff&#34;&gt;300&lt;/span&gt;))
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;结果&#34;&gt;结果&lt;/h1&gt;
-&lt;p&gt;很完美，哎嘿&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+&lt;/code>&lt;/pre>&lt;h3 id="构建基础版的-opencv">构建基础版的 opencv&lt;/h3>
+&lt;p>跟着教程&lt;/p>
+&lt;p>首先得复制一份到本地&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git clone git clone https://github.com/opencv/opencv.git
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd opencv
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>emcmake python ./opencv/platforms/js/build_js.py build_wasm --build_wasm
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>关于element-ui 自适应高度的问题以及解决思路</title><link>https://mizuka-wu.github.io/posts/%E5%85%B3%E4%BA%8Eelement-ui-%E8%87%AA%E9%80%82%E5%BA%94%E9%AB%98%E5%BA%A6%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/</link><pubDate>Thu, 09 Apr 2020 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E5%85%B3%E4%BA%8Eelement-ui-%E8%87%AA%E9%80%82%E5%BA%94%E9%AB%98%E5%BA%A6%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/</guid><description>&lt;h1 id="起因">起因&lt;/h1>
+&lt;p>还是接手了之前同事的代码，之前他的代码遗留了一个历史问题，一个element-ui的表格高度只有&lt;code>500&lt;/code> 当然，在开发用的mac电脑上看还是很正常的，但是在实际的业务场景中，会有一些使用人使用的是一些大号的屏幕，实际效果上表格只占了页面的一小部分，又因为表格的内容很多，所以空了一大块页面，但是浏览数据却需要不停的滚轮&lt;/p>
+&lt;h1 id="改进过程">改进过程&lt;/h1>
+&lt;h2 id="分析要做什么">分析要做什么&lt;/h2>
+&lt;p>首先分析了一波造成这样现象的原因，发现是&lt;code>element-ui table&lt;/code>的高度被钉死了，但是又由于是历史项目，页面被包裹在一个iframe里，同时&lt;code>element-ui&lt;/code>不支持使用&lt;code>auto&lt;/code>属性&lt;/p>
+&lt;p>综上所述，为了一个顺溜的滚动条体验，只能让&lt;code>table&lt;/code>自动填满剩余高度了，盘算了一下需要做&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>监听页面大小变化&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>防抖，省的卡顿&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>获取剩余高度&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>设定一个最小高度&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>做好各类检测，防止报错&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="开写">开写&lt;/h2>
+&lt;h3 id="监听问题">监听问题&lt;/h3>
+&lt;p>&lt;code>window.addEventListener(‘resize’, handler)&lt;/code>&lt;/p>
+&lt;p>记得也要在对应时间销毁&lt;/p>
+&lt;h3 id="防抖">防抖&lt;/h3>
+&lt;p>这里直接上debounce&lt;/p>
+&lt;h3 id="高度">高度&lt;/h3>
+&lt;ol>
+&lt;li>
+&lt;p>首先获取页面高度&lt;code>window.innerHeight&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>然后获取table距离顶部的高度&lt;code>el.getBoundingClientRect().top&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>这里有个小问题，就是定义的高度是&lt;code>body&lt;/code>的高度，但是剩余区域是包括&lt;code>head&lt;/code>的所以我们获取对应的高度&lt;code>el.querySelector(‘.el-table__header-wrapper’).offsetHeight&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>空余高度计算&lt;code>Math.max(innerHeight - offsetTop - tableHeaderHeight - OFFSET_BUTTON, MIN_TABLE_MAX_HEIGHT)&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>这个是考虑了一个最小高度和空余页面底部距离的算式&lt;/p>
+&lt;h3 id="整合">整合&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">TABLE_OFFSET_BOTTOM&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">10&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">MIN_TABLE_MAX_HEIGHT&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">500&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>window.&lt;span style="color:#a6e22e">addEventListener&lt;/span>(&lt;span style="color:#960050;background-color:#1e0010">‘&lt;/span>&lt;span style="color:#a6e22e">resize&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">’&lt;/span>, &lt;span style="color:#a6e22e">_&lt;/span>.&lt;span style="color:#a6e22e">debounce&lt;/span>(&lt;span style="color:#66d9ef">function&lt;/span>() {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">innerHeight&lt;/span> &lt;span style="color:#f92672">=&lt;/span> window.&lt;span style="color:#a6e22e">innerHeight&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">table&lt;/span> &lt;span style="color:#f92672">=&lt;/span> document.&lt;span style="color:#a6e22e">getElementById&lt;/span>(&lt;span style="color:#960050;background-color:#1e0010">‘&lt;/span>&lt;span style="color:#a6e22e">table&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">’&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#f92672">!&lt;/span>&lt;span style="color:#a6e22e">table&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">offsetTop&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">table&lt;/span>.&lt;span style="color:#a6e22e">getBoundingClientRect&lt;/span>().&lt;span style="color:#a6e22e">top&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">tableHeaderHeight&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">table&lt;/span>.&lt;span style="color:#a6e22e">querySelector&lt;/span>(&lt;span style="color:#960050;background-color:#1e0010">‘&lt;/span>.&lt;span style="color:#a6e22e">el&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#a6e22e">table__header&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#a6e22e">wrapper&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">’&lt;/span>).&lt;span style="color:#a6e22e">offsetHeight&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">maxTableHeight&lt;/span> &lt;span style="color:#f92672">=&lt;/span> Math.&lt;span style="color:#a6e22e">max&lt;/span>(&lt;span style="color:#a6e22e">innerHeight&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">offsetTop&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">tableHeaderHeight&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">TABLE_OFFSET_BOTTOM&lt;/span>, &lt;span style="color:#a6e22e">MIN_TABLE_MAX_HEIGHT&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 改变element的参数即可
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>},&lt;span style="color:#ae81ff">300&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="结果">结果&lt;/h1>
+&lt;p>很完美，哎嘿&lt;/p></description></item></channel></rss>

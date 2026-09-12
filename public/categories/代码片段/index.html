@@ -1,215 +1,35 @@
-<!DOCTYPE html>
-<html lang="en" dir="auto" data-theme="auto">
-
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>代码片段 | 水华的博客</title>
-<meta name="keywords" content="">
-<meta name="description" content="">
-<meta name="author" content="">
-<link rel="canonical" href="https://mizuka-wu.github.io/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.d92d9aa382a827dda21bf1377e9203e27a444da2e8b4ef76913833adb6d6ba15.css" integrity="sha256-2S2ao4KoJ92iG/E3fpID4npETaLotO92kTgzrbbWuhU=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://mizuka-wu.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://mizuka-wu.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://mizuka-wu.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://mizuka-wu.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://mizuka-wu.github.io/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://mizuka-wu.github.io/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/index.xml" title="rss">
-<link rel="alternate" hreflang="en" href="https://mizuka-wu.github.io/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script><meta property="og:url" content="https://mizuka-wu.github.io/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/">
-  <meta property="og:site_name" content="水华的博客">
-  <meta property="og:title" content="代码片段">
-  <meta property="og:locale" content="zh_cn">
-  <meta property="og:type" content="website">
-
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="代码片段">
-
-</head>
-<body class="list" id="top">
-    <header class="header">
-    <nav class="header-nav">
-        <div class="logo">
-            <a href="https://mizuka-wu.github.io/" accesskey="h" title="水华的博客 (Alt + H)">水华的博客</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu" class="menu">
-            <li>
-                <a href="https://mizuka-wu.github.io/categories/" title="分类">
-                    <span>分类</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://mizuka-wu.github.io/tags/" title="标签">
-                    <span>标签</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://mizuka-wu.github.io/archive/" title="归档">
-                    <span>归档</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://github.com/mizuka-wu" title="GitHub">
-                    <span>GitHub</span>&nbsp;
-                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
-                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
-                        <path d="M15 3h6v6"></path>
-                        <path d="M10 14L21 3"></path>
-                    </svg>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main"> 
-<header class="page-header">
-  <h1>
-    代码片段
-    <a href="/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/index.xml" title="RSS" aria-label="RSS">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" height="23">
-        <path d="M4 11a9 9 0 0 1 9 9" />
-        <path d="M4 4a16 16 0 0 1 16 16" />
-        <circle cx="5" cy="19" r="1" />
-      </svg>
-    </a>
-  </h1>
-</header>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">通过 node 上传大文件
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>通过 node 上传大文件 背景 因为工作上的原因，开发了一个客户端文件，用来做数据迁移
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>代码片段 | 水华的博客</title><meta name=keywords content><meta name=description content><meta name=author content><link rel=canonical href=https://mizuka-wu.github.io/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/><link crossorigin=anonymous href=/assets/css/stylesheet.d92d9aa382a827dda21bf1377e9203e27a444da2e8b4ef76913833adb6d6ba15.css integrity="sha256-2S2ao4KoJ92iG/E3fpID4npETaLotO92kTgzrbbWuhU=" rel="preload stylesheet" as=style><link rel=icon href=https://mizuka-wu.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://mizuka-wu.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://mizuka-wu.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://mizuka-wu.github.io/apple-touch-icon.png><link rel=mask-icon href=https://mizuka-wu.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate type=application/rss+xml href=https://mizuka-wu.github.io/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/index.xml title=rss><link rel=alternate hreflang=en href=https://mizuka-wu.github.io/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta property="og:url" content="https://mizuka-wu.github.io/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/"><meta property="og:site_name" content="水华的博客"><meta property="og:title" content="代码片段"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="website"><meta name=twitter:card content="summary"><meta name=twitter:title content="代码片段"></head><body class=list id=top><header class=header><nav class=header-nav><div class=logo><a href=https://mizuka-wu.github.io/ accesskey=h title="水华的博客 (Alt + H)">水华的博客</a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://mizuka-wu.github.io/categories/ title=分类><span>分类</span></a></li><li><a href=https://mizuka-wu.github.io/tags/ title=标签><span>标签</span></a></li><li><a href=https://mizuka-wu.github.io/archive/ title=归档><span>归档</span></a></li><li><a href=https://github.com/mizuka-wu title=GitHub><span>GitHub</span>&nbsp;
+<svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><header class=page-header><h1>代码片段
+<a href=/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/index.xml title=RSS aria-label=RSS><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" height="23"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a></h1></header><article class="post-entry tag-entry"><header class=entry-header><h2 class=entry-hint-parent>通过 node 上传大文件</h2></header><div class=entry-content><p>通过 node 上传大文件 背景 因为工作上的原因，开发了一个客户端文件，用来做数据迁移
 实际上的流程很简单，下载，清洗，再调用接口导入到另一个网站上
 出现问题 本地的上传其实是通过
-const formData = new FormData(); formData.append(&#39;file&#39;, blob); axios.post(xxx, formdata) 通过在 nodejs 里边写 formdata 并且通过 axios 进行上传的 遇到的第一个问题是
+const formData = new FormData(); formData.append('file', blob); axios.post(xxx, formdata) 通过在 nodejs 里边写 formdata 并且通过 axios 进行上传的 遇到的第一个问题是
 Buffer问题，因为 formdata 需要使用 blob 作为 file 字段进行上传的
 最开始的时候我们的 blob 是通过 fs.readFileSync()生成的
 但是在 node 环境下，我们的 node 实际上对 buffer 是有大小限制的
 所以我一开始采用的方案是通过流式获取所有的 buffer 之后一起生成一个 blob
-const blob = await new Promise((resolve, reject) =&gt; { const stream = fs.createReadStream(); const blobData = []; stream.on(&#39;data&#39;, chunk =&gt; blobData.push(chunk)) stream.on(&#39;end&#39;, () =&gt; resolve(new Blob(blobData))) }) 这样一开始解决了读取 buffer 过大的问题
+const blob = await new Promise((resolve, reject) => { const stream = fs.createReadStream(); const blobData = []; stream.on('data', chunk => blobData.push(chunk)) stream.on('end', () => resolve(new Blob(blobData))) }) 这样一开始解决了读取 buffer 过大的问题
 实际问题解决 实际问题还是上传下载的时候，如果读取为 blob的话，也是需要占用一段内存的
 这也就造成了在传输 2g 以上大文件的时候出现了闪退
 这个时候其实应该会有好几种解决方案
 通过分片进行上传，实际上因为后端采用 minio 这个也是天然支持的，但是经过询问之后，发现上传 minio 其实也是后端额外封装了一层接口实现的，但是后端没有实现分片合并的逻辑，所以通过分片的方案就不行了 流式上传，这样可以减少内存的占用 所以上传的时候其实是需要将整个上传流程的 form 也转换成一个 stream
-...</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2024-05-07 00:00:00 +0000 UTC'>May 7, 2024</span>&nbsp;·&nbsp;<span>2 min</span></footer>
-  <a class="entry-link" aria-label="post link to 通过 node 上传大文件" href="https://mizuka-wu.github.io/posts/%E9%80%9A%E8%BF%87-node-%E4%B8%8A%E4%BC%A0%E5%A4%A7%E6%96%87%E4%BB%B6/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">axios兜底错误处理
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>项目的网络请求层使用了axios，axios是一个及其好用的库，但是在业务使用上出现了一些问题
+...</p></div><footer class=entry-footer><span title='2024-05-07 00:00:00 +0000 UTC'>May 7, 2024</span>&nbsp;·&nbsp;<span>2 min</span></footer><a class=entry-link aria-label="post link to 通过 node 上传大文件" href=https://mizuka-wu.github.io/posts/%E9%80%9A%E8%BF%87-node-%E4%B8%8A%E4%BC%A0%E5%A4%A7%E6%96%87%E4%BB%B6/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2 class=entry-hint-parent>axios兜底错误处理</h2></header><div class=entry-content><p>项目的网络请求层使用了axios，axios是一个及其好用的库，但是在业务使用上出现了一些问题
 出现原因 众所周知，前端一般通过ajax向后端请求数据然后处理后显示在网页/app上，当然人都是懒得，总是希望有一些自动完成的事，比如这一次，如果不是需要特殊处理的特定错误，直接弹toast结束。
-错误处理还是很容易，axios增加拦截器，如果是指定的错误，直接throw new Error(&#39;错误&#39;) 剩下的交给promise.catch干就好了，问题集中在如何兜底这个catch，如果不处理，会变成unhandledrejection错误
+错误处理还是很容易，axios增加拦截器，如果是指定的错误，直接throw new Error('错误') 剩下的交给promise.catch干就好了，问题集中在如何兜底这个catch，如果不处理，会变成unhandledrejection错误
 解决方案 最原始的方案 高阶函数 throwMessage，自动在promise之后增加catch函数，问题是这个要记得手动引入，和自动这个理念还是有点区别的.
-export function throwMessage&lt;T = any&gt;(responsePromise: Promise&lt;T&gt;) { return responsePromise.catch((e: Error) =&gt; { console.error(`error`, e) message.error(e.message) }) } 每次使用都要throwMessage(promise)容易忘，如果有必要，还要写lint规则防止忘记
+export function throwMessage&lt;T = any>(responsePromise: Promise&lt;T>) { return responsePromise.catch((e: Error) => { console.error(`error`, e) message.error(e.message) }) } 每次使用都要throwMessage(promise)容易忘，如果有必要，还要写lint规则防止忘记
 webpack方案 既然打包的是webpack，那么使用webpack在转译原始代码的时候注入就好了嘛. 推荐一个promise-catch-loader自动处理好这一系列问题 具体因为没有太研究，不做展开
 事件监听方案 上文提到了，如果promise没有捕获错误，会自动变成unhandlered rejection错误，这个是可以全局监听的，具体在MDN上可以看
 那么 我们在window上直接监听就好了
-window.addEventListener(&#39;unhandledrejection&#39;, event =&gt; { event.preventDefault() }); 问题是，太全局了
+window.addEventListener('unhandledrejection', event => { event.preventDefault() }); 问题是，太全局了
 处理Promise链方案 这种是最终处理的方案，当然也是最魔改的方案，考虑到只运行在前端，内存溢出情况不多，方能实现
-axios返回的是promise，promise是遵循PromiseA&#43;方案，内部其实是有一条promise链的，我们的目的就在于，在promise链条的最后一个promise上挂上catch,反正预先被处理了最后一个也不会触发
+axios返回的是promise，promise是遵循PromiseA+方案，内部其实是有一条promise链的，我们的目的就在于，在promise链条的最后一个promise上挂上catch,反正预先被处理了最后一个也不会触发
 问题来了 如果你直接看promise的话，是只能看到，then，catch，finally这些方法的，并没办法看到promise链，也没办法顺着链访问到最后
 如何解决 我们的目标是将其变为链式结构，简单来说，只要每个then和catch都能记下他的后继即可。
 所以最终我选择注入promise的两个方法
-实现代码 /** * 继承然后注入两个方法 */ export class ChainedPromise&lt;T&gt; extends Promise&lt;T&gt; { nextPromise?: Promise&lt;any&gt; then&lt;TResult1 = T, TResult2 = never&gt;( onfulfilled?: ((value: T) =&gt; TResult1 | PromiseLike&lt;TResult1&gt;) | undefined | null, onrejected?: ((reason: any) =&gt; TResult2 | PromiseLike&lt;TResult2&gt;) | undefined | null, ): Promise&lt;TResult1 | TResult2&gt; { const promise = super.then(onfulfilled, onrejected) this.nextPromise = promise return promise } catch&lt;TResult = never&gt;( onrejected?: ((reason: any) =&gt; TResult | PromiseLike&lt;TResult&gt;) | undefined | null, ): Promise&lt;T | TResult&gt; { const promise = super.catch(onrejected) this.nextPromise = promise return promise } } /** * 暴露给外面的方法，axios通过拦截器，通过封装service都能调用它来在入口处自动注入 */ function autoTravel&lt;T&gt;(promise: Promise&lt;T&gt;): Promise&lt;T&gt; { const getLastPromise = function(promise: ChainedPromise&lt;any&gt;): Promise&lt;any&gt; { if (promise.nextPromise) { return getLastPromise(promise.nextPromise) } return promise } /** * Promise内部的自动形成链条，就能顺着链条找到最后一个了 */ const autoTravelPromise = new ChainedPromise&lt;T&gt;((resolve, reject) =&gt; { promise.then(resolve).catch(responseError =&gt; { // throwMessage为之前定义的，promise上自动加catch的方法 throwMessage(getLastPromise(autoTravelPromise)) reject(responseError) }) }) return autoTravelPromise } </p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2024-04-29 00:00:00 +0000 UTC'>April 29, 2024</span>&nbsp;·&nbsp;<span>1 min</span></footer>
-  <a class="entry-link" aria-label="post link to axios兜底错误处理" href="https://mizuka-wu.github.io/posts/axios%E5%85%9C%E5%BA%95%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">vue-cli项目如何同时打包一个express项目
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> vue-cli项目一般只会生成一个纯前端的vue项目，不过有时候，如果我们想开发一个express项目同时又想用vue作为前端该怎么搞呢？
+实现代码 /** * 继承然后注入两个方法 */ export class ChainedPromise&lt;T> extends Promise&lt;T> { nextPromise?: Promise&lt;any> then&lt;TResult1 = T, TResult2 = never>( onfulfilled?: ((value: T) => TResult1 | PromiseLike&lt;TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike&lt;TResult2>) | undefined | null, ): Promise&lt;TResult1 | TResult2> { const promise = super.then(onfulfilled, onrejected) this.nextPromise = promise return promise } catch&lt;TResult = never>( onrejected?: ((reason: any) => TResult | PromiseLike&lt;TResult>) | undefined | null, ): Promise&lt;T | TResult> { const promise = super.catch(onrejected) this.nextPromise = promise return promise } } /** * 暴露给外面的方法，axios通过拦截器，通过封装service都能调用它来在入口处自动注入 */ function autoTravel&lt;T>(promise: Promise&lt;T>): Promise&lt;T> { const getLastPromise = function(promise: ChainedPromise&lt;any>): Promise&lt;any> { if (promise.nextPromise) { return getLastPromise(promise.nextPromise) } return promise } /** * Promise内部的自动形成链条，就能顺着链条找到最后一个了 */ const autoTravelPromise = new ChainedPromise&lt;T>((resolve, reject) => { promise.then(resolve).catch(responseError => { // throwMessage为之前定义的，promise上自动加catch的方法 throwMessage(getLastPromise(autoTravelPromise)) reject(responseError) }) }) return autoTravelPromise }</p></div><footer class=entry-footer><span title='2024-04-29 00:00:00 +0000 UTC'>April 29, 2024</span>&nbsp;·&nbsp;<span>1 min</span></footer><a class=entry-link aria-label="post link to axios兜底错误处理" href=https://mizuka-wu.github.io/posts/axios%E5%85%9C%E5%BA%95%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2 class=entry-hint-parent>vue-cli项目如何同时打包一个express项目</h2></header><div class=entry-content><p>vue-cli项目一般只会生成一个纯前端的vue项目，不过有时候，如果我们想开发一个express项目同时又想用vue作为前端该怎么搞呢？
 几个解决方案 两个项目分别开发
 mono-repo
 其他方案
@@ -219,30 +39,16 @@ vue/express一个项目一次打包 其实因为怕打包麻烦，所以我是�
 前后端最终成果打包在一起
 改造过程 独立热更同时前端可调用express服务 首先，我们在文件目录下建立server文件夹，将express服务器的开发，src下为原先前端相关的代码
 其次，安装nodemon用来做express项目的开发启动
-package.json添加命令&#34;start:be&#34;: &#34;nodemon ./server/index.js&#34;
+package.json添加命令"start:be": "nodemon ./server/index.js"
 添加vue.config.js, 加入
-module.exports = { devServer: { proxy: { &#39;/{express服务的路径，例如api}&#39;: { target: &#39;http://127.0.0.1:{express端口}, ws: true, }, } } } 这样，启动npm run serve的时候同时启动start: be即可同时开启前后端
+module.exports = { devServer: { proxy: { '/{express服务的路径，例如api}': { target: 'http://127.0.0.1:{express端口}, ws: true, }, } } } 这样，启动npm run serve的时候同时启动start: be即可同时开启前后端
 打包让express应用调用vue结果 express有static功能，假定用的是public 文件夹
-package.json添加命令&#34;build:be&#34;: &#34;cp package.json ./dist/ &amp;&amp; cp server/* ./dist/&#34;
+package.json添加命令"build:be": "cp package.json ./dist/ && cp server/* ./dist/"
 这样来打包express应用
-同时express内添加一行，app.use(express.static(&#39;./public&#39;))
+同时express内添加一行，app.use(express.static('./public'))
 接着，来改造vue.config.js
-module.exports = { outputDir: &#34;./dist/public&#34; } 之后build命令运行完，运行build:fe即可
-...</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2022-06-18 18:17:35 +0000 UTC'>June 18, 2022</span>&nbsp;·&nbsp;<span>1 min</span></footer>
-  <a class="entry-link" aria-label="post link to vue-cli项目如何同时打包一个express项目" href="https://mizuka-wu.github.io/posts/vue-cli%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E6%89%93%E5%8C%85%E4%B8%80%E4%B8%AAexpress%E9%A1%B9%E7%9B%AE/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Electron构建如何支持m1芯片
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>起因 换了台m1的macbook, 我之前的看板electron程序构建的还是老的x64版本，使用上还需要使用rosetta2进行转译，性能损失不说，说不定还有潜在的问题，所幸看到 electron11开始支持使用arm64芯片的mac了，正好升级一波
+module.exports = { outputDir: "./dist/public" } 之后build命令运行完，运行build:fe即可
+...</p></div><footer class=entry-footer><span title='2022-06-18 18:17:35 +0000 UTC'>June 18, 2022</span>&nbsp;·&nbsp;<span>1 min</span></footer><a class=entry-link aria-label="post link to vue-cli项目如何同时打包一个express项目" href=https://mizuka-wu.github.io/posts/vue-cli%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E6%89%93%E5%8C%85%E4%B8%80%E4%B8%AAexpress%E9%A1%B9%E7%9B%AE/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2 class=entry-hint-parent>Electron构建如何支持m1芯片</h2></header><div class=entry-content><p>起因 换了台m1的macbook, 我之前的看板electron程序构建的还是老的x64版本，使用上还需要使用rosetta2进行转译，性能损失不说，说不定还有潜在的问题，所幸看到 electron11开始支持使用arm64芯片的mac了，正好升级一波
 写在前面 目前工具库还在preview，taobao镜像不可用
 顺带提一下我之前的项目结构
 基于 @vue/cli4
@@ -253,198 +59,22 @@ module.exports = { outputDir: &#34;./dist/public&#34; } 之后build命令运行�
 npm install --save electron@11 同时我们需要升级electron-builder到支持打包新芯片的版本, 根据最新的方案，arch需要支持arm64并且可以打包dmg的话，需要升级到22.10.4
 npm install --save-dev electron-builder@22.10.4 不过因为还在preview 只有npm官方仓库可以安装
 接下来我们改造构建选项，因为我使用vue的插件, 所以我写在vue.config.js
-module.exports = { pluginOptions: { electronBuilder: { builderOptions: { artifactName: &#39;${productName}-${version}-${os}-${arch}.${ext}&#39;, mac: { target: { arch: &#39;universal&#39;, target: &#39;dmg&#39; } } }, } } } 这样可以打包一个自适应芯片的版本，当然你想打两个包可以把arch换成arch: [&#39;x64&#39;, &#39;arm64&#39;]
-...</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2021-01-09 12:11:57 +0000 UTC'>January 9, 2021</span>&nbsp;·&nbsp;<span>1 min</span></footer>
-  <a class="entry-link" aria-label="post link to Electron构建如何支持m1芯片" href="https://mizuka-wu.github.io/posts/electron%E6%9E%84%E5%BB%BA%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81m1%E8%8A%AF%E7%89%87/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">文字超过x行后补上省略号的几种办法
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>文字超过 x 行后补上省略号的几种办法 原文
+module.exports = { pluginOptions: { electronBuilder: { builderOptions: { artifactName: '${productName}-${version}-${os}-${arch}.${ext}', mac: { target: { arch: 'universal', target: 'dmg' } } }, } } } 这样可以打包一个自适应芯片的版本，当然你想打两个包可以把arch换成arch: ['x64', 'arm64']
+...</p></div><footer class=entry-footer><span title='2021-01-09 12:11:57 +0000 UTC'>January 9, 2021</span>&nbsp;·&nbsp;<span>1 min</span></footer><a class=entry-link aria-label="post link to Electron构建如何支持m1芯片" href=https://mizuka-wu.github.io/posts/electron%E6%9E%84%E5%BB%BA%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81m1%E8%8A%AF%E7%89%87/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2 class=entry-hint-parent>文字超过x行后补上省略号的几种办法</h2></header><div class=entry-content><p>文字超过 x 行后补上省略号的几种办法 原文
 简单来说，在 pc 端，文字过长溢出的话，溢出的部分会被替换成...,然而在显示情况中，更多的是在超过 x 行之后才启用这个特性，例如
-&lt;div class=&#34;module&#34;&gt; &lt;p&gt; Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. &lt;/p&gt; &lt;/div&gt; 最终希望三行之后到这种效果:
+&lt;div class="module"> &lt;p> Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. &lt;/p> &lt;/div> 最终希望三行之后到这种效果:
 为了演示，我们先定义基础的 css，剩下的方法都在这个 css 的基础之上
 .module { width: 250px; overflow: hidden; } Weird WebKit Flexbox Way 使用 webkit 内置的方案
-...</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2019-10-18 12:11:57 +0000 UTC'>October 18, 2019</span>&nbsp;·&nbsp;<span>1 min</span></footer>
-  <a class="entry-link" aria-label="post link to 文字超过x行后补上省略号的几种办法" href="https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">自动给表格空单元格补上字符串
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>自动给表格空单元格补上字符串 背景 ui 设计中，如果单元格内部为空的话，需要填充一个默认字符串标明是个空格子，本身计划使用 js 来做的，但是考虑到要需要遍历，判断等等一系列操作，而且 js 里 0 做 boolean 判断也是返回 false，无形中增加了判断的步骤，所以这个时候还是求助于万能的 css 吧
+...</p></div><footer class=entry-footer><span title='2019-10-18 12:11:57 +0000 UTC'>October 18, 2019</span>&nbsp;·&nbsp;<span>1 min</span></footer><a class=entry-link aria-label="post link to 文字超过x行后补上省略号的几种办法" href=https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2 class=entry-hint-parent>自动给表格空单元格补上字符串</h2></header><div class=entry-content><p>自动给表格空单元格补上字符串 背景 ui 设计中，如果单元格内部为空的话，需要填充一个默认字符串标明是个空格子，本身计划使用 js 来做的，但是考虑到要需要遍历，判断等等一系列操作，而且 js 里 0 做 boolean 判断也是返回 false，无形中增加了判断的步骤，所以这个时候还是求助于万能的 css 吧
 以下为 less 代码
-td:empty { &amp;::after { content: &#34;-&#34;; } } </p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2019-09-23 09:11:57 +0000 UTC'>September 23, 2019</span>&nbsp;·&nbsp;<span>1 min</span></footer>
-  <a class="entry-link" aria-label="post link to 自动给表格空单元格补上字符串" href="https://mizuka-wu.github.io/posts/%E8%87%AA%E5%8A%A8%E7%BB%99%E8%A1%A8%E6%A0%BC%E7%A9%BA%E5%8D%95%E5%85%83%E6%A0%BC%E8%A1%A5%E4%B8%8A%E5%AD%97%E7%AC%A6%E4%B8%B2/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">上传app卡在通过app store进行鉴定
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> cd ~ mv .itmstransporter/ .old_itmstransporter/ &#34;/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/itms/bin/iTMSTransporter&#34; </p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2019-07-09 18:17:35 +0000 UTC'>July 9, 2019</span>&nbsp;·&nbsp;<span>1 min</span></footer>
-  <a class="entry-link" aria-label="post link to 上传app卡在通过app store进行鉴定" href="https://mizuka-wu.github.io/posts/%E4%B8%8A%E4%BC%A0app%E5%8D%A1%E5%9C%A8%E9%80%9A%E8%BF%87app-store%E8%BF%9B%E8%A1%8C%E9%89%B4%E5%AE%9A/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">如何删除除了Master之外的所有分支
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>如何删除除了Master之外的所有分支 切换到 master
+td:empty { &::after { content: "-"; } }</p></div><footer class=entry-footer><span title='2019-09-23 09:11:57 +0000 UTC'>September 23, 2019</span>&nbsp;·&nbsp;<span>1 min</span></footer><a class=entry-link aria-label="post link to 自动给表格空单元格补上字符串" href=https://mizuka-wu.github.io/posts/%E8%87%AA%E5%8A%A8%E7%BB%99%E8%A1%A8%E6%A0%BC%E7%A9%BA%E5%8D%95%E5%85%83%E6%A0%BC%E8%A1%A5%E4%B8%8A%E5%AD%97%E7%AC%A6%E4%B8%B2/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2 class=entry-hint-parent>上传app卡在通过app store进行鉴定</h2></header><div class=entry-content><p>cd ~ mv .itmstransporter/ .old_itmstransporter/ "/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/itms/bin/iTMSTransporter"</p></div><footer class=entry-footer><span title='2019-07-09 18:17:35 +0000 UTC'>July 9, 2019</span>&nbsp;·&nbsp;<span>1 min</span></footer><a class=entry-link aria-label="post link to 上传app卡在通过app store进行鉴定" href=https://mizuka-wu.github.io/posts/%E4%B8%8A%E4%BC%A0app%E5%8D%A1%E5%9C%A8%E9%80%9A%E8%BF%87app-store%E8%BF%9B%E8%A1%8C%E9%89%B4%E5%AE%9A/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2 class=entry-hint-parent>如何删除除了Master之外的所有分支</h2></header><div class=entry-content><p>如何删除除了Master之外的所有分支 切换到 master
 删了其他的
-git stash &amp;&amp; git checkout master &amp;&amp; git branch | grep -v &#34;master&#34; | xargs git branch -D </p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2019-06-05 11:41:57 +0000 UTC'>June 5, 2019</span>&nbsp;·&nbsp;<span>1 min</span></footer>
-  <a class="entry-link" aria-label="post link to 如何删除除了Master之外的所有分支" href="https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E9%99%A4%E4%BA%86master%E4%B9%8B%E5%A4%96%E7%9A%84%E6%89%80%E6%9C%89%E5%88%86%E6%94%AF/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">electron开机自动启动
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>直接
+git stash && git checkout master && git branch | grep -v "master" | xargs git branch -D</p></div><footer class=entry-footer><span title='2019-06-05 11:41:57 +0000 UTC'>June 5, 2019</span>&nbsp;·&nbsp;<span>1 min</span></footer><a class=entry-link aria-label="post link to 如何删除除了Master之外的所有分支" href=https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E9%99%A4%E4%BA%86master%E4%B9%8B%E5%A4%96%E7%9A%84%E6%89%80%E6%9C%89%E5%88%86%E6%94%AF/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2 class=entry-hint-parent>electron开机自动启动</h2></header><div class=entry-content><p>直接
 直接上
 直接上代码
-const exeName = path.basename(process.execPath) app.setLoginItemSettings({ openAtLogin: !openAtLogin, path: process.execPath, args: [ &#39;--processStart&#39;, `&#34;${exeName}&#34;` ] }) } </p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2019-02-11 11:41:57 +0000 UTC'>February 11, 2019</span>&nbsp;·&nbsp;<span>1 min</span></footer>
-  <a class="entry-link" aria-label="post link to electron开机自动启动" href="https://mizuka-wu.github.io/posts/electron%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">html上实现div按照宽高比自适应
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>html 上实现 div 按照宽高比自适应 原理很简单，padding 的百分比是根据宽度作为百分比自动设置的，所以容器上使用
-.container { height: 0; padding-top: 114%; .data { width: 100%; height: 100%; } } 就可以了
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2018-11-25 09:40:02 +0000 UTC'>November 25, 2018</span>&nbsp;·&nbsp;<span>1 min</span></footer>
-  <a class="entry-link" aria-label="post link to html上实现div按照宽高比自适应" href="https://mizuka-wu.github.io/posts/html%E4%B8%8A%E5%AE%9E%E7%8E%B0div%E6%8C%89%E7%85%A7%E5%AE%BD%E9%AB%98%E6%AF%94%E8%87%AA%E9%80%82%E5%BA%94/"></a>
-</article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="next" href="https://mizuka-wu.github.io/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/page/2/">Next&nbsp;&nbsp;»
-    </a>
-  </nav>
-</footer>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="https://mizuka-wu.github.io/">水华的博客</a></span> · 
-
-    
-    
-    <span>
-        Powered by
-        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
-    </svg>
-</a>
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var toplink = document.getElementById("top-link");
-    window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
-        } else {
-            toplink.classList.add("hidden");
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
-</html>
+const exeName = path.basename(process.execPath) app.setLoginItemSettings({ openAtLogin: !openAtLogin, path: process.execPath, args: [ '--processStart', `"${exeName}"` ] }) }</p></div><footer class=entry-footer><span title='2019-02-11 11:41:57 +0000 UTC'>February 11, 2019</span>&nbsp;·&nbsp;<span>1 min</span></footer><a class=entry-link aria-label="post link to electron开机自动启动" href=https://mizuka-wu.github.io/posts/electron%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2 class=entry-hint-parent>html上实现div按照宽高比自适应</h2></header><div class=entry-content><p>html 上实现 div 按照宽高比自适应 原理很简单，padding 的百分比是根据宽度作为百分比自动设置的，所以容器上使用
+.container { height: 0; padding-top: 114%; .data { width: 100%; height: 100%; } } 就可以了</p></div><footer class=entry-footer><span title='2018-11-25 09:40:02 +0000 UTC'>November 25, 2018</span>&nbsp;·&nbsp;<span>1 min</span></footer><a class=entry-link aria-label="post link to html上实现div按照宽高比自适应" href=https://mizuka-wu.github.io/posts/html%E4%B8%8A%E5%AE%9E%E7%8E%B0div%E6%8C%89%E7%85%A7%E5%AE%BD%E9%AB%98%E6%AF%94%E8%87%AA%E9%80%82%E5%BA%94/></a></article><footer class=page-footer><nav class=pagination><a class=next href=https://mizuka-wu.github.io/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/page/2/>Next&nbsp;&nbsp;»</a></nav></footer></main><footer class=footer><span>&copy; 2026 <a href=https://mizuka-wu.github.io/>水华的博客</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

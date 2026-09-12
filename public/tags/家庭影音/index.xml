@@ -1,164 +1,146 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>家庭影音 on 水华的博客</title>
-    <link>https://mizuka-wu.github.io/tags/%E5%AE%B6%E5%BA%AD%E5%BD%B1%E9%9F%B3/</link>
-    <description>Recent content in 家庭影音 on 水华的博客</description>
-    <generator>Hugo</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Mon, 26 May 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://mizuka-wu.github.io/tags/%E5%AE%B6%E5%BA%AD%E5%BD%B1%E9%9F%B3/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>用Nas搭建家庭影音中心</title>
-      <link>https://mizuka-wu.github.io/posts/%E6%80%BB%E8%A7%88/</link>
-      <pubDate>Mon, 26 May 2025 00:00:00 +0000</pubDate>
-      <guid>https://mizuka-wu.github.io/posts/%E6%80%BB%E8%A7%88/</guid>
-      <description>&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;
-&lt;p&gt;本文记录了我在NAS上搭建家庭影音中心使用的各种服务和工具，以及它们之间的依赖关系，方便有需要的朋友参考。本系统不仅可以在家庭局域网内使用，还通过ZeroTier虚拟局域网和Cloudflare Tunnel实现了远程访问功能。&lt;/p&gt;
-&lt;h2 id=&#34;服务&#34;&gt;服务&lt;/h2&gt;
-&lt;p&gt;以下是我在docker上部署的服务和群晖套件：&lt;/p&gt;
-&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;服务名称&lt;/th&gt;
-          &lt;th&gt;类型&lt;/th&gt;
-          &lt;th&gt;依赖关系&lt;/th&gt;
-          &lt;th&gt;GitHub链接&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;iCloudphotos&lt;/td&gt;
-          &lt;td&gt;群晖套件&lt;/td&gt;
-          &lt;td&gt;-&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/boredazfcuk/docker-icloudphotos&#34;&gt;boredazfcuk/icloudphotos&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;qBittorrent&lt;/td&gt;
-          &lt;td&gt;群晖套件&lt;/td&gt;
-          &lt;td&gt;-&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/linuxserver/docker-qbittorrent&#34;&gt;linuxserver/qbittorrent&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Alist&lt;/td&gt;
-          &lt;td&gt;群晖套件&lt;/td&gt;
-          &lt;td&gt;-&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/alist-org/alist&#34;&gt;alist-org/alist&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ANI-RSS&lt;/td&gt;
-          &lt;td&gt;群晖套件&lt;/td&gt;
-          &lt;td&gt;qBittorrent&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/Sonarr/Sonarr&#34;&gt;Sonarr/Sonarr&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Bazarr&lt;/td&gt;
-          &lt;td&gt;群晖套件&lt;/td&gt;
-          &lt;td&gt;Sonarr, Radarr&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/morpheus65535/bazarr&#34;&gt;morpheus65535/bazarr&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Prowlarr&lt;/td&gt;
-          &lt;td&gt;群晖套件&lt;/td&gt;
-          &lt;td&gt;Sonarr, Radarr&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/Prowlarr/Prowlarr&#34;&gt;Prowlarr/Prowlarr&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Radarr&lt;/td&gt;
-          &lt;td&gt;群晖套件&lt;/td&gt;
-          &lt;td&gt;qBittorrent, Prowlarr&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/Radarr/Radarr&#34;&gt;Radarr/Radarr&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Sonarr&lt;/td&gt;
-          &lt;td&gt;群晖套件&lt;/td&gt;
-          &lt;td&gt;qBittorrent, Prowlarr&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/Sonarr/Sonarr&#34;&gt;Sonarr/Sonarr&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Jellyseerr&lt;/td&gt;
-          &lt;td&gt;docker&lt;/td&gt;
-          &lt;td&gt;Emby&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/Fallenbagel/jellyseerr&#34;&gt;Fallenbagel/jellyseerr&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;MinIO&lt;/td&gt;
-          &lt;td&gt;docker&lt;/td&gt;
-          &lt;td&gt;-&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/minio/minio&#34;&gt;minio/minio&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Emby&lt;/td&gt;
-          &lt;td&gt;docker&lt;/td&gt;
-          &lt;td&gt;-&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/MediaBrowser/Emby&#34;&gt;emby/embyserver&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Sub-Store&lt;/td&gt;
-          &lt;td&gt;docker&lt;/td&gt;
-          &lt;td&gt;-&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/sub-store-org/Sub-Store&#34;&gt;sub-store-org/Sub-Store&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Homer&lt;/td&gt;
-          &lt;td&gt;docker&lt;/td&gt;
-          &lt;td&gt;-&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/bastienwirtz/homer&#34;&gt;bastienwirtz/homer&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Nginx Proxy Manager&lt;/td&gt;
-          &lt;td&gt;docker&lt;/td&gt;
-          &lt;td&gt;-&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/NginxProxyManager/nginx-proxy-manager&#34;&gt;NginxProxyManager/nginx-proxy-manager&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;MongoDB&lt;/td&gt;
-          &lt;td&gt;docker&lt;/td&gt;
-          &lt;td&gt;-&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/mongodb/mongo&#34;&gt;mongodb/mongo&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ZeroTier&lt;/td&gt;
-          &lt;td&gt;群晖套件&lt;/td&gt;
-          &lt;td&gt;-&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/zerotier/ZeroTierOne&#34;&gt;zerotier/ZeroTierOne&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Cloudflare Tunnel&lt;/td&gt;
-          &lt;td&gt;群晖套件&lt;/td&gt;
-          &lt;td&gt;-&lt;/td&gt;
-          &lt;td&gt;&lt;a href=&#34;https://github.com/cloudflare/cloudflared&#34;&gt;cloudflare/cloudflared&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h2 id=&#34;服务功能说明&#34;&gt;服务功能说明&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;iCloudphotos&lt;/strong&gt;: 从iCloud自动下载照片到NAS存储&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;qBittorrent&lt;/strong&gt;: BT下载客户端，用于下载影视资源&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Alist&lt;/strong&gt;: 文件列表程序，支持多种存储，提供统一的访问接口&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;ANI-RSS&lt;/strong&gt;: 动画RSS订阅服务&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Bazarr&lt;/strong&gt;: 字幕管理工具，自动下载匹配的字幕&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Prowlarr&lt;/strong&gt;: 索引器管理工具，为Sonarr和Radarr提供资源搜索&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Radarr&lt;/strong&gt;: 电影自动化下载管理工具&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Sonarr&lt;/strong&gt;: 电视剧自动化下载管理工具&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Jellyseerr&lt;/strong&gt;: 媒体请求系统，用户可以请求下载新的影视内容&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;MinIO&lt;/strong&gt;: 对象存储服务，用于存储各种数据&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Emby&lt;/strong&gt;: 媒体服务器，用于管理和播放媒体内容&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Sub-Store&lt;/strong&gt;: 订阅管理工具&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Homer&lt;/strong&gt;: 个人仪表盘，集中展示和访问各种服务&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Nginx Proxy Manager&lt;/strong&gt;: 反向代理管理工具，用于管理各种服务的访问&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;MongoDB&lt;/strong&gt;: 数据库服务，为其他服务提供数据存储支持&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;ZeroTier&lt;/strong&gt;: 虚拟局域网服务，实现远程设备如同局域网内一样访问NAS&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cloudflare Tunnel&lt;/strong&gt;: 安全隧道服务，将内部服务如MinIO等安全地暴露到公网，无需公网IP和端口转发&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;对外服务&#34;&gt;对外服务&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;ZeroTier&lt;/strong&gt;: 虚拟局域网服务，实现远程设备如同局域网内一样访问NAS&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cloudflare Tunnel&lt;/strong&gt;: 安全隧道服务，将内部服务如MinIO等安全地暴露到公网，无需公网IP和端口转发&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;网络架构&#34;&gt;网络架构&lt;/h2&gt;
-&lt;h3 id=&#34;内网访问&#34;&gt;内网访问&lt;/h3&gt;
-&lt;p&gt;家庭局域网内的设备可以直接通过内网IP访问NAS上的各项服务，通过Nginx Proxy Manager进行反向代理和域名解析。&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>家庭影音 on 水华的博客</title><link>https://mizuka-wu.github.io/tags/%E5%AE%B6%E5%BA%AD%E5%BD%B1%E9%9F%B3/</link><description>Recent content in 家庭影音 on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Mon, 26 May 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/%E5%AE%B6%E5%BA%AD%E5%BD%B1%E9%9F%B3/index.xml" rel="self" type="application/rss+xml"/><item><title>用Nas搭建家庭影音中心</title><link>https://mizuka-wu.github.io/posts/%E6%80%BB%E8%A7%88/</link><pubDate>Mon, 26 May 2025 00:00:00 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E6%80%BB%E8%A7%88/</guid><description>&lt;h2 id="简介">简介&lt;/h2>
+&lt;p>本文记录了我在NAS上搭建家庭影音中心使用的各种服务和工具，以及它们之间的依赖关系，方便有需要的朋友参考。本系统不仅可以在家庭局域网内使用，还通过ZeroTier虚拟局域网和Cloudflare Tunnel实现了远程访问功能。&lt;/p>
+&lt;h2 id="服务">服务&lt;/h2>
+&lt;p>以下是我在docker上部署的服务和群晖套件：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>服务名称&lt;/th>
+&lt;th>类型&lt;/th>
+&lt;th>依赖关系&lt;/th>
+&lt;th>GitHub链接&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>iCloudphotos&lt;/td>
+&lt;td>群晖套件&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>&lt;a href="https://github.com/boredazfcuk/docker-icloudphotos">boredazfcuk/icloudphotos&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>qBittorrent&lt;/td>
+&lt;td>群晖套件&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>&lt;a href="https://github.com/linuxserver/docker-qbittorrent">linuxserver/qbittorrent&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Alist&lt;/td>
+&lt;td>群晖套件&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>&lt;a href="https://github.com/alist-org/alist">alist-org/alist&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>ANI-RSS&lt;/td>
+&lt;td>群晖套件&lt;/td>
+&lt;td>qBittorrent&lt;/td>
+&lt;td>&lt;a href="https://github.com/Sonarr/Sonarr">Sonarr/Sonarr&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Bazarr&lt;/td>
+&lt;td>群晖套件&lt;/td>
+&lt;td>Sonarr, Radarr&lt;/td>
+&lt;td>&lt;a href="https://github.com/morpheus65535/bazarr">morpheus65535/bazarr&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Prowlarr&lt;/td>
+&lt;td>群晖套件&lt;/td>
+&lt;td>Sonarr, Radarr&lt;/td>
+&lt;td>&lt;a href="https://github.com/Prowlarr/Prowlarr">Prowlarr/Prowlarr&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Radarr&lt;/td>
+&lt;td>群晖套件&lt;/td>
+&lt;td>qBittorrent, Prowlarr&lt;/td>
+&lt;td>&lt;a href="https://github.com/Radarr/Radarr">Radarr/Radarr&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Sonarr&lt;/td>
+&lt;td>群晖套件&lt;/td>
+&lt;td>qBittorrent, Prowlarr&lt;/td>
+&lt;td>&lt;a href="https://github.com/Sonarr/Sonarr">Sonarr/Sonarr&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Jellyseerr&lt;/td>
+&lt;td>docker&lt;/td>
+&lt;td>Emby&lt;/td>
+&lt;td>&lt;a href="https://github.com/Fallenbagel/jellyseerr">Fallenbagel/jellyseerr&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>MinIO&lt;/td>
+&lt;td>docker&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>&lt;a href="https://github.com/minio/minio">minio/minio&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Emby&lt;/td>
+&lt;td>docker&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>&lt;a href="https://github.com/MediaBrowser/Emby">emby/embyserver&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Sub-Store&lt;/td>
+&lt;td>docker&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>&lt;a href="https://github.com/sub-store-org/Sub-Store">sub-store-org/Sub-Store&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Homer&lt;/td>
+&lt;td>docker&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>&lt;a href="https://github.com/bastienwirtz/homer">bastienwirtz/homer&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Nginx Proxy Manager&lt;/td>
+&lt;td>docker&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>&lt;a href="https://github.com/NginxProxyManager/nginx-proxy-manager">NginxProxyManager/nginx-proxy-manager&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>MongoDB&lt;/td>
+&lt;td>docker&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>&lt;a href="https://github.com/mongodb/mongo">mongodb/mongo&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>ZeroTier&lt;/td>
+&lt;td>群晖套件&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>&lt;a href="https://github.com/zerotier/ZeroTierOne">zerotier/ZeroTierOne&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Cloudflare Tunnel&lt;/td>
+&lt;td>群晖套件&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>&lt;a href="https://github.com/cloudflare/cloudflared">cloudflare/cloudflared&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="服务功能说明">服务功能说明&lt;/h2>
+&lt;ul>
+&lt;li>&lt;strong>iCloudphotos&lt;/strong>: 从iCloud自动下载照片到NAS存储&lt;/li>
+&lt;li>&lt;strong>qBittorrent&lt;/strong>: BT下载客户端，用于下载影视资源&lt;/li>
+&lt;li>&lt;strong>Alist&lt;/strong>: 文件列表程序，支持多种存储，提供统一的访问接口&lt;/li>
+&lt;li>&lt;strong>ANI-RSS&lt;/strong>: 动画RSS订阅服务&lt;/li>
+&lt;li>&lt;strong>Bazarr&lt;/strong>: 字幕管理工具，自动下载匹配的字幕&lt;/li>
+&lt;li>&lt;strong>Prowlarr&lt;/strong>: 索引器管理工具，为Sonarr和Radarr提供资源搜索&lt;/li>
+&lt;li>&lt;strong>Radarr&lt;/strong>: 电影自动化下载管理工具&lt;/li>
+&lt;li>&lt;strong>Sonarr&lt;/strong>: 电视剧自动化下载管理工具&lt;/li>
+&lt;li>&lt;strong>Jellyseerr&lt;/strong>: 媒体请求系统，用户可以请求下载新的影视内容&lt;/li>
+&lt;li>&lt;strong>MinIO&lt;/strong>: 对象存储服务，用于存储各种数据&lt;/li>
+&lt;li>&lt;strong>Emby&lt;/strong>: 媒体服务器，用于管理和播放媒体内容&lt;/li>
+&lt;li>&lt;strong>Sub-Store&lt;/strong>: 订阅管理工具&lt;/li>
+&lt;li>&lt;strong>Homer&lt;/strong>: 个人仪表盘，集中展示和访问各种服务&lt;/li>
+&lt;li>&lt;strong>Nginx Proxy Manager&lt;/strong>: 反向代理管理工具，用于管理各种服务的访问&lt;/li>
+&lt;li>&lt;strong>MongoDB&lt;/strong>: 数据库服务，为其他服务提供数据存储支持&lt;/li>
+&lt;li>&lt;strong>ZeroTier&lt;/strong>: 虚拟局域网服务，实现远程设备如同局域网内一样访问NAS&lt;/li>
+&lt;li>&lt;strong>Cloudflare Tunnel&lt;/strong>: 安全隧道服务，将内部服务如MinIO等安全地暴露到公网，无需公网IP和端口转发&lt;/li>
+&lt;/ul>
+&lt;h3 id="对外服务">对外服务&lt;/h3>
+&lt;ul>
+&lt;li>&lt;strong>ZeroTier&lt;/strong>: 虚拟局域网服务，实现远程设备如同局域网内一样访问NAS&lt;/li>
+&lt;li>&lt;strong>Cloudflare Tunnel&lt;/strong>: 安全隧道服务，将内部服务如MinIO等安全地暴露到公网，无需公网IP和端口转发&lt;/li>
+&lt;/ul>
+&lt;h2 id="网络架构">网络架构&lt;/h2>
+&lt;h3 id="内网访问">内网访问&lt;/h3>
+&lt;p>家庭局域网内的设备可以直接通过内网IP访问NAS上的各项服务，通过Nginx Proxy Manager进行反向代理和域名解析。&lt;/p></description></item></channel></rss>

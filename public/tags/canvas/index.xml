@@ -1,97 +1,79 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Canvas on 水华的博客</title>
-    <link>https://mizuka-wu.github.io/tags/canvas/</link>
-    <description>Recent content in Canvas on 水华的博客</description>
-    <generator>Hugo</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Thu, 14 May 2020 21:11:57 +0000</lastBuildDate>
-    <atom:link href="https://mizuka-wu.github.io/tags/canvas/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>前端工程师该如何愉快的用Excel画画</title>
-      <link>https://mizuka-wu.github.io/posts/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E8%AF%A5%E5%A6%82%E4%BD%95%E6%84%89%E5%BF%AB%E7%9A%84%E7%94%A8excel%E7%94%BB%E7%94%BB/</link>
-      <pubDate>Thu, 14 May 2020 21:11:57 +0000</pubDate>
-      <guid>https://mizuka-wu.github.io/posts/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E8%AF%A5%E5%A6%82%E4%BD%95%E6%84%89%E5%BF%AB%E7%9A%84%E7%94%A8excel%E7%94%BB%E7%94%BB/</guid>
-      <description>&lt;p&gt;虽然微软推出的Excel是一个强大的表格工具，但是世界上总有那么些人可以把一些常见的东西玩出花来&lt;a href=&#34;https://baijiahao.baidu.com/s?id=1601995793246815437&amp;amp;wfr=spider&amp;amp;for=pc&#34;&gt;就像日本老人用Excel画画一样&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;当然，作为一个程序员，当然还是靠程序自动来画啦&lt;/p&gt;
-&lt;h1 id=&#34;需要了解的知识&#34;&gt;需要了解的知识&lt;/h1&gt;
-&lt;h2 id=&#34;canvas&#34;&gt;canvas&lt;/h2&gt;
-&lt;p&gt;html5新增加的一种html元素，平时都是把它当作画布使用，但是正因为有了操纵像素的能力 其也能用在播放视频，截图，压缩图片等操作上，当然啦，这一次，我们主要用到它的像素分析能力&lt;/p&gt;
-&lt;h3 id=&#34;getcontext&#34;&gt;getContext&lt;/h3&gt;
-&lt;p&gt;canvas最常用的api，获取一个用来画画的上下文，图片一般都是2d格式，所以我们通常用&lt;code&gt;getContext(2d)&lt;/code&gt;&lt;/p&gt;
-&lt;h3 id=&#34;drawimage&#34;&gt;drawImage&lt;/h3&gt;
-&lt;p&gt;将图片绘制到canvas上，这样才能获取到每个点的信息&lt;/p&gt;
-&lt;h3 id=&#34;getimagedata&#34;&gt;getImageData&lt;/h3&gt;
-&lt;p&gt;获取到canvas的图像信息，不过返回值中的data是个被打平的一位数组 每四个值代表了一组rgba&lt;/p&gt;
-&lt;h2 id=&#34;input&#34;&gt;input&lt;/h2&gt;
-&lt;p&gt;这里我们靠input来获取输入值&lt;/p&gt;
-&lt;h3 id=&#34;accept属性&#34;&gt;accept属性&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;image/*&lt;/code&gt;来限定只能选择图片，不过某些浏览器上因为要从国外获取mime的原因，推荐还是写成&lt;code&gt;image/png,image/jpg&lt;/code&gt;&lt;/p&gt;
-&lt;h3 id=&#34;获取选中的图片&#34;&gt;获取选中的图片&lt;/h3&gt;
-&lt;h4 id=&#34;onchange&#34;&gt;onchange&lt;/h4&gt;
-&lt;p&gt;如果选择了图片，会触发change这个事件，我们对此监听即可，e.target为触发事件的input，我们取他的files[0]拿到图片对象&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;如果再点击选择同一图片的话，是不会触发事件的，所以每次获取之后推荐&lt;code&gt;e.target.value = “”&lt;/code&gt;来清空掉已选择的文件&lt;/p&gt;
-&lt;h4 id=&#34;filereader&#34;&gt;fileReader&lt;/h4&gt;
-&lt;p&gt;我们获取到的图片仅仅只是个&lt;code&gt;file&lt;/code&gt;是没办法直接转换成一个图片元素来获取宽高和放置在&lt;code&gt;canvas&lt;/code&gt;内的，所以我们需要借助&lt;code&gt;fileReader&lt;/code&gt;的力量&lt;/p&gt;
-&lt;p&gt;新建一个&lt;code&gt;const fileReader = new FileReader()&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;然后在fileReader的onload回调中获取&lt;code&gt;e.result&lt;/code&gt;作为url&lt;/p&gt;
-&lt;p&gt;那么如何开始读取？用&lt;code&gt;fileReader.readAsDataURL(file)&lt;/code&gt;就行，之后再将这个url生成一个image就可以使用上文提到的drawImage方法了&lt;/p&gt;
-&lt;h4 id=&#34;image&#34;&gt;image&lt;/h4&gt;
-&lt;p&gt;和fileReader有点类似，需要&lt;code&gt;const image = new Image()&lt;/code&gt;, &lt;code&gt;image.src = url&lt;/code&gt;之后在onload回调中继续&lt;/p&gt;
-&lt;h2 id=&#34;exceljs&#34;&gt;exceljs&lt;/h2&gt;
-&lt;p&gt;本次的导出框架，控制了每个excel格子的背景之后生成&lt;code&gt;Array Buffer&lt;/code&gt;&lt;/p&gt;
-&lt;h1 id=&#34;开始工作&#34;&gt;开始工作&lt;/h1&gt;
-&lt;p&gt;既然有了知识储备，就开始规划一下步骤吧&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;做一个&lt;code&gt;&amp;lt;input type=“file” accept=“image/*”&amp;gt;&lt;/code&gt;的按钮&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;在其change事件中获取file&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;file转image&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;新建一个canvas元素，将image绘制上去，同时控制canvas宽高和image一致&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;用getImageData获取每个像素信息&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;像素信息我们再根据图片宽高转一个二维数组&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;用二维数组在excel中改变对应格子的背景色&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;导出excel&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;具体实现代码在&lt;code&gt;https://github.com/mizuka-wu/image2excel&lt;/code&gt;上&lt;/p&gt;
-&lt;h2 id=&#34;可改进的点&#34;&gt;可改进的点&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;图片太大会崩溃&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;规定最大大小，因为excel只能缩放到10%&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;自动压缩&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;图片大小检测&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;进度条&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;转移到webworker上做一部分工作&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;想直接使用？访问&lt;a href=&#34;https://www.mizuka.top/image2excel&#34;&gt;我做好的demo吧&lt;/a&gt;&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Canvas on 水华的博客</title><link>https://mizuka-wu.github.io/tags/canvas/</link><description>Recent content in Canvas on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 14 May 2020 21:11:57 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/canvas/index.xml" rel="self" type="application/rss+xml"/><item><title>前端工程师该如何愉快的用Excel画画</title><link>https://mizuka-wu.github.io/posts/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E8%AF%A5%E5%A6%82%E4%BD%95%E6%84%89%E5%BF%AB%E7%9A%84%E7%94%A8excel%E7%94%BB%E7%94%BB/</link><pubDate>Thu, 14 May 2020 21:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E8%AF%A5%E5%A6%82%E4%BD%95%E6%84%89%E5%BF%AB%E7%9A%84%E7%94%A8excel%E7%94%BB%E7%94%BB/</guid><description>&lt;p>虽然微软推出的Excel是一个强大的表格工具，但是世界上总有那么些人可以把一些常见的东西玩出花来&lt;a href="https://baijiahao.baidu.com/s?id=1601995793246815437&amp;amp;wfr=spider&amp;amp;for=pc">就像日本老人用Excel画画一样&lt;/a>&lt;/p>
+&lt;p>当然，作为一个程序员，当然还是靠程序自动来画啦&lt;/p>
+&lt;h1 id="需要了解的知识">需要了解的知识&lt;/h1>
+&lt;h2 id="canvas">canvas&lt;/h2>
+&lt;p>html5新增加的一种html元素，平时都是把它当作画布使用，但是正因为有了操纵像素的能力 其也能用在播放视频，截图，压缩图片等操作上，当然啦，这一次，我们主要用到它的像素分析能力&lt;/p>
+&lt;h3 id="getcontext">getContext&lt;/h3>
+&lt;p>canvas最常用的api，获取一个用来画画的上下文，图片一般都是2d格式，所以我们通常用&lt;code>getContext(2d)&lt;/code>&lt;/p>
+&lt;h3 id="drawimage">drawImage&lt;/h3>
+&lt;p>将图片绘制到canvas上，这样才能获取到每个点的信息&lt;/p>
+&lt;h3 id="getimagedata">getImageData&lt;/h3>
+&lt;p>获取到canvas的图像信息，不过返回值中的data是个被打平的一位数组 每四个值代表了一组rgba&lt;/p>
+&lt;h2 id="input">input&lt;/h2>
+&lt;p>这里我们靠input来获取输入值&lt;/p>
+&lt;h3 id="accept属性">accept属性&lt;/h3>
+&lt;p>&lt;code>image/*&lt;/code>来限定只能选择图片，不过某些浏览器上因为要从国外获取mime的原因，推荐还是写成&lt;code>image/png,image/jpg&lt;/code>&lt;/p>
+&lt;h3 id="获取选中的图片">获取选中的图片&lt;/h3>
+&lt;h4 id="onchange">onchange&lt;/h4>
+&lt;p>如果选择了图片，会触发change这个事件，我们对此监听即可，e.target为触发事件的input，我们取他的files[0]拿到图片对象&lt;/p>
+&lt;p>&lt;strong>注意&lt;/strong>如果再点击选择同一图片的话，是不会触发事件的，所以每次获取之后推荐&lt;code>e.target.value = “”&lt;/code>来清空掉已选择的文件&lt;/p>
+&lt;h4 id="filereader">fileReader&lt;/h4>
+&lt;p>我们获取到的图片仅仅只是个&lt;code>file&lt;/code>是没办法直接转换成一个图片元素来获取宽高和放置在&lt;code>canvas&lt;/code>内的，所以我们需要借助&lt;code>fileReader&lt;/code>的力量&lt;/p>
+&lt;p>新建一个&lt;code>const fileReader = new FileReader()&lt;/code>&lt;/p>
+&lt;p>然后在fileReader的onload回调中获取&lt;code>e.result&lt;/code>作为url&lt;/p>
+&lt;p>那么如何开始读取？用&lt;code>fileReader.readAsDataURL(file)&lt;/code>就行，之后再将这个url生成一个image就可以使用上文提到的drawImage方法了&lt;/p>
+&lt;h4 id="image">image&lt;/h4>
+&lt;p>和fileReader有点类似，需要&lt;code>const image = new Image()&lt;/code>, &lt;code>image.src = url&lt;/code>之后在onload回调中继续&lt;/p>
+&lt;h2 id="exceljs">exceljs&lt;/h2>
+&lt;p>本次的导出框架，控制了每个excel格子的背景之后生成&lt;code>Array Buffer&lt;/code>&lt;/p>
+&lt;h1 id="开始工作">开始工作&lt;/h1>
+&lt;p>既然有了知识储备，就开始规划一下步骤吧&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>做一个&lt;code>&amp;lt;input type=“file” accept=“image/*”&amp;gt;&lt;/code>的按钮&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在其change事件中获取file&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>file转image&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>新建一个canvas元素，将image绘制上去，同时控制canvas宽高和image一致&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>用getImageData获取每个像素信息&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>像素信息我们再根据图片宽高转一个二维数组&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>用二维数组在excel中改变对应格子的背景色&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>导出excel&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>具体实现代码在&lt;code>https://github.com/mizuka-wu/image2excel&lt;/code>上&lt;/p>
+&lt;h2 id="可改进的点">可改进的点&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>图片太大会崩溃&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>规定最大大小，因为excel只能缩放到10%&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>自动压缩&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>图片大小检测&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>进度条&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>转移到webworker上做一部分工作&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>想直接使用？访问&lt;a href="https://www.mizuka.top/image2excel">我做好的demo吧&lt;/a>&lt;/p></description></item></channel></rss>

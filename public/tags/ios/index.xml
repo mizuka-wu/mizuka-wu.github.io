@@ -1,25 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>IOS on 水华的博客</title>
-    <link>https://mizuka-wu.github.io/tags/ios/</link>
-    <description>Recent content in IOS on 水华的博客</description>
-    <generator>Hugo</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Tue, 09 Jul 2019 18:17:35 +0000</lastBuildDate>
-    <atom:link href="https://mizuka-wu.github.io/tags/ios/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>上传app卡在通过app store进行鉴定</title>
-      <link>https://mizuka-wu.github.io/posts/%E4%B8%8A%E4%BC%A0app%E5%8D%A1%E5%9C%A8%E9%80%9A%E8%BF%87app-store%E8%BF%9B%E8%A1%8C%E9%89%B4%E5%AE%9A/</link>
-      <pubDate>Tue, 09 Jul 2019 18:17:35 +0000</pubDate>
-      <guid>https://mizuka-wu.github.io/posts/%E4%B8%8A%E4%BC%A0app%E5%8D%A1%E5%9C%A8%E9%80%9A%E8%BF%87app-store%E8%BF%9B%E8%A1%8C%E9%89%B4%E5%AE%9A/</guid>
-      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd ~
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mv .itmstransporter/ .old_itmstransporter/
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/itms/bin/iTMSTransporter&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>IOS on 水华的博客</title><link>https://mizuka-wu.github.io/tags/ios/</link><description>Recent content in IOS on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 09 Jul 2019 18:17:35 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/ios/index.xml" rel="self" type="application/rss+xml"/><item><title>上传app卡在通过app store进行鉴定</title><link>https://mizuka-wu.github.io/posts/%E4%B8%8A%E4%BC%A0app%E5%8D%A1%E5%9C%A8%E9%80%9A%E8%BF%87app-store%E8%BF%9B%E8%A1%8C%E9%89%B4%E5%AE%9A/</link><pubDate>Tue, 09 Jul 2019 18:17:35 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E4%B8%8A%E4%BC%A0app%E5%8D%A1%E5%9C%A8%E9%80%9A%E8%BF%87app-store%E8%BF%9B%E8%A1%8C%E9%89%B4%E5%AE%9A/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd ~
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mv .itmstransporter/ .old_itmstransporter/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&amp;#34;/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/itms/bin/iTMSTransporter&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>

@@ -1,145 +1,120 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Switch on 水华的博客</title>
-    <link>https://mizuka-wu.github.io/tags/switch/</link>
-    <description>Recent content in Switch on 水华的博客</description>
-    <generator>Hugo</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Sat, 08 Aug 2020 12:11:57 +0000</lastBuildDate>
-    <atom:link href="https://mizuka-wu.github.io/tags/switch/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>switch折腾笔记2-sxos链接ps4手柄</title>
-      <link>https://mizuka-wu.github.io/posts/switch%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B02-sxos%E9%93%BE%E6%8E%A5ps4%E6%89%8B%E6%9F%84/</link>
-      <pubDate>Sat, 08 Aug 2020 12:11:57 +0000</pubDate>
-      <guid>https://mizuka-wu.github.io/posts/switch%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B02-sxos%E9%93%BE%E6%8E%A5ps4%E6%89%8B%E6%9F%84/</guid>
-      <description>&lt;h1 id=&#34;手柄危机&#34;&gt;手柄危机&lt;/h1&gt;
-&lt;p&gt;起因是还想买一个手柄，毕竟双人游戏的话，&lt;code&gt;joycon&lt;/code&gt;其实不是很舒服，当然啦，还是因为动森更新了花火大会，想和自家女票一起看来着，所以需要两个手柄&lt;/p&gt;
-&lt;p&gt;自身是一个双机党，所以闲了两个&lt;code&gt;ps4&lt;/code&gt;手柄在家，所以，就不考虑买一个&lt;code&gt;switch pro&lt;/code&gt;了&lt;/p&gt;
-&lt;h2 id=&#34;以下是教程时间&#34;&gt;以下是教程时间&lt;/h2&gt;
-&lt;p&gt;本人配置&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;switch国行&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;sxos&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;ps4 手柄&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;你需要的东西&#34;&gt;你需要的东西&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;一台破解的&lt;code&gt;switch&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;ftp client&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;手柄(ps4/xbox)&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;usb数据连接线&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;[sys-con](&lt;a href=&#34;https://github.com/cathery/sys-con/releases&#34;&gt;https://github.com/cathery/sys-con/releases&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;步骤&#34;&gt;步骤&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;首先得确认线是否能够链接&lt;code&gt;switch&lt;/code&gt;和手柄，基本操作就是，能充电&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;将&lt;code&gt;sys-con.zip&lt;/code&gt;解压，看到里面的&lt;code&gt;config&lt;/code&gt;和&lt;code&gt;atmosphere&lt;/code&gt;文件夹&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;如果是大气层玩家，直接拷贝两个文件夹到&lt;code&gt;switch&lt;/code&gt;sd卡根目录&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;如果是sxos玩家，将&lt;code&gt;atmosphhere/contents&lt;/code&gt;内的文件夹直接拷贝到&lt;code&gt;sxos/titles&lt;/code&gt;下&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;重启&lt;code&gt;switch&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;插上手柄再看你的手柄界面应该有个手柄了吧&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;</description>
-    </item>
-    <item>
-      <title>switch折腾笔记</title>
-      <link>https://mizuka-wu.github.io/posts/switch%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/</link>
-      <pubDate>Wed, 08 Jul 2020 12:11:57 +0000</pubDate>
-      <guid>https://mizuka-wu.github.io/posts/switch%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/</guid>
-      <description>&lt;h1 id=&#34;入手&#34;&gt;入手&lt;/h1&gt;
-&lt;p&gt;当时还是过年期间，实在是太无聊了 当时pdd又正好在搞百亿补贴，于是入了一台国行以及一个健身环&lt;/p&gt;
-&lt;p&gt;不过最开始的时候确实考虑过没有什么dlc需求 主要还是和女票一起玩马里奥和玩玩健身环就够了&lt;/p&gt;
-&lt;h2 id=&#34;人类的欲望总是不断上升的嘛&#34;&gt;人类的欲望总是不断上升的嘛&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;到七月了，游戏商城还是2000就能买空的状态&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;换卡带实在是麻烦，切游戏要插拔&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;猛男捡树枝买不到&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;diy背景界面&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;所以乘着tx出了破解，就第一时间去做了硬破&lt;/p&gt;
-&lt;p&gt;因为是第一批 还是找的做了好多台的js做的，心疼荷包 好在还很顺利 js也送了几个游戏&lt;/p&gt;
-&lt;h1 id=&#34;破解和折腾小记&#34;&gt;破解和折腾小记&lt;/h1&gt;
-&lt;h2 id=&#34;tips&#34;&gt;tips&lt;/h2&gt;
-&lt;p&gt;switch的游戏有几种获取方式&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;百度网盘&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;外网&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;闲鱼&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;同时又分了好几种格式&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;xci&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;nsp&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;nsz&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;一开始也是眼花撩乱的，现在总结了一下&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;xci&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;xci是最好的格式 在安装的情况下 可以在游戏机里直接启动，不安装的情况下，可以当作游戏卡带，适合一些大型游戏，拷贝在移动硬盘里 在tv模式下 直接插在 tv 盒子的usb口玩&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;nsp&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;最常见的格式，需要安装 具体在tx破解系统中的install中安装 然后在游戏机中直接打开&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;nsz&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;压缩的nsp 需要转换工具转nsp或者brew安装对应的加载器安装 没有用过不好说&lt;/p&gt;
-&lt;h2 id=&#34;如何备份&#34;&gt;如何备份&lt;/h2&gt;
-&lt;p&gt;js备份要钱，其实你需要的只是电源，然后，在开机显示sxos的时候按&lt;code&gt;➕号&lt;/code&gt;进入系统菜单&lt;/p&gt;
-&lt;p&gt;之后选择最右边的option进入设置&lt;/p&gt;
-&lt;p&gt;进入options菜单之后 选到左边的NAND选项就是备份选项&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;media/15942146720374.jpg&#34;&gt;&lt;/p&gt;
-&lt;p&gt;然后选择DUMP NAND这一项就是备份的意思，如果以后需要恢复nand的话 就选右边的restere nand&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;media/15942147532217.jpg&#34;&gt;&lt;/p&gt;
-&lt;p&gt;选择DUMP NAND的之后 直接选左边的continue就开始备份了，备份好之后的备份文件是放在内存卡里的SXOX\BUCKUP 目录里的。&lt;/p&gt;
-&lt;p&gt;如果备份界面选 advbanced选项就会出现备份的项目选项 一般来说按照下图的方式来选 备份需要30G的内存卡空间&lt;/p&gt;
-&lt;p&gt;选择&lt;/p&gt;
-&lt;p&gt;开始备份了 进度走到100%即备份完成，完成之后可以选 poweroff选项关机，可以将备份好的文件复制到电脑上妥善保管&lt;/p&gt;
-&lt;h3 id=&#34;虚拟系统&#34;&gt;虚拟系统&lt;/h3&gt;
-&lt;p&gt;还是进入OS系统的 options菜单 制作虚拟系统的话选择emunand这一项 然后有两个选项 左边的是创建虚拟系统 右边的是删除虚拟系统，我们选左边这一项&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Switch on 水华的博客</title><link>https://mizuka-wu.github.io/tags/switch/</link><description>Recent content in Switch on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 08 Aug 2020 12:11:57 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/switch/index.xml" rel="self" type="application/rss+xml"/><item><title>switch折腾笔记2-sxos链接ps4手柄</title><link>https://mizuka-wu.github.io/posts/switch%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B02-sxos%E9%93%BE%E6%8E%A5ps4%E6%89%8B%E6%9F%84/</link><pubDate>Sat, 08 Aug 2020 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/switch%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B02-sxos%E9%93%BE%E6%8E%A5ps4%E6%89%8B%E6%9F%84/</guid><description>&lt;h1 id="手柄危机">手柄危机&lt;/h1>
+&lt;p>起因是还想买一个手柄，毕竟双人游戏的话，&lt;code>joycon&lt;/code>其实不是很舒服，当然啦，还是因为动森更新了花火大会，想和自家女票一起看来着，所以需要两个手柄&lt;/p>
+&lt;p>自身是一个双机党，所以闲了两个&lt;code>ps4&lt;/code>手柄在家，所以，就不考虑买一个&lt;code>switch pro&lt;/code>了&lt;/p>
+&lt;h2 id="以下是教程时间">以下是教程时间&lt;/h2>
+&lt;p>本人配置&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>switch国行&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>sxos&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>ps4 手柄&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="你需要的东西">你需要的东西&lt;/h3>
+&lt;ul>
+&lt;li>
+&lt;p>一台破解的&lt;code>switch&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>ftp client&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>手柄(ps4/xbox)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>usb数据连接线&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>[sys-con](&lt;a href="https://github.com/cathery/sys-con/releases">https://github.com/cathery/sys-con/releases&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="步骤">步骤&lt;/h3>
+&lt;ol>
+&lt;li>
+&lt;p>首先得确认线是否能够链接&lt;code>switch&lt;/code>和手柄，基本操作就是，能充电&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>将&lt;code>sys-con.zip&lt;/code>解压，看到里面的&lt;code>config&lt;/code>和&lt;code>atmosphere&lt;/code>文件夹&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>如果是大气层玩家，直接拷贝两个文件夹到&lt;code>switch&lt;/code>sd卡根目录&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>如果是sxos玩家，将&lt;code>atmosphhere/contents&lt;/code>内的文件夹直接拷贝到&lt;code>sxos/titles&lt;/code>下&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>重启&lt;code>switch&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>插上手柄再看你的手柄界面应该有个手柄了吧&lt;/p>
+&lt;/li>
+&lt;/ol></description></item><item><title>switch折腾笔记</title><link>https://mizuka-wu.github.io/posts/switch%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/</link><pubDate>Wed, 08 Jul 2020 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/switch%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/</guid><description>&lt;h1 id="入手">入手&lt;/h1>
+&lt;p>当时还是过年期间，实在是太无聊了 当时pdd又正好在搞百亿补贴，于是入了一台国行以及一个健身环&lt;/p>
+&lt;p>不过最开始的时候确实考虑过没有什么dlc需求 主要还是和女票一起玩马里奥和玩玩健身环就够了&lt;/p>
+&lt;h2 id="人类的欲望总是不断上升的嘛">人类的欲望总是不断上升的嘛&lt;/h2>
+&lt;ol>
+&lt;li>
+&lt;p>到七月了，游戏商城还是2000就能买空的状态&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>换卡带实在是麻烦，切游戏要插拔&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>猛男捡树枝买不到&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>diy背景界面&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>所以乘着tx出了破解，就第一时间去做了硬破&lt;/p>
+&lt;p>因为是第一批 还是找的做了好多台的js做的，心疼荷包 好在还很顺利 js也送了几个游戏&lt;/p>
+&lt;h1 id="破解和折腾小记">破解和折腾小记&lt;/h1>
+&lt;h2 id="tips">tips&lt;/h2>
+&lt;p>switch的游戏有几种获取方式&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>百度网盘&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>外网&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>闲鱼&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>同时又分了好几种格式&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>xci&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>nsp&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>nsz&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>一开始也是眼花撩乱的，现在总结了一下&lt;/p>
+&lt;p>&lt;strong>xci&lt;/strong>&lt;/p>
+&lt;p>xci是最好的格式 在安装的情况下 可以在游戏机里直接启动，不安装的情况下，可以当作游戏卡带，适合一些大型游戏，拷贝在移动硬盘里 在tv模式下 直接插在 tv 盒子的usb口玩&lt;/p>
+&lt;p>&lt;strong>nsp&lt;/strong>&lt;/p>
+&lt;p>最常见的格式，需要安装 具体在tx破解系统中的install中安装 然后在游戏机中直接打开&lt;/p>
+&lt;p>&lt;strong>nsz&lt;/strong>&lt;/p>
+&lt;p>压缩的nsp 需要转换工具转nsp或者brew安装对应的加载器安装 没有用过不好说&lt;/p>
+&lt;h2 id="如何备份">如何备份&lt;/h2>
+&lt;p>js备份要钱，其实你需要的只是电源，然后，在开机显示sxos的时候按&lt;code>➕号&lt;/code>进入系统菜单&lt;/p>
+&lt;p>之后选择最右边的option进入设置&lt;/p>
+&lt;p>进入options菜单之后 选到左边的NAND选项就是备份选项&lt;/p>
+&lt;p>&lt;img loading="lazy" src="media/15942146720374.jpg">&lt;/p>
+&lt;p>然后选择DUMP NAND这一项就是备份的意思，如果以后需要恢复nand的话 就选右边的restere nand&lt;/p>
+&lt;p>&lt;img loading="lazy" src="media/15942147532217.jpg">&lt;/p>
+&lt;p>选择DUMP NAND的之后 直接选左边的continue就开始备份了，备份好之后的备份文件是放在内存卡里的SXOX\BUCKUP 目录里的。&lt;/p>
+&lt;p>如果备份界面选 advbanced选项就会出现备份的项目选项 一般来说按照下图的方式来选 备份需要30G的内存卡空间&lt;/p>
+&lt;p>选择&lt;/p>
+&lt;p>开始备份了 进度走到100%即备份完成，完成之后可以选 poweroff选项关机，可以将备份好的文件复制到电脑上妥善保管&lt;/p>
+&lt;h3 id="虚拟系统">虚拟系统&lt;/h3>
+&lt;p>还是进入OS系统的 options菜单 制作虚拟系统的话选择emunand这一项 然后有两个选项 左边的是创建虚拟系统 右边的是删除虚拟系统，我们选左边这一项&lt;/p></description></item></channel></rss>

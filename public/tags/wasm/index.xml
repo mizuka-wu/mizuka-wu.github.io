@@ -1,41 +1,23 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Wasm on 水华的博客</title>
-    <link>https://mizuka-wu.github.io/tags/wasm/</link>
-    <description>Recent content in Wasm on 水华的博客</description>
-    <generator>Hugo</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Sun, 05 May 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://mizuka-wu.github.io/tags/wasm/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>opencv 编译</title>
-      <link>https://mizuka-wu.github.io/posts/opencv-%E7%BC%96%E8%AF%91/</link>
-      <pubDate>Sun, 05 May 2024 00:00:00 +0000</pubDate>
-      <guid>https://mizuka-wu.github.io/posts/opencv-%E7%BC%96%E8%AF%91/</guid>
-      <description>&lt;h1 id=&#34;为啥要编译opencv&#34;&gt;为啥要编译opencv&lt;/h1&gt;
-&lt;p&gt;因为 opencv 是频域水印需要的一个功能
-但是本体这个包实在是太大了&lt;/p&gt;
-&lt;p&gt;所以打算编译一个最多 2m 的包出来&lt;/p&gt;
-&lt;h2 id=&#34;编译参考&#34;&gt;编译参考&lt;/h2&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-cardlink&#34; data-lang=&#34;cardlink&#34;&gt;url: https://docs.opencv.org/4.x/d4/da1/tutorial_js_setup.html
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Wasm on 水华的博客</title><link>https://mizuka-wu.github.io/tags/wasm/</link><description>Recent content in Wasm on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sun, 05 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/wasm/index.xml" rel="self" type="application/rss+xml"/><item><title>opencv 编译</title><link>https://mizuka-wu.github.io/posts/opencv-%E7%BC%96%E8%AF%91/</link><pubDate>Sun, 05 May 2024 00:00:00 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/opencv-%E7%BC%96%E8%AF%91/</guid><description>&lt;h1 id="为啥要编译opencv">为啥要编译opencv&lt;/h1>
+&lt;p>因为 opencv 是频域水印需要的一个功能
+但是本体这个包实在是太大了&lt;/p>
+&lt;p>所以打算编译一个最多 2m 的包出来&lt;/p>
+&lt;h2 id="编译参考">编译参考&lt;/h2>
+&lt;pre tabindex="0">&lt;code class="language-cardlink" data-lang="cardlink">url: https://docs.opencv.org/4.x/d4/da1/tutorial_js_setup.html
 title: &amp;#34;OpenCV: Build OpenCV.js&amp;#34;
 host: docs.opencv.org
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;环境搭建&#34;&gt;环境搭建&lt;/h3&gt;
-&lt;p&gt;首先还得是安装 emsdk
-通过万能的 homebrew 进行安装&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;brew install emscripten
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-cardlink&#34; data-lang=&#34;cardlink&#34;&gt;url: https://www.cnblogs.com/Wayou/p/webassembly_quick_start.html
+&lt;/code>&lt;/pre>&lt;h3 id="环境搭建">环境搭建&lt;/h3>
+&lt;p>首先还得是安装 emsdk
+通过万能的 homebrew 进行安装&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>brew install emscripten
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre tabindex="0">&lt;code class="language-cardlink" data-lang="cardlink">url: https://www.cnblogs.com/Wayou/p/webassembly_quick_start.html
 title: &amp;#34;WebAssembly 上手 - 刘哇勇 - 博客园&amp;#34;
 description: &amp;#34;安装 Mac 上最便捷的安装方式当然是通过 Homebrew: $ brew install emscripten 安装好之后讲道理就已经自动配置好一切，然后 emcc 命令便可用了。 下面看非 Homebrew 安装的方式。 通过官方 WebAssembly Developer’s Guide 提&amp;#34;
 host: www.cnblogs.com
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;构建基础版的-opencv&#34;&gt;构建基础版的 opencv&lt;/h3&gt;
-&lt;p&gt;跟着教程&lt;/p&gt;
-&lt;p&gt;首先得复制一份到本地&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git clone git clone https://github.com/opencv/opencv.git
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd opencv
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;emcmake python ./opencv/platforms/js/build_js.py build_wasm --build_wasm
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
-    </item>
-  </channel>
-</rss>
+&lt;/code>&lt;/pre>&lt;h3 id="构建基础版的-opencv">构建基础版的 opencv&lt;/h3>
+&lt;p>跟着教程&lt;/p>
+&lt;p>首先得复制一份到本地&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git clone git clone https://github.com/opencv/opencv.git
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd opencv
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>emcmake python ./opencv/platforms/js/build_js.py build_wasm --build_wasm
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>

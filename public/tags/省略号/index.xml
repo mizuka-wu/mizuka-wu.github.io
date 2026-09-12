@@ -1,38 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>省略号 on 水华的博客</title>
-    <link>https://mizuka-wu.github.io/tags/%E7%9C%81%E7%95%A5%E5%8F%B7/</link>
-    <description>Recent content in 省略号 on 水华的博客</description>
-    <generator>Hugo</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Fri, 18 Oct 2019 12:11:57 +0000</lastBuildDate>
-    <atom:link href="https://mizuka-wu.github.io/tags/%E7%9C%81%E7%95%A5%E5%8F%B7/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>文字超过x行后补上省略号的几种办法</title>
-      <link>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</link>
-      <pubDate>Fri, 18 Oct 2019 12:11:57 +0000</pubDate>
-      <guid>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</guid>
-      <description>&lt;h2 id=&#34;文字超过-x-行后补上省略号的几种办法&#34;&gt;文字超过 x 行后补上省略号的几种办法&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://css-tricks.com/line-clampin/&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;简单来说，在 pc 端，文字过长溢出的话，溢出的部分会被替换成&lt;code&gt;...&lt;/code&gt;,然而在显示情况中，更多的是在超过 x 行之后才启用这个特性，例如&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;module&amp;#34;&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;p&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Pellentesque habitant morbi tristique senectus et netus et malesuada fames
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ultricies mi vitae est. Mauris placerat eleifend leo.
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;p&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;最终希望三行之后到这种效果:&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;省略号效果图&#34; loading=&#34;lazy&#34; src=&#34;https://css-tricks.com/wp-content/uploads/2013/05/clamped.png&#34;&gt;&lt;/p&gt;
-&lt;p&gt;为了演示，我们先定义基础的 css，剩下的方法都在这个 css 的基础之上&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;module&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;width&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;250&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;px&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;overflow&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;hidden&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;weird-webkit-flexbox-way&#34;&gt;Weird WebKit Flexbox Way&lt;/h2&gt;
-&lt;p&gt;使用 webkit 内置的方案&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>省略号 on 水华的博客</title><link>https://mizuka-wu.github.io/tags/%E7%9C%81%E7%95%A5%E5%8F%B7/</link><description>Recent content in 省略号 on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Fri, 18 Oct 2019 12:11:57 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/%E7%9C%81%E7%95%A5%E5%8F%B7/index.xml" rel="self" type="application/rss+xml"/><item><title>文字超过x行后补上省略号的几种办法</title><link>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</link><pubDate>Fri, 18 Oct 2019 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</guid><description>&lt;h2 id="文字超过-x-行后补上省略号的几种办法">文字超过 x 行后补上省略号的几种办法&lt;/h2>
+&lt;p>&lt;a href="https://css-tricks.com/line-clampin/">原文&lt;/a>&lt;/p>
+&lt;p>简单来说，在 pc 端，文字过长溢出的话，溢出的部分会被替换成&lt;code>...&lt;/code>,然而在显示情况中，更多的是在超过 x 行之后才启用这个特性，例如&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">div&lt;/span> &lt;span style="color:#a6e22e">class&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;module&amp;#34;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">p&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Pellentesque habitant morbi tristique senectus et netus et malesuada fames
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ultricies mi vitae est. Mauris placerat eleifend leo.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">p&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">div&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>最终希望三行之后到这种效果:&lt;/p>
+&lt;p>&lt;img alt="省略号效果图" loading="lazy" src="https://css-tricks.com/wp-content/uploads/2013/05/clamped.png">&lt;/p>
+&lt;p>为了演示，我们先定义基础的 css，剩下的方法都在这个 css 的基础之上&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-css" data-lang="css">&lt;span style="display:flex;">&lt;span>.&lt;span style="color:#a6e22e">module&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">width&lt;/span>: &lt;span style="color:#ae81ff">250&lt;/span>&lt;span style="color:#66d9ef">px&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">overflow&lt;/span>: &lt;span style="color:#66d9ef">hidden&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="weird-webkit-flexbox-way">Weird WebKit Flexbox Way&lt;/h2>
+&lt;p>使用 webkit 内置的方案&lt;/p></description></item></channel></rss>
