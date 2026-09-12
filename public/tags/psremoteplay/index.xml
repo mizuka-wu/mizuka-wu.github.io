@@ -1,8 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Psremoteplay on 水华的博客</title><link>https://mizuka-wu.github.io/tags/psremoteplay/</link><description>Recent content in Psremoteplay on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sun, 05 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/psremoteplay/index.xml" rel="self" type="application/rss+xml"/><item><title>win 掌机远程控制 ps5</title><link>https://mizuka-wu.github.io/posts/win-%E6%8E%8C%E6%9C%BA%E6%8E%A7%E5%88%B6-ps5/</link><pubDate>Sun, 05 May 2024 00:00:00 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/win-%E6%8E%8C%E6%9C%BA%E6%8E%A7%E5%88%B6-ps5/</guid><description>&lt;p>其实一共有两套方案
-稍微麻烦一点的时使用 chiaki 或者和我一样使用 psremoteplay&lt;/p>
-&lt;h1 id="chiaki">chiaki&lt;/h1>
-&lt;p>chiaki 也叫千秋其实已经是一个非常成熟的工具了
-&lt;a href="https://sr.ht/~thestr4ng3r/chiaki/">https://sr.ht/~thestr4ng3r/chiaki/&lt;/a>&lt;/p>
-&lt;p>主要麻烦的一点是，你需要自己获取对应的 psn accound id&lt;/p>
-&lt;h4 id="obtaining-your-psn-accountid">Obtaining your PSN AccountID&lt;/h4>
-&lt;p>Starting with PS4 7.0, it is necessary to use a so-called &amp;ldquo;AccountID&amp;rdquo; as opposed to the &amp;ldquo;Online-ID&amp;rdquo; for registration (streaming itself did not change). This ID seems to be a unique identifier for a PSN Account and it can be obtained from the PSN after logging in using OAuth. A Python 3 script which does this is provided in &lt;a href="https://git.sr.ht/~thestr4ng3r/chiaki/tree/HEAD/scripts/psn-account-id.py">scripts/psn-account-id.py&lt;/a>. Simply run it in a terminal and follow the instructions. Once you know your ID, write it down. You will likely never have to do this process again.&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Psremoteplay on 水华的博客</title>
+    <link>https://mizuka-wu.github.io/tags/psremoteplay/</link>
+    <description>Recent content in Psremoteplay on 水华的博客</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 05 May 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mizuka-wu.github.io/tags/psremoteplay/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>win 掌机远程控制 ps5</title>
+      <link>https://mizuka-wu.github.io/posts/win-%E6%8E%8C%E6%9C%BA%E6%8E%A7%E5%88%B6-ps5/</link>
+      <pubDate>Sun, 05 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/win-%E6%8E%8C%E6%9C%BA%E6%8E%A7%E5%88%B6-ps5/</guid>
+      <description>&lt;p&gt;其实一共有两套方案
+稍微麻烦一点的时使用 chiaki 或者和我一样使用 psremoteplay&lt;/p&gt;
+&lt;h1 id=&#34;chiaki&#34;&gt;chiaki&lt;/h1&gt;
+&lt;p&gt;chiaki 也叫千秋其实已经是一个非常成熟的工具了
+&lt;a href=&#34;https://sr.ht/~thestr4ng3r/chiaki/&#34;&gt;https://sr.ht/~thestr4ng3r/chiaki/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;主要麻烦的一点是，你需要自己获取对应的 psn accound id&lt;/p&gt;
+&lt;h4 id=&#34;obtaining-your-psn-accountid&#34;&gt;Obtaining your PSN AccountID&lt;/h4&gt;
+&lt;p&gt;Starting with PS4 7.0, it is necessary to use a so-called &amp;ldquo;AccountID&amp;rdquo; as opposed to the &amp;ldquo;Online-ID&amp;rdquo; for registration (streaming itself did not change). This ID seems to be a unique identifier for a PSN Account and it can be obtained from the PSN after logging in using OAuth. A Python 3 script which does this is provided in &lt;a href=&#34;https://git.sr.ht/~thestr4ng3r/chiaki/tree/HEAD/scripts/psn-account-id.py&#34;&gt;scripts/psn-account-id.py&lt;/a&gt;. Simply run it in a terminal and follow the instructions. Once you know your ID, write it down. You will likely never have to do this process again.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

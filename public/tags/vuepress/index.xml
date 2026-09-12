@@ -1,33 +1,51 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Vuepress on 水华的博客</title><link>https://mizuka-wu.github.io/tags/vuepress/</link><description>Recent content in Vuepress on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Mon, 09 Mar 2020 12:11:57 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/vuepress/index.xml" rel="self" type="application/rss+xml"/><item><title>给你的vuepress站点加个live2d吧</title><link>https://mizuka-wu.github.io/posts/%E7%BB%99%E4%BD%A0%E7%9A%84vuepress%E7%AB%99%E7%82%B9%E5%8A%A0%E4%B8%AAlive2d%E5%90%A7/</link><pubDate>Mon, 09 Mar 2020 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E7%BB%99%E4%BD%A0%E7%9A%84vuepress%E7%AB%99%E7%82%B9%E5%8A%A0%E4%B8%AAlive2d%E5%90%A7/</guid><description>&lt;p>很早以前，个人博客站点用的是&lt;code>hexo&lt;/code>构建的，当时因为好玩给自己的站点加了一个&lt;code>live2d&lt;/code>挂件，现在倒是将博客迁移到了&lt;code>vuepress&lt;/code>上，可是找了半天没有一个&lt;code>vuepress&lt;/code>的插件可以让我使用自定义的&lt;code>live2d&lt;/code>模型，没办法只能自己封装了一个&lt;/p>
-&lt;h2 id="如何使用">如何使用&lt;/h2>
-&lt;p>基于&lt;a href="https://github.com/guansss/pixi-live2d-display/blob/master/README.zh.md">pixi-live2d-display&lt;/a>我封装了一个&lt;code>vuepress&lt;/code>插件，叫&lt;a href="https://www.npmjs.com/package/vuepress-plugin-pixi-live2d-display">vuepress-plugin-pixi-live2d-display&lt;/a>,可以自定义传入&lt;code>model&lt;/code>的地址&lt;/p>
-&lt;p>不过只支持&lt;code>model3&lt;/code>之后的模型版本&lt;/p>
-&lt;h3 id="安装">安装&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>npm i vuepress-plugin-pixi-live2d-display
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>or
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>yarn add vuepress-plugin-pixi-live2d-display
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="上传模型">上传模型&lt;/h3>
-&lt;p>可以上传到第三方平台比如&lt;code>oss&lt;/code>, 或者在&lt;code>vuepress&lt;/code>的&lt;code>.vuepress/public&lt;/code>文件夹下&lt;/p>
-&lt;p>拿到对应的&lt;code>model3.json&lt;/code>文件地址&lt;/p>
-&lt;h3 id="添加配置">添加配置&lt;/h3>
-&lt;p>在&lt;code>.vuepress.config.js&lt;/code>中添加&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">module&lt;/span>.&lt;span style="color:#a6e22e">exports&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">plugins&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>[&lt;span style="color:#e6db74">&amp;#39;vuepress-plugin-pixi-live2d-display&amp;#39;&lt;/span>, { &lt;span style="color:#a6e22e">model&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#34;你的模型地址&amp;#34;&lt;/span> }]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>就可以使用啦&lt;/p>
-&lt;p>当然，因为底层依赖包是通过&lt;code>script&lt;/code>引入的，本身存在时间差，所以&lt;code>live2d&lt;/code>加载一开始会比较慢，也有可能会因为依赖库未加载完成报错&lt;/p>
-&lt;p>其他还有一些配置参数可以参考组件配置&lt;a href="https://www.npmjs.com/package/vuepress-plugin-pixi-live2d-display">https://www.npmjs.com/package/vuepress-plugin-pixi-live2d-display&lt;/a>&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Vuepress on 水华的博客</title>
+    <link>https://mizuka-wu.github.io/tags/vuepress/</link>
+    <description>Recent content in Vuepress on 水华的博客</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 09 Mar 2020 12:11:57 +0000</lastBuildDate>
+    <atom:link href="https://mizuka-wu.github.io/tags/vuepress/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>给你的vuepress站点加个live2d吧</title>
+      <link>https://mizuka-wu.github.io/posts/%E7%BB%99%E4%BD%A0%E7%9A%84vuepress%E7%AB%99%E7%82%B9%E5%8A%A0%E4%B8%AAlive2d%E5%90%A7/</link>
+      <pubDate>Mon, 09 Mar 2020 12:11:57 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/%E7%BB%99%E4%BD%A0%E7%9A%84vuepress%E7%AB%99%E7%82%B9%E5%8A%A0%E4%B8%AAlive2d%E5%90%A7/</guid>
+      <description>&lt;p&gt;很早以前，个人博客站点用的是&lt;code&gt;hexo&lt;/code&gt;构建的，当时因为好玩给自己的站点加了一个&lt;code&gt;live2d&lt;/code&gt;挂件，现在倒是将博客迁移到了&lt;code&gt;vuepress&lt;/code&gt;上，可是找了半天没有一个&lt;code&gt;vuepress&lt;/code&gt;的插件可以让我使用自定义的&lt;code&gt;live2d&lt;/code&gt;模型，没办法只能自己封装了一个&lt;/p&gt;
+&lt;h2 id=&#34;如何使用&#34;&gt;如何使用&lt;/h2&gt;
+&lt;p&gt;基于&lt;a href=&#34;https://github.com/guansss/pixi-live2d-display/blob/master/README.zh.md&#34;&gt;pixi-live2d-display&lt;/a&gt;我封装了一个&lt;code&gt;vuepress&lt;/code&gt;插件，叫&lt;a href=&#34;https://www.npmjs.com/package/vuepress-plugin-pixi-live2d-display&#34;&gt;vuepress-plugin-pixi-live2d-display&lt;/a&gt;,可以自定义传入&lt;code&gt;model&lt;/code&gt;的地址&lt;/p&gt;
+&lt;p&gt;不过只支持&lt;code&gt;model3&lt;/code&gt;之后的模型版本&lt;/p&gt;
+&lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;npm i vuepress-plugin-pixi-live2d-display
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;or
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;yarn add vuepress-plugin-pixi-live2d-display
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;上传模型&#34;&gt;上传模型&lt;/h3&gt;
+&lt;p&gt;可以上传到第三方平台比如&lt;code&gt;oss&lt;/code&gt;, 或者在&lt;code&gt;vuepress&lt;/code&gt;的&lt;code&gt;.vuepress/public&lt;/code&gt;文件夹下&lt;/p&gt;
+&lt;p&gt;拿到对应的&lt;code&gt;model3.json&lt;/code&gt;文件地址&lt;/p&gt;
+&lt;h3 id=&#34;添加配置&#34;&gt;添加配置&lt;/h3&gt;
+&lt;p&gt;在&lt;code&gt;.vuepress.config.js&lt;/code&gt;中添加&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;module&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;exports&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;plugins&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;vuepress-plugin-pixi-live2d-display&amp;#39;&lt;/span&gt;, { &lt;span style=&#34;color:#a6e22e&#34;&gt;model&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;你的模型地址&amp;#34;&lt;/span&gt; }]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;就可以使用啦&lt;/p&gt;
+&lt;p&gt;当然，因为底层依赖包是通过&lt;code&gt;script&lt;/code&gt;引入的，本身存在时间差，所以&lt;code&gt;live2d&lt;/code&gt;加载一开始会比较慢，也有可能会因为依赖库未加载完成报错&lt;/p&gt;
+&lt;p&gt;其他还有一些配置参数可以参考组件配置&lt;a href=&#34;https://www.npmjs.com/package/vuepress-plugin-pixi-live2d-display&#34;&gt;https://www.npmjs.com/package/vuepress-plugin-pixi-live2d-display&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

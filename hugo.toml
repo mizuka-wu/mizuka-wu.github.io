@@ -1,28 +1,29 @@
 baseURL = 'https://mizuka-wu.github.io/'
 languageCode = 'zh-cn'
 title = '水华的博客'
-theme = 'PaperMod_new'
+theme = 'PaperMod'
+
+[author]
+  name = '水华'
+  headline = '前端开发者 & 技术博主'
+  aboutme = '专注于 Web 开发和技术分享'
 
 [params]
-  defaultTheme = 'light'
-  displayFullTextMode = true
-  highlightCode = true
-  homeInfoParams.title = "欢迎光临水华的博客"
-  ShowCodeCopyButtons = true
+  # 首页信息
+  homeInfoParams = {title = "欢迎光临水华的博客"}
+  
+  # 文章设置
+  ShowReadingTime = true
+  ShowShareButtons = true
   ShowPostNavLinks = true
+  ShowCodeCopyButtons = true
   ShowRssButtonInSectionTermList = true
   UseHugoToc = true
-  ShowBreadCrumbs = true
-  ShowShareButtons = true
   
+  # 作者信息
   [params.social]
     github = 'https://github.com/mizuka-wu'
-  
-  [params.author]
-    name = '水华'
-    headline = '前端开发者 & 技术博主'
-    aboutme = '专注于 Web 开发和技术分享'
-
+    
 [menu]
   [[menu.main]]
     identifier = 'categories'
@@ -50,7 +51,6 @@ theme = 'PaperMod_new'
 
 [imaging]
   resampleFilter = 'lanczos'
-  quality = 100
 
 [markup]
   [markup.goldmark]

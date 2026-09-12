@@ -1,89 +1,137 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Css on 水华的博客</title><link>https://mizuka-wu.github.io/tags/css/</link><description>Recent content in Css on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 02 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/css/index.xml" rel="self" type="application/rss+xml"/><item><title>纯css让element-ui表格实现吸顶效果</title><link>https://mizuka-wu.github.io/posts/%E7%BA%AFcss%E8%AE%A9element-ui%E8%A1%A8%E6%A0%BC%E5%AE%9E%E7%8E%B0%E5%90%B8%E9%A1%B6%E6%95%88%E6%9E%9C/</link><pubDate>Thu, 02 May 2024 00:00:00 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E7%BA%AFcss%E8%AE%A9element-ui%E8%A1%A8%E6%A0%BC%E5%AE%9E%E7%8E%B0%E5%90%B8%E9%A1%B6%E6%95%88%E6%9E%9C/</guid><description>&lt;h2 id="position-sticky-与表格头">Position Sticky 与表格头&lt;/h2>
-&lt;blockquote>
-&lt;p>原文章&lt;a href="https://css-tricks.com/position-sticky-and-table-headers/">https://css-tricks.com/position-sticky-and-table-headers/&lt;/a>. 本身产品有个需求需要表格自动吸顶，本身用了 antd design 的 scroll 实现的，现在使用 css 实现，效果更好&lt;/p>&lt;/blockquote>
-&lt;p>&lt;code>thead&lt;/code>和&lt;code>tr&lt;/code>上无法设置 style&lt;code>position: sticky;&lt;/code>,&lt;/p>
-&lt;p>到那时在&lt;code>th&lt;/code>上却可以，这也意味着，其实你可以在一个传统的&lt;code>table&lt;/code>上实现吸顶 header 效果，如果你不清楚吸顶实现的原理，大概实现起来会很棘手吧，使用 css 总比原先用 js 去监听事件然后改变&lt;code>position&lt;/code>好得多&lt;/p>
-&lt;h2 id="兼容性">兼容性&lt;/h2>
-&lt;p>&lt;a href="https://caniuse.com/#search=sticky">查看兼容性&lt;/a>&lt;/p>
-&lt;p>只要不是 ie 这种活化石，基本都已经支持了&lt;/p>
-&lt;h2 id="使用">使用&lt;/h2>
-&lt;ol>
-&lt;li>保证 table 的 position 为 relative&lt;/li>
-&lt;li>给每个 th 加上 sticky&lt;/li>
-&lt;li>保证其父容器没有&lt;code>overflow: hidden&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;h2 id="例子">例子&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-stylus" data-lang="stylus">&lt;span style="display:flex;">&lt;span>.&lt;span style="color:#a6e22e">sticky-head&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;gt;&amp;gt;&amp;gt;&lt;/span>.&lt;span style="color:#a6e22e">el-table&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> overflow &lt;span style="color:#66d9ef">visible&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> .&lt;span style="color:#a6e22e">el-table__header-wrapper&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> overflow &lt;span style="color:#66d9ef">visible&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> position &lt;span style="color:#66d9ef">sticky&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">top&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> z-index &lt;span style="color:#960050;background-color:#1e0010">10&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">table&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> position &lt;span style="color:#66d9ef">sticky&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">top&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">thead&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> position &lt;span style="color:#66d9ef">relative&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">th&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> position &lt;span style="color:#66d9ef">sticky&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">top&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> z-index &lt;span style="color:#960050;background-color:#1e0010">10&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>文字超过x行后补上省略号的几种办法</title><link>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</link><pubDate>Fri, 18 Oct 2019 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</guid><description>&lt;h2 id="文字超过-x-行后补上省略号的几种办法">文字超过 x 行后补上省略号的几种办法&lt;/h2>
-&lt;p>&lt;a href="https://css-tricks.com/line-clampin/">原文&lt;/a>&lt;/p>
-&lt;p>简单来说，在 pc 端，文字过长溢出的话，溢出的部分会被替换成&lt;code>...&lt;/code>,然而在显示情况中，更多的是在超过 x 行之后才启用这个特性，例如&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">div&lt;/span> &lt;span style="color:#a6e22e">class&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;module&amp;#34;&lt;/span>&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">p&lt;/span>&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Pellentesque habitant morbi tristique senectus et netus et malesuada fames
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ultricies mi vitae est. Mauris placerat eleifend leo.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">p&lt;/span>&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">div&lt;/span>&amp;gt;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>最终希望三行之后到这种效果:&lt;/p>
-&lt;p>&lt;img alt="省略号效果图" loading="lazy" src="https://css-tricks.com/wp-content/uploads/2013/05/clamped.png">&lt;/p>
-&lt;p>为了演示，我们先定义基础的 css，剩下的方法都在这个 css 的基础之上&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-css" data-lang="css">&lt;span style="display:flex;">&lt;span>.&lt;span style="color:#a6e22e">module&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">width&lt;/span>: &lt;span style="color:#ae81ff">250&lt;/span>&lt;span style="color:#66d9ef">px&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">overflow&lt;/span>: &lt;span style="color:#66d9ef">hidden&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="weird-webkit-flexbox-way">Weird WebKit Flexbox Way&lt;/h2>
-&lt;p>使用 webkit 内置的方案&lt;/p></description></item><item><title>自动给表格空单元格补上字符串</title><link>https://mizuka-wu.github.io/posts/%E8%87%AA%E5%8A%A8%E7%BB%99%E8%A1%A8%E6%A0%BC%E7%A9%BA%E5%8D%95%E5%85%83%E6%A0%BC%E8%A1%A5%E4%B8%8A%E5%AD%97%E7%AC%A6%E4%B8%B2/</link><pubDate>Mon, 23 Sep 2019 09:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E8%87%AA%E5%8A%A8%E7%BB%99%E8%A1%A8%E6%A0%BC%E7%A9%BA%E5%8D%95%E5%85%83%E6%A0%BC%E8%A1%A5%E4%B8%8A%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid><description>&lt;h2 id="自动给表格空单元格补上字符串">自动给表格空单元格补上字符串&lt;/h2>
-&lt;h2 id="背景">背景&lt;/h2>
-&lt;p>ui 设计中，如果单元格内部为空的话，需要填充一个默认字符串标明是个空格子，本身计划使用 js 来做的，但是考虑到要需要遍历，判断等等一系列操作，而且 js 里 &lt;code>0&lt;/code> 做 boolean 判断也是返回 false，无形中增加了判断的步骤，所以这个时候还是求助于万能的 css 吧&lt;/p>
-&lt;p>以下为 less 代码&lt;/p>
-&lt;pre tabindex="0">&lt;code class="language-less" data-lang="less">td:empty {
-&amp;amp;::after {
-content: &amp;#34;-&amp;#34;;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Css on 水华的博客</title>
+    <link>https://mizuka-wu.github.io/tags/css/</link>
+    <description>Recent content in Css on 水华的博客</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 02 May 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mizuka-wu.github.io/tags/css/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>纯css让element-ui表格实现吸顶效果</title>
+      <link>https://mizuka-wu.github.io/posts/%E7%BA%AFcss%E8%AE%A9element-ui%E8%A1%A8%E6%A0%BC%E5%AE%9E%E7%8E%B0%E5%90%B8%E9%A1%B6%E6%95%88%E6%9E%9C/</link>
+      <pubDate>Thu, 02 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/%E7%BA%AFcss%E8%AE%A9element-ui%E8%A1%A8%E6%A0%BC%E5%AE%9E%E7%8E%B0%E5%90%B8%E9%A1%B6%E6%95%88%E6%9E%9C/</guid>
+      <description>&lt;h2 id=&#34;position-sticky-与表格头&#34;&gt;Position Sticky 与表格头&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原文章&lt;a href=&#34;https://css-tricks.com/position-sticky-and-table-headers/&#34;&gt;https://css-tricks.com/position-sticky-and-table-headers/&lt;/a&gt;. 本身产品有个需求需要表格自动吸顶，本身用了 antd design 的 scroll 实现的，现在使用 css 实现，效果更好&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;thead&lt;/code&gt;和&lt;code&gt;tr&lt;/code&gt;上无法设置 style&lt;code&gt;position: sticky;&lt;/code&gt;,&lt;/p&gt;
+&lt;p&gt;到那时在&lt;code&gt;th&lt;/code&gt;上却可以，这也意味着，其实你可以在一个传统的&lt;code&gt;table&lt;/code&gt;上实现吸顶 header 效果，如果你不清楚吸顶实现的原理，大概实现起来会很棘手吧，使用 css 总比原先用 js 去监听事件然后改变&lt;code&gt;position&lt;/code&gt;好得多&lt;/p&gt;
+&lt;h2 id=&#34;兼容性&#34;&gt;兼容性&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://caniuse.com/#search=sticky&#34;&gt;查看兼容性&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;只要不是 ie 这种活化石，基本都已经支持了&lt;/p&gt;
+&lt;h2 id=&#34;使用&#34;&gt;使用&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;保证 table 的 position 为 relative&lt;/li&gt;
+&lt;li&gt;给每个 th 加上 sticky&lt;/li&gt;
+&lt;li&gt;保证其父容器没有&lt;code&gt;overflow: hidden&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;例子&#34;&gt;例子&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-stylus&#34; data-lang=&#34;stylus&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;sticky-head&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;el-table&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    overflow &lt;span style=&#34;color:#66d9ef&#34;&gt;visible&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    .&lt;span style=&#34;color:#a6e22e&#34;&gt;el-table__header-wrapper&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      overflow &lt;span style=&#34;color:#66d9ef&#34;&gt;visible&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      position &lt;span style=&#34;color:#66d9ef&#34;&gt;sticky&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;top&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      z-index &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;table&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      position &lt;span style=&#34;color:#66d9ef&#34;&gt;sticky&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;top&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;thead&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      position &lt;span style=&#34;color:#66d9ef&#34;&gt;relative&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;th&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      position &lt;span style=&#34;color:#66d9ef&#34;&gt;sticky&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;top&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      z-index &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>文字超过x行后补上省略号的几种办法</title>
+      <link>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</link>
+      <pubDate>Fri, 18 Oct 2019 12:11:57 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</guid>
+      <description>&lt;h2 id=&#34;文字超过-x-行后补上省略号的几种办法&#34;&gt;文字超过 x 行后补上省略号的几种办法&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://css-tricks.com/line-clampin/&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;简单来说，在 pc 端，文字过长溢出的话，溢出的部分会被替换成&lt;code&gt;...&lt;/code&gt;,然而在显示情况中，更多的是在超过 x 行之后才启用这个特性，例如&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;module&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;p&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Pellentesque habitant morbi tristique senectus et netus et malesuada fames
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ultricies mi vitae est. Mauris placerat eleifend leo.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;p&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;最终希望三行之后到这种效果:&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;省略号效果图&#34; loading=&#34;lazy&#34; src=&#34;https://css-tricks.com/wp-content/uploads/2013/05/clamped.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;为了演示，我们先定义基础的 css，剩下的方法都在这个 css 的基础之上&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;module&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;width&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;250&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;px&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;overflow&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;hidden&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;weird-webkit-flexbox-way&#34;&gt;Weird WebKit Flexbox Way&lt;/h2&gt;
+&lt;p&gt;使用 webkit 内置的方案&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>自动给表格空单元格补上字符串</title>
+      <link>https://mizuka-wu.github.io/posts/%E8%87%AA%E5%8A%A8%E7%BB%99%E8%A1%A8%E6%A0%BC%E7%A9%BA%E5%8D%95%E5%85%83%E6%A0%BC%E8%A1%A5%E4%B8%8A%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <pubDate>Mon, 23 Sep 2019 09:11:57 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/%E8%87%AA%E5%8A%A8%E7%BB%99%E8%A1%A8%E6%A0%BC%E7%A9%BA%E5%8D%95%E5%85%83%E6%A0%BC%E8%A1%A5%E4%B8%8A%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <description>&lt;h2 id=&#34;自动给表格空单元格补上字符串&#34;&gt;自动给表格空单元格补上字符串&lt;/h2&gt;
+&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
+&lt;p&gt;ui 设计中，如果单元格内部为空的话，需要填充一个默认字符串标明是个空格子，本身计划使用 js 来做的，但是考虑到要需要遍历，判断等等一系列操作，而且 js 里 &lt;code&gt;0&lt;/code&gt; 做 boolean 判断也是返回 false，无形中增加了判断的步骤，所以这个时候还是求助于万能的 css 吧&lt;/p&gt;
+&lt;p&gt;以下为 less 代码&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-less&#34; data-lang=&#34;less&#34;&gt;td:empty {
+  &amp;amp;::after {
+    content: &amp;#34;-&amp;#34;;
+  }
 }
-}
-&lt;/code>&lt;/pre></description></item><item><title>纯css实现table表头吸顶</title><link>https://mizuka-wu.github.io/posts/position-sticky-%E4%B8%8E%E8%A1%A8%E6%A0%BC%E5%A4%B4/</link><pubDate>Mon, 09 Sep 2019 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/position-sticky-%E4%B8%8E%E8%A1%A8%E6%A0%BC%E5%A4%B4/</guid><description>&lt;blockquote>
-&lt;p>原文章&lt;a href="https://css-tricks.com/position-sticky-and-table-headers/">https://css-tricks.com/position-sticky-and-table-headers/&lt;/a>. 本身产品有个需求需要表格自动吸顶，本身用了 antd design 的 scroll 实现的，现在使用 css 实现，效果更好&lt;/p>&lt;/blockquote>
-&lt;p>&lt;code>thead&lt;/code>和&lt;code>tr&lt;/code>上无法设置 style&lt;code>position: sticky;&lt;/code>,&lt;/p>
-&lt;p>到那时在&lt;code>th&lt;/code>上却可以，这也意味着，其实你可以在一个传统的&lt;code>table&lt;/code>上实现吸顶 header 效果，如果你不清楚吸顶实现的原理，大概实现起来会很棘手吧，使用 css 总比原先用 js 去监听事件然后改变&lt;code>position&lt;/code>好得多&lt;/p>
-&lt;h2 id="兼容性">兼容性&lt;/h2>
-&lt;p>&lt;a href="https://caniuse.com/#search=sticky">查看兼容性&lt;/a>&lt;/p>
-&lt;p>只要不是 ie 这种活化石，基本都已经支持了&lt;/p>
-&lt;h2 id="使用">使用&lt;/h2>
-&lt;ol>
-&lt;li>
-&lt;p>保证 table 的 position 为 relative&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>给每个 th 加上 sticky&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;h2 id="例子">例子&lt;/h2>
-&lt;pre tabindex="0">&lt;code class="language-less" data-lang="less">
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>纯css实现table表头吸顶</title>
+      <link>https://mizuka-wu.github.io/posts/position-sticky-%E4%B8%8E%E8%A1%A8%E6%A0%BC%E5%A4%B4/</link>
+      <pubDate>Mon, 09 Sep 2019 12:11:57 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/position-sticky-%E4%B8%8E%E8%A1%A8%E6%A0%BC%E5%A4%B4/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;原文章&lt;a href=&#34;https://css-tricks.com/position-sticky-and-table-headers/&#34;&gt;https://css-tricks.com/position-sticky-and-table-headers/&lt;/a&gt;. 本身产品有个需求需要表格自动吸顶，本身用了 antd design 的 scroll 实现的，现在使用 css 实现，效果更好&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;thead&lt;/code&gt;和&lt;code&gt;tr&lt;/code&gt;上无法设置 style&lt;code&gt;position: sticky;&lt;/code&gt;,&lt;/p&gt;
+&lt;p&gt;到那时在&lt;code&gt;th&lt;/code&gt;上却可以，这也意味着，其实你可以在一个传统的&lt;code&gt;table&lt;/code&gt;上实现吸顶 header 效果，如果你不清楚吸顶实现的原理，大概实现起来会很棘手吧，使用 css 总比原先用 js 去监听事件然后改变&lt;code&gt;position&lt;/code&gt;好得多&lt;/p&gt;
+&lt;h2 id=&#34;兼容性&#34;&gt;兼容性&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://caniuse.com/#search=sticky&#34;&gt;查看兼容性&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;只要不是 ie 这种活化石，基本都已经支持了&lt;/p&gt;
+&lt;h2 id=&#34;使用&#34;&gt;使用&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;保证 table 的 position 为 relative&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;给每个 th 加上 sticky&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;例子&#34;&gt;例子&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-less&#34; data-lang=&#34;less&#34;&gt;
 .stickyTable {
+
 :global(table) {
+
 position: relative;
+
 :global(th) {
+
 position: sticky;
+
 top: 0;
+
 z-index: 9999;
+
 }
+
 }
+
 }
-&lt;/code>&lt;/pre></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+  </channel>
+</rss>

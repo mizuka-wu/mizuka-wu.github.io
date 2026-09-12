@@ -1,64 +1,84 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Vue-Cli on 水华的博客</title><link>https://mizuka-wu.github.io/tags/vue-cli/</link><description>Recent content in Vue-Cli on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 18 Jun 2022 18:17:35 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/vue-cli/index.xml" rel="self" type="application/rss+xml"/><item><title>vue-cli项目如何同时打包一个express项目</title><link>https://mizuka-wu.github.io/posts/vue-cli%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E6%89%93%E5%8C%85%E4%B8%80%E4%B8%AAexpress%E9%A1%B9%E7%9B%AE/</link><pubDate>Sat, 18 Jun 2022 18:17:35 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/vue-cli%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E6%89%93%E5%8C%85%E4%B8%80%E4%B8%AAexpress%E9%A1%B9%E7%9B%AE/</guid><description>&lt;blockquote>
-&lt;p>&lt;code>vue-cli&lt;/code>项目一般只会生成一个纯前端的&lt;code>vue&lt;/code>项目，不过有时候，如果我们想开发一个&lt;code>express&lt;/code>项目同时又想用&lt;code>vue&lt;/code>作为前端该怎么搞呢？&lt;/p>&lt;/blockquote>
-&lt;h2 id="几个解决方案">几个解决方案&lt;/h2>
-&lt;ul>
-&lt;li>
-&lt;p>两个项目分别开发&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>mono-repo&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>其他方案&lt;/p>
-&lt;/li>
-&lt;/ul>
-&lt;h3 id="vueexpress一个项目一次打包">vue/express一个项目一次打包&lt;/h3>
-&lt;p>其实因为怕打包麻烦，所以我是希望一个项目内，可以同时开发&lt;code>express&lt;/code>/&lt;code>vue&lt;/code>打包的时候又能只打包输出到一个文件夹下&lt;/p>
-&lt;p>所以我选择在&lt;code>vue-cli&lt;/code>生产的项目内，增加一个&lt;code>server&lt;/code>文件夹，用来开发&lt;code>express&lt;/code>相关的代码，只有在最后打包的时候，变为一个&lt;code>express&lt;/code>项目&lt;/p>
-&lt;h4 id="改造的要点">改造的要点&lt;/h4>
-&lt;ol>
-&lt;li>
-&lt;p>前后端独立的hmr&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>前后端最终成果打包在一起&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;h3 id="改造过程">改造过程&lt;/h3>
-&lt;h4 id="独立热更同时前端可调用express服务">独立热更同时前端可调用express服务&lt;/h4>
-&lt;p>首先，我们在文件目录下建立&lt;code>server&lt;/code>文件夹，将&lt;code>express&lt;/code>服务器的开发，&lt;code>src&lt;/code>下为原先前端相关的代码&lt;/p>
-&lt;p>其次，安装&lt;code>nodemon&lt;/code>用来做&lt;code>express&lt;/code>项目的开发启动&lt;/p>
-&lt;p>&lt;code>package.json&lt;/code>添加命令&lt;code>&amp;quot;start:be&amp;quot;: &amp;quot;nodemon ./server/index.js&amp;quot;&lt;/code>&lt;/p>
-&lt;p>添加&lt;code>vue.config.js&lt;/code>, 加入&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">module&lt;/span>.&lt;span style="color:#a6e22e">exports&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">devServer&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">proxy&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&amp;#39;/{express服务的路径，例如api}&amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">target&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">&amp;#39;&lt;/span>&lt;span style="color:#a6e22e">http&lt;/span>&lt;span style="color:#f92672">:&lt;/span>&lt;span style="color:#75715e">//127.0.0.1:{express端口},
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">ws&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>},
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样，启动&lt;code>npm run serve&lt;/code>的时候同时启动&lt;code>start: be&lt;/code>即可同时开启前后端&lt;/p>
-&lt;h4 id="打包让express应用调用vue结果">打包让express应用调用vue结果&lt;/h4>
-&lt;p>&lt;code>express&lt;/code>有&lt;code>static&lt;/code>功能，假定用的是&lt;code>public&lt;/code> 文件夹&lt;/p>
-&lt;p>&lt;code>package.json&lt;/code>添加命令&lt;code>&amp;quot;build:be&amp;quot;: &amp;quot;cp package.json ./dist/ &amp;amp;&amp;amp; cp server/* ./dist/&amp;quot;&lt;/code>&lt;/p>
-&lt;p>这样来打包&lt;code>express&lt;/code>应用&lt;/p>
-&lt;p>同时express内添加一行，&lt;code>app.use(express.static('./public'))&lt;/code>&lt;/p>
-&lt;p>接着，来改造&lt;code>vue.config.js&lt;/code>&lt;/p>
-&lt;pre tabindex="0">&lt;code>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Vue-Cli on 水华的博客</title>
+    <link>https://mizuka-wu.github.io/tags/vue-cli/</link>
+    <description>Recent content in Vue-Cli on 水华的博客</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 18 Jun 2022 18:17:35 +0000</lastBuildDate>
+    <atom:link href="https://mizuka-wu.github.io/tags/vue-cli/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>vue-cli项目如何同时打包一个express项目</title>
+      <link>https://mizuka-wu.github.io/posts/vue-cli%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E6%89%93%E5%8C%85%E4%B8%80%E4%B8%AAexpress%E9%A1%B9%E7%9B%AE/</link>
+      <pubDate>Sat, 18 Jun 2022 18:17:35 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/vue-cli%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E6%89%93%E5%8C%85%E4%B8%80%E4%B8%AAexpress%E9%A1%B9%E7%9B%AE/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;vue-cli&lt;/code&gt;项目一般只会生成一个纯前端的&lt;code&gt;vue&lt;/code&gt;项目，不过有时候，如果我们想开发一个&lt;code&gt;express&lt;/code&gt;项目同时又想用&lt;code&gt;vue&lt;/code&gt;作为前端该怎么搞呢？&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;几个解决方案&#34;&gt;几个解决方案&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;两个项目分别开发&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;mono-repo&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;其他方案&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;vueexpress一个项目一次打包&#34;&gt;vue/express一个项目一次打包&lt;/h3&gt;
+&lt;p&gt;其实因为怕打包麻烦，所以我是希望一个项目内，可以同时开发&lt;code&gt;express&lt;/code&gt;/&lt;code&gt;vue&lt;/code&gt;打包的时候又能只打包输出到一个文件夹下&lt;/p&gt;
+&lt;p&gt;所以我选择在&lt;code&gt;vue-cli&lt;/code&gt;生产的项目内，增加一个&lt;code&gt;server&lt;/code&gt;文件夹，用来开发&lt;code&gt;express&lt;/code&gt;相关的代码，只有在最后打包的时候，变为一个&lt;code&gt;express&lt;/code&gt;项目&lt;/p&gt;
+&lt;h4 id=&#34;改造的要点&#34;&gt;改造的要点&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;前后端独立的hmr&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;前后端最终成果打包在一起&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;改造过程&#34;&gt;改造过程&lt;/h3&gt;
+&lt;h4 id=&#34;独立热更同时前端可调用express服务&#34;&gt;独立热更同时前端可调用express服务&lt;/h4&gt;
+&lt;p&gt;首先，我们在文件目录下建立&lt;code&gt;server&lt;/code&gt;文件夹，将&lt;code&gt;express&lt;/code&gt;服务器的开发，&lt;code&gt;src&lt;/code&gt;下为原先前端相关的代码&lt;/p&gt;
+&lt;p&gt;其次，安装&lt;code&gt;nodemon&lt;/code&gt;用来做&lt;code&gt;express&lt;/code&gt;项目的开发启动&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;package.json&lt;/code&gt;添加命令&lt;code&gt;&amp;quot;start:be&amp;quot;: &amp;quot;nodemon ./server/index.js&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;添加&lt;code&gt;vue.config.js&lt;/code&gt;, 加入&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;module&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;exports&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;devServer&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;proxy&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/{express服务的路径，例如api}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//127.0.0.1:{express端口},
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ws&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样，启动&lt;code&gt;npm run serve&lt;/code&gt;的时候同时启动&lt;code&gt;start: be&lt;/code&gt;即可同时开启前后端&lt;/p&gt;
+&lt;h4 id=&#34;打包让express应用调用vue结果&#34;&gt;打包让express应用调用vue结果&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;express&lt;/code&gt;有&lt;code&gt;static&lt;/code&gt;功能，假定用的是&lt;code&gt;public&lt;/code&gt; 文件夹&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;package.json&lt;/code&gt;添加命令&lt;code&gt;&amp;quot;build:be&amp;quot;: &amp;quot;cp package.json ./dist/ &amp;amp;&amp;amp; cp server/* ./dist/&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;这样来打包&lt;code&gt;express&lt;/code&gt;应用&lt;/p&gt;
+&lt;p&gt;同时express内添加一行，&lt;code&gt;app.use(express.static(&#39;./public&#39;))&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;接着，来改造&lt;code&gt;vue.config.js&lt;/code&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
 module.exports = {
+
 outputDir: &amp;#34;./dist/public&amp;#34;
+
 }
-&lt;/code>&lt;/pre>&lt;p>之后build命令运行完，运行build:fe即可&lt;/p></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;之后build命令运行完，运行build:fe即可&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

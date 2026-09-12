@@ -1,377 +1,480 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>代码片段 on 水华的博客</title><link>https://mizuka-wu.github.io/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</link><description>Recent content in 代码片段 on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 07 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/index.xml" rel="self" type="application/rss+xml"/><item><title>通过 node 上传大文件</title><link>https://mizuka-wu.github.io/posts/%E9%80%9A%E8%BF%87-node-%E4%B8%8A%E4%BC%A0%E5%A4%A7%E6%96%87%E4%BB%B6/</link><pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E9%80%9A%E8%BF%87-node-%E4%B8%8A%E4%BC%A0%E5%A4%A7%E6%96%87%E4%BB%B6/</guid><description>&lt;h2 id="通过-node-上传大文件">通过 node 上传大文件&lt;/h2>
-&lt;h2 id="背景">背景&lt;/h2>
-&lt;p>因为工作上的原因，开发了一个客户端文件，用来做数据迁移&lt;/p>
-&lt;p>实际上的流程很简单，下载，清洗，再调用接口导入到另一个网站上&lt;/p>
-&lt;h2 id="出现问题">出现问题&lt;/h2>
-&lt;p>本地的上传其实是通过&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">formData&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">FormData&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">formData&lt;/span>.&lt;span style="color:#a6e22e">append&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;file&amp;#39;&lt;/span>, &lt;span style="color:#a6e22e">blob&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">axios&lt;/span>.&lt;span style="color:#a6e22e">post&lt;/span>(&lt;span style="color:#a6e22e">xxx&lt;/span>, &lt;span style="color:#a6e22e">formdata&lt;/span>)
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过在 nodejs 里边写 formdata 并且通过 axios 进行上传的
-遇到的第一个问题是&lt;/p>
-&lt;p>Buffer问题，因为 formdata 需要使用 blob 作为 file 字段进行上传的&lt;/p>
-&lt;p>最开始的时候我们的 blob 是通过 fs.readFileSync()生成的&lt;/p>
-&lt;p>但是在 node 环境下，我们的 node 实际上对 buffer 是有大小限制的&lt;/p>
-&lt;p>所以我一开始采用的方案是通过流式获取所有的 buffer 之后一起生成一个 blob&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">blob&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">await&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> Promise((&lt;span style="color:#a6e22e">resolve&lt;/span>, &lt;span style="color:#a6e22e">reject&lt;/span>) =&amp;gt; {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">stream&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">fs&lt;/span>.&lt;span style="color:#a6e22e">createReadStream&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">blobData&lt;/span> &lt;span style="color:#f92672">=&lt;/span> [];
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">stream&lt;/span>.&lt;span style="color:#a6e22e">on&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;data&amp;#39;&lt;/span>, &lt;span style="color:#a6e22e">chunk&lt;/span> =&amp;gt; &lt;span style="color:#a6e22e">blobData&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(&lt;span style="color:#a6e22e">chunk&lt;/span>))
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">stream&lt;/span>.&lt;span style="color:#a6e22e">on&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;end&amp;#39;&lt;/span>, () =&amp;gt; &lt;span style="color:#a6e22e">resolve&lt;/span>(&lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">Blob&lt;/span>(&lt;span style="color:#a6e22e">blobData&lt;/span>)))
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样一开始解决了读取 buffer 过大的问题&lt;/p>
-&lt;h2 id="实际问题解决">实际问题解决&lt;/h2>
-&lt;p>实际问题还是上传下载的时候，如果读取为 blob的话，也是需要占用一段内存的&lt;/p>
-&lt;p>这也就造成了在传输 2g 以上大文件的时候出现了闪退&lt;/p>
-&lt;p>这个时候其实应该会有好几种解决方案&lt;/p>
-&lt;ol>
-&lt;li>通过分片进行上传，实际上因为后端采用 minio 这个也是天然支持的，但是经过询问之后，发现上传 minio 其实也是后端额外封装了一层接口实现的，但是后端没有实现分片合并的逻辑，所以通过分片的方案就不行了&lt;/li>
-&lt;li>流式上传，这样可以减少内存的占用&lt;/li>
-&lt;/ol>
-&lt;p>所以上传的时候其实是需要将整个上传流程的 form 也转换成一个 stream&lt;/p></description></item><item><title>axios兜底错误处理</title><link>https://mizuka-wu.github.io/posts/axios%E5%85%9C%E5%BA%95%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/</link><pubDate>Mon, 29 Apr 2024 00:00:00 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/axios%E5%85%9C%E5%BA%95%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/</guid><description>&lt;p>项目的网络请求层使用了axios，axios是一个及其好用的库，但是在业务使用上出现了一些问题&lt;/p>
-&lt;h2 id="出现原因">出现原因&lt;/h2>
-&lt;p>众所周知，前端一般通过ajax向后端请求数据然后处理后显示在网页/app上，当然人都是懒得，总是希望有一些自动完成的事，比如这一次，如果不是需要特殊处理的特定错误，直接弹toast结束。&lt;/p>
-&lt;p>错误处理还是很容易，axios增加拦截器，如果是指定的错误，直接&lt;code>throw new Error('错误')&lt;/code> 剩下的交给&lt;code>promise.catch&lt;/code>干就好了，问题集中在如何兜底这个catch，如果不处理，会变成&lt;code>unhandledrejection&lt;/code>错误&lt;/p>
-&lt;h3 id="解决方案">解决方案&lt;/h3>
-&lt;h4 id="最原始的方案">最原始的方案&lt;/h4>
-&lt;p>高阶函数 throwMessage，自动在promise之后增加catch函数，问题是这个要记得手动引入，和自动这个理念还是有点区别的.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">export&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span> &lt;span style="color:#a6e22e">throwMessage&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#a6e22e">T&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">any&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>(&lt;span style="color:#a6e22e">responsePromise&lt;/span>&lt;span style="color:#f92672">:&lt;/span> Promise&lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#a6e22e">T&lt;/span>&lt;span style="color:#f92672">&amp;gt;&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">responsePromise&lt;/span>.&lt;span style="color:#66d9ef">catch&lt;/span>((&lt;span style="color:#a6e22e">e&lt;/span>&lt;span style="color:#f92672">:&lt;/span> Error) =&amp;gt; {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">error&lt;/span>(&lt;span style="color:#e6db74">`error`&lt;/span>, &lt;span style="color:#a6e22e">e&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">message&lt;/span>.&lt;span style="color:#a6e22e">error&lt;/span>(&lt;span style="color:#a6e22e">e&lt;/span>.&lt;span style="color:#a6e22e">message&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>每次使用都要&lt;code>throwMessage(promise)&lt;/code>容易忘，如果有必要，还要写&lt;strong>lint&lt;/strong>规则防止忘记&lt;/p>
-&lt;h4 id="webpack方案">webpack方案&lt;/h4>
-&lt;p>既然打包的是webpack，那么使用webpack在转译原始代码的时候注入就好了嘛. 推荐一个&lt;a href="https://github.com/xuqiang521/promise-catch-loader">promise-catch-loader&lt;/a>自动处理好这一系列问题 具体因为没有太研究，不做展开&lt;/p>
-&lt;h4 id="事件监听方案">事件监听方案&lt;/h4>
-&lt;p>上文提到了，如果promise没有捕获错误，会自动变成unhandlered rejection错误，这个是可以全局监听的，具体&lt;a href="https://developer.mozilla.org/zh-CN/docs/Web/Events/unhandledrejection">在MDN上可以看&lt;/a>&lt;/p>
-&lt;p>那么 我们在window上直接监听就好了&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>window.&lt;span style="color:#a6e22e">addEventListener&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;unhandledrejection&amp;#39;&lt;/span>, &lt;span style="color:#a6e22e">event&lt;/span> =&amp;gt; {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">event&lt;/span>.&lt;span style="color:#a6e22e">preventDefault&lt;/span>()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>});
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>问题是，太全局了&lt;/p>
-&lt;h4 id="处理promise链方案">处理Promise链方案&lt;/h4>
-&lt;p>这种是最终处理的方案，当然也是最魔改的方案，考虑到&lt;strong>只运行在前端，内存溢出情况不多&lt;/strong>，方能实现&lt;/p>
-&lt;p>axios返回的是promise，promise是遵循PromiseA+方案，内部其实是有一条promise链的，我们的目的就在于，在promise链条的&lt;strong>最后一个promise&lt;/strong>上挂上catch,反正预先被处理了最后一个也不会触发&lt;/p>
-&lt;h5 id="问题来了">问题来了&lt;/h5>
-&lt;p>如果你直接看promise的话，是只能看到，then，catch，finally这些方法的，并没办法看到promise链，也没办法顺着链访问到最后&lt;/p>
-&lt;h5 id="如何解决">如何解决&lt;/h5>
-&lt;p>我们的目标是将其变为链式结构，简单来说，只要每个then和catch都能记下他的后继即可。&lt;/p>
-&lt;p>所以最终我选择注入promise的两个方法&lt;/p>
-&lt;h5 id="实现代码">实现代码&lt;/h5>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-typescript" data-lang="typescript">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">/**
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">* 继承然后注入两个方法
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">*/&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">export&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">ChainedPromise&lt;/span>&amp;lt;&lt;span style="color:#f92672">T&lt;/span>&amp;gt; &lt;span style="color:#66d9ef">extends&lt;/span> &lt;span style="color:#a6e22e">Promise&lt;/span>&amp;lt;&lt;span style="color:#f92672">T&lt;/span>&amp;gt; {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">nextPromise?&lt;/span>: &lt;span style="color:#66d9ef">Promise&lt;/span>&amp;lt;&lt;span style="color:#f92672">any&lt;/span>&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">then&lt;/span>&amp;lt;&lt;span style="color:#f92672">TResult1&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">=&lt;/span> &lt;span style="color:#a6e22e">T&lt;/span>, &lt;span style="color:#a6e22e">TResult2 &lt;/span>&lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">never&lt;/span>&amp;gt;(
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">onfulfilled&lt;/span>&lt;span style="color:#f92672">?:&lt;/span> ((&lt;span style="color:#a6e22e">value&lt;/span>: &lt;span style="color:#66d9ef">T&lt;/span>) &lt;span style="color:#f92672">=&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">TResult1&lt;/span> &lt;span style="color:#f92672">|&lt;/span> &lt;span style="color:#a6e22e">PromiseLike&lt;/span>&amp;lt;&lt;span style="color:#f92672">TResult1&lt;/span>&amp;gt;) &lt;span style="color:#f92672">|&lt;/span> &lt;span style="color:#66d9ef">undefined&lt;/span> &lt;span style="color:#f92672">|&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">onrejected&lt;/span>&lt;span style="color:#f92672">?:&lt;/span> ((&lt;span style="color:#a6e22e">reason&lt;/span>: &lt;span style="color:#66d9ef">any&lt;/span>) &lt;span style="color:#f92672">=&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">TResult2&lt;/span> &lt;span style="color:#f92672">|&lt;/span> &lt;span style="color:#a6e22e">PromiseLike&lt;/span>&amp;lt;&lt;span style="color:#f92672">TResult2&lt;/span>&amp;gt;) &lt;span style="color:#f92672">|&lt;/span> &lt;span style="color:#66d9ef">undefined&lt;/span> &lt;span style="color:#f92672">|&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">Promise&lt;/span>&amp;lt;&lt;span style="color:#f92672">TResult1&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">|&lt;/span> &lt;span style="color:#a6e22e">TResult2&lt;/span>&amp;gt; {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">promise&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">super&lt;/span>.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#a6e22e">onfulfilled&lt;/span>, &lt;span style="color:#a6e22e">onrejected&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">nextPromise&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">promise&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">promise&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">catch&lt;/span>&amp;lt;&lt;span style="color:#f92672">TResult&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">=&lt;/span> &lt;span style="color:#a6e22e">never&lt;/span>&amp;gt;(
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">onrejected&lt;/span>&lt;span style="color:#f92672">?:&lt;/span> ((&lt;span style="color:#a6e22e">reason&lt;/span>: &lt;span style="color:#66d9ef">any&lt;/span>) &lt;span style="color:#f92672">=&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">TResult&lt;/span> &lt;span style="color:#f92672">|&lt;/span> &lt;span style="color:#a6e22e">PromiseLike&lt;/span>&amp;lt;&lt;span style="color:#f92672">TResult&lt;/span>&amp;gt;) &lt;span style="color:#f92672">|&lt;/span> &lt;span style="color:#66d9ef">undefined&lt;/span> &lt;span style="color:#f92672">|&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">Promise&lt;/span>&amp;lt;&lt;span style="color:#f92672">T&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">|&lt;/span> &lt;span style="color:#a6e22e">TResult&lt;/span>&amp;gt; {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">promise&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">super&lt;/span>.&lt;span style="color:#66d9ef">catch&lt;/span>(&lt;span style="color:#a6e22e">onrejected&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">nextPromise&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">promise&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">promise&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">/**
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">* 暴露给外面的方法，axios通过拦截器，通过封装service都能调用它来在入口处自动注入
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">*/&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">function&lt;/span> &lt;span style="color:#a6e22e">autoTravel&lt;/span>&amp;lt;&lt;span style="color:#f92672">T&lt;/span>&amp;gt;(&lt;span style="color:#a6e22e">promise&lt;/span>: &lt;span style="color:#66d9ef">Promise&lt;/span>&amp;lt;&lt;span style="color:#f92672">T&lt;/span>&amp;gt;)&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">Promise&lt;/span>&amp;lt;&lt;span style="color:#f92672">T&lt;/span>&amp;gt; {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">getLastPromise&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">promise&lt;/span>: &lt;span style="color:#66d9ef">ChainedPromise&lt;/span>&amp;lt;&lt;span style="color:#f92672">any&lt;/span>&amp;gt;)&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">Promise&lt;/span>&amp;lt;&lt;span style="color:#f92672">any&lt;/span>&amp;gt; {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#a6e22e">promise&lt;/span>.&lt;span style="color:#a6e22e">nextPromise&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">getLastPromise&lt;/span>(&lt;span style="color:#a6e22e">promise&lt;/span>.&lt;span style="color:#a6e22e">nextPromise&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">promise&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">/**
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">* Promise内部的自动形成链条，就能顺着链条找到最后一个了
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">*/&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">autoTravelPromise&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">ChainedPromise&lt;/span>&amp;lt;&lt;span style="color:#f92672">T&lt;/span>&amp;gt;((&lt;span style="color:#a6e22e">resolve&lt;/span>, &lt;span style="color:#a6e22e">reject&lt;/span>) &lt;span style="color:#f92672">=&amp;gt;&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">promise&lt;/span>.&lt;span style="color:#a6e22e">then&lt;/span>(&lt;span style="color:#a6e22e">resolve&lt;/span>).&lt;span style="color:#66d9ef">catch&lt;/span>(&lt;span style="color:#a6e22e">responseError&lt;/span> &lt;span style="color:#f92672">=&amp;gt;&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// throwMessage为之前定义的，promise上自动加catch的方法
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">throwMessage&lt;/span>(&lt;span style="color:#a6e22e">getLastPromise&lt;/span>(&lt;span style="color:#a6e22e">autoTravelPromise&lt;/span>))
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">reject&lt;/span>(&lt;span style="color:#a6e22e">responseError&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">autoTravelPromise&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>vue-cli项目如何同时打包一个express项目</title><link>https://mizuka-wu.github.io/posts/vue-cli%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E6%89%93%E5%8C%85%E4%B8%80%E4%B8%AAexpress%E9%A1%B9%E7%9B%AE/</link><pubDate>Sat, 18 Jun 2022 18:17:35 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/vue-cli%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E6%89%93%E5%8C%85%E4%B8%80%E4%B8%AAexpress%E9%A1%B9%E7%9B%AE/</guid><description>&lt;blockquote>
-&lt;p>&lt;code>vue-cli&lt;/code>项目一般只会生成一个纯前端的&lt;code>vue&lt;/code>项目，不过有时候，如果我们想开发一个&lt;code>express&lt;/code>项目同时又想用&lt;code>vue&lt;/code>作为前端该怎么搞呢？&lt;/p>&lt;/blockquote>
-&lt;h2 id="几个解决方案">几个解决方案&lt;/h2>
-&lt;ul>
-&lt;li>
-&lt;p>两个项目分别开发&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>mono-repo&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>其他方案&lt;/p>
-&lt;/li>
-&lt;/ul>
-&lt;h3 id="vueexpress一个项目一次打包">vue/express一个项目一次打包&lt;/h3>
-&lt;p>其实因为怕打包麻烦，所以我是希望一个项目内，可以同时开发&lt;code>express&lt;/code>/&lt;code>vue&lt;/code>打包的时候又能只打包输出到一个文件夹下&lt;/p>
-&lt;p>所以我选择在&lt;code>vue-cli&lt;/code>生产的项目内，增加一个&lt;code>server&lt;/code>文件夹，用来开发&lt;code>express&lt;/code>相关的代码，只有在最后打包的时候，变为一个&lt;code>express&lt;/code>项目&lt;/p>
-&lt;h4 id="改造的要点">改造的要点&lt;/h4>
-&lt;ol>
-&lt;li>
-&lt;p>前后端独立的hmr&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>前后端最终成果打包在一起&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;h3 id="改造过程">改造过程&lt;/h3>
-&lt;h4 id="独立热更同时前端可调用express服务">独立热更同时前端可调用express服务&lt;/h4>
-&lt;p>首先，我们在文件目录下建立&lt;code>server&lt;/code>文件夹，将&lt;code>express&lt;/code>服务器的开发，&lt;code>src&lt;/code>下为原先前端相关的代码&lt;/p>
-&lt;p>其次，安装&lt;code>nodemon&lt;/code>用来做&lt;code>express&lt;/code>项目的开发启动&lt;/p>
-&lt;p>&lt;code>package.json&lt;/code>添加命令&lt;code>&amp;quot;start:be&amp;quot;: &amp;quot;nodemon ./server/index.js&amp;quot;&lt;/code>&lt;/p>
-&lt;p>添加&lt;code>vue.config.js&lt;/code>, 加入&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">module&lt;/span>.&lt;span style="color:#a6e22e">exports&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">devServer&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">proxy&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&amp;#39;/{express服务的路径，例如api}&amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">target&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">&amp;#39;&lt;/span>&lt;span style="color:#a6e22e">http&lt;/span>&lt;span style="color:#f92672">:&lt;/span>&lt;span style="color:#75715e">//127.0.0.1:{express端口},
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">ws&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>},
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样，启动&lt;code>npm run serve&lt;/code>的时候同时启动&lt;code>start: be&lt;/code>即可同时开启前后端&lt;/p>
-&lt;h4 id="打包让express应用调用vue结果">打包让express应用调用vue结果&lt;/h4>
-&lt;p>&lt;code>express&lt;/code>有&lt;code>static&lt;/code>功能，假定用的是&lt;code>public&lt;/code> 文件夹&lt;/p>
-&lt;p>&lt;code>package.json&lt;/code>添加命令&lt;code>&amp;quot;build:be&amp;quot;: &amp;quot;cp package.json ./dist/ &amp;amp;&amp;amp; cp server/* ./dist/&amp;quot;&lt;/code>&lt;/p>
-&lt;p>这样来打包&lt;code>express&lt;/code>应用&lt;/p>
-&lt;p>同时express内添加一行，&lt;code>app.use(express.static('./public'))&lt;/code>&lt;/p>
-&lt;p>接着，来改造&lt;code>vue.config.js&lt;/code>&lt;/p>
-&lt;pre tabindex="0">&lt;code>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>代码片段 on 水华的博客</title>
+    <link>https://mizuka-wu.github.io/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</link>
+    <description>Recent content in 代码片段 on 水华的博客</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 07 May 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mizuka-wu.github.io/categories/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>通过 node 上传大文件</title>
+      <link>https://mizuka-wu.github.io/posts/%E9%80%9A%E8%BF%87-node-%E4%B8%8A%E4%BC%A0%E5%A4%A7%E6%96%87%E4%BB%B6/</link>
+      <pubDate>Tue, 07 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/%E9%80%9A%E8%BF%87-node-%E4%B8%8A%E4%BC%A0%E5%A4%A7%E6%96%87%E4%BB%B6/</guid>
+      <description>&lt;h2 id=&#34;通过-node-上传大文件&#34;&gt;通过 node 上传大文件&lt;/h2&gt;
+&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
+&lt;p&gt;因为工作上的原因，开发了一个客户端文件，用来做数据迁移&lt;/p&gt;
+&lt;p&gt;实际上的流程很简单，下载，清洗，再调用接口导入到另一个网站上&lt;/p&gt;
+&lt;h2 id=&#34;出现问题&#34;&gt;出现问题&lt;/h2&gt;
+&lt;p&gt;本地的上传其实是通过&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;formData&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;FormData&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;formData&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;file&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;blob&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;axios&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;post&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;xxx&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;formdata&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过在 nodejs 里边写 formdata 并且通过 axios 进行上传的
+遇到的第一个问题是&lt;/p&gt;
+&lt;p&gt;Buffer问题，因为 formdata 需要使用 blob 作为 file 字段进行上传的&lt;/p&gt;
+&lt;p&gt;最开始的时候我们的 blob 是通过 fs.readFileSync()生成的&lt;/p&gt;
+&lt;p&gt;但是在 node 环境下，我们的 node 实际上对 buffer 是有大小限制的&lt;/p&gt;
+&lt;p&gt;所以我一开始采用的方案是通过流式获取所有的 buffer 之后一起生成一个 blob&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;blob&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;await&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Promise((&lt;span style=&#34;color:#a6e22e&#34;&gt;resolve&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;reject&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;stream&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fs&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;createReadStream&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;blobData&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;stream&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;on&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;data&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;chunk&lt;/span&gt; =&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;blobData&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;push&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;chunk&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a6e22e&#34;&gt;stream&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;on&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;end&amp;#39;&lt;/span&gt;, () =&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;resolve&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Blob&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;blobData&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样一开始解决了读取 buffer 过大的问题&lt;/p&gt;
+&lt;h2 id=&#34;实际问题解决&#34;&gt;实际问题解决&lt;/h2&gt;
+&lt;p&gt;实际问题还是上传下载的时候，如果读取为 blob的话，也是需要占用一段内存的&lt;/p&gt;
+&lt;p&gt;这也就造成了在传输 2g 以上大文件的时候出现了闪退&lt;/p&gt;
+&lt;p&gt;这个时候其实应该会有好几种解决方案&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;通过分片进行上传，实际上因为后端采用 minio 这个也是天然支持的，但是经过询问之后，发现上传 minio 其实也是后端额外封装了一层接口实现的，但是后端没有实现分片合并的逻辑，所以通过分片的方案就不行了&lt;/li&gt;
+&lt;li&gt;流式上传，这样可以减少内存的占用&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;所以上传的时候其实是需要将整个上传流程的 form 也转换成一个 stream&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>axios兜底错误处理</title>
+      <link>https://mizuka-wu.github.io/posts/axios%E5%85%9C%E5%BA%95%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/</link>
+      <pubDate>Mon, 29 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/axios%E5%85%9C%E5%BA%95%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/</guid>
+      <description>&lt;p&gt;项目的网络请求层使用了axios，axios是一个及其好用的库，但是在业务使用上出现了一些问题&lt;/p&gt;
+&lt;h2 id=&#34;出现原因&#34;&gt;出现原因&lt;/h2&gt;
+&lt;p&gt;众所周知，前端一般通过ajax向后端请求数据然后处理后显示在网页/app上，当然人都是懒得，总是希望有一些自动完成的事，比如这一次，如果不是需要特殊处理的特定错误，直接弹toast结束。&lt;/p&gt;
+&lt;p&gt;错误处理还是很容易，axios增加拦截器，如果是指定的错误，直接&lt;code&gt;throw new Error(&#39;错误&#39;)&lt;/code&gt; 剩下的交给&lt;code&gt;promise.catch&lt;/code&gt;干就好了，问题集中在如何兜底这个catch，如果不处理，会变成&lt;code&gt;unhandledrejection&lt;/code&gt;错误&lt;/p&gt;
+&lt;h3 id=&#34;解决方案&#34;&gt;解决方案&lt;/h3&gt;
+&lt;h4 id=&#34;最原始的方案&#34;&gt;最原始的方案&lt;/h4&gt;
+&lt;p&gt;高阶函数 throwMessage，自动在promise之后增加catch函数，问题是这个要记得手动引入，和自动这个理念还是有点区别的.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;throwMessage&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;T&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;any&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;responsePromise&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; Promise&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;T&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;responsePromise&lt;/span&gt;.&lt;span style=&#34;color:#66d9ef&#34;&gt;catch&lt;/span&gt;((&lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; Error) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;error&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;`error`&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;message&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;error&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;message&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;每次使用都要&lt;code&gt;throwMessage(promise)&lt;/code&gt;容易忘，如果有必要，还要写&lt;strong&gt;lint&lt;/strong&gt;规则防止忘记&lt;/p&gt;
+&lt;h4 id=&#34;webpack方案&#34;&gt;webpack方案&lt;/h4&gt;
+&lt;p&gt;既然打包的是webpack，那么使用webpack在转译原始代码的时候注入就好了嘛. 推荐一个&lt;a href=&#34;https://github.com/xuqiang521/promise-catch-loader&#34;&gt;promise-catch-loader&lt;/a&gt;自动处理好这一系列问题 具体因为没有太研究，不做展开&lt;/p&gt;
+&lt;h4 id=&#34;事件监听方案&#34;&gt;事件监听方案&lt;/h4&gt;
+&lt;p&gt;上文提到了，如果promise没有捕获错误，会自动变成unhandlered rejection错误，这个是可以全局监听的，具体&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/Events/unhandledrejection&#34;&gt;在MDN上可以看&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;那么 我们在window上直接监听就好了&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;window.&lt;span style=&#34;color:#a6e22e&#34;&gt;addEventListener&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;unhandledrejection&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;event&lt;/span&gt; =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;event&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;preventDefault&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;});
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;问题是，太全局了&lt;/p&gt;
+&lt;h4 id=&#34;处理promise链方案&#34;&gt;处理Promise链方案&lt;/h4&gt;
+&lt;p&gt;这种是最终处理的方案，当然也是最魔改的方案，考虑到&lt;strong&gt;只运行在前端，内存溢出情况不多&lt;/strong&gt;，方能实现&lt;/p&gt;
+&lt;p&gt;axios返回的是promise，promise是遵循PromiseA+方案，内部其实是有一条promise链的，我们的目的就在于，在promise链条的&lt;strong&gt;最后一个promise&lt;/strong&gt;上挂上catch,反正预先被处理了最后一个也不会触发&lt;/p&gt;
+&lt;h5 id=&#34;问题来了&#34;&gt;问题来了&lt;/h5&gt;
+&lt;p&gt;如果你直接看promise的话，是只能看到，then，catch，finally这些方法的，并没办法看到promise链，也没办法顺着链访问到最后&lt;/p&gt;
+&lt;h5 id=&#34;如何解决&#34;&gt;如何解决&lt;/h5&gt;
+&lt;p&gt;我们的目标是将其变为链式结构，简单来说，只要每个then和catch都能记下他的后继即可。&lt;/p&gt;
+&lt;p&gt;所以最终我选择注入promise的两个方法&lt;/p&gt;
+&lt;h5 id=&#34;实现代码&#34;&gt;实现代码&lt;/h5&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-typescript&#34; data-lang=&#34;typescript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/**
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;* 继承然后注入两个方法
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;*/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ChainedPromise&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;T&lt;/span&gt;&amp;gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;extends&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Promise&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;T&lt;/span&gt;&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;nextPromise?&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;Promise&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;any&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;then&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;TResult1&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;T&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;TResult2 &lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;never&lt;/span&gt;&amp;gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;onfulfilled&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;?:&lt;/span&gt; ((&lt;span style=&#34;color:#a6e22e&#34;&gt;value&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TResult1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PromiseLike&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;TResult1&lt;/span&gt;&amp;gt;) &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;undefined&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;onrejected&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;?:&lt;/span&gt; ((&lt;span style=&#34;color:#a6e22e&#34;&gt;reason&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;any&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TResult2&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PromiseLike&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;TResult2&lt;/span&gt;&amp;gt;) &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;undefined&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Promise&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;TResult1&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;|&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TResult2&lt;/span&gt;&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;promise&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;super&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;then&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;onfulfilled&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;onrejected&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;nextPromise&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;promise&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;promise&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;catch&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;TResult&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;never&lt;/span&gt;&amp;gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;onrejected&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;?:&lt;/span&gt; ((&lt;span style=&#34;color:#a6e22e&#34;&gt;reason&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;any&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TResult&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PromiseLike&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;TResult&lt;/span&gt;&amp;gt;) &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;undefined&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Promise&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;T&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;|&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TResult&lt;/span&gt;&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;promise&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;super&lt;/span&gt;.&lt;span style=&#34;color:#66d9ef&#34;&gt;catch&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;onrejected&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;nextPromise&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;promise&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;promise&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/**
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;* 暴露给外面的方法，axios通过拦截器，通过封装service都能调用它来在入口处自动注入
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;*/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;autoTravel&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;T&lt;/span&gt;&amp;gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;promise&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;Promise&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;T&lt;/span&gt;&amp;gt;)&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Promise&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;T&lt;/span&gt;&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;getLastPromise&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;promise&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;ChainedPromise&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;any&lt;/span&gt;&amp;gt;)&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Promise&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;any&lt;/span&gt;&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;promise&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;nextPromise&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;getLastPromise&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;promise&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;nextPromise&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;promise&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/**
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;* Promise内部的自动形成链条，就能顺着链条找到最后一个了
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;*/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;autoTravelPromise&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ChainedPromise&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;T&lt;/span&gt;&amp;gt;((&lt;span style=&#34;color:#a6e22e&#34;&gt;resolve&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;reject&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;promise&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;then&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;resolve&lt;/span&gt;).&lt;span style=&#34;color:#66d9ef&#34;&gt;catch&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;responseError&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// throwMessage为之前定义的，promise上自动加catch的方法
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;throwMessage&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;getLastPromise&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;autoTravelPromise&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;reject&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;responseError&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;autoTravelPromise&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>vue-cli项目如何同时打包一个express项目</title>
+      <link>https://mizuka-wu.github.io/posts/vue-cli%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E6%89%93%E5%8C%85%E4%B8%80%E4%B8%AAexpress%E9%A1%B9%E7%9B%AE/</link>
+      <pubDate>Sat, 18 Jun 2022 18:17:35 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/vue-cli%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E6%89%93%E5%8C%85%E4%B8%80%E4%B8%AAexpress%E9%A1%B9%E7%9B%AE/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;vue-cli&lt;/code&gt;项目一般只会生成一个纯前端的&lt;code&gt;vue&lt;/code&gt;项目，不过有时候，如果我们想开发一个&lt;code&gt;express&lt;/code&gt;项目同时又想用&lt;code&gt;vue&lt;/code&gt;作为前端该怎么搞呢？&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;几个解决方案&#34;&gt;几个解决方案&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;两个项目分别开发&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;mono-repo&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;其他方案&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;vueexpress一个项目一次打包&#34;&gt;vue/express一个项目一次打包&lt;/h3&gt;
+&lt;p&gt;其实因为怕打包麻烦，所以我是希望一个项目内，可以同时开发&lt;code&gt;express&lt;/code&gt;/&lt;code&gt;vue&lt;/code&gt;打包的时候又能只打包输出到一个文件夹下&lt;/p&gt;
+&lt;p&gt;所以我选择在&lt;code&gt;vue-cli&lt;/code&gt;生产的项目内，增加一个&lt;code&gt;server&lt;/code&gt;文件夹，用来开发&lt;code&gt;express&lt;/code&gt;相关的代码，只有在最后打包的时候，变为一个&lt;code&gt;express&lt;/code&gt;项目&lt;/p&gt;
+&lt;h4 id=&#34;改造的要点&#34;&gt;改造的要点&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;前后端独立的hmr&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;前后端最终成果打包在一起&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;改造过程&#34;&gt;改造过程&lt;/h3&gt;
+&lt;h4 id=&#34;独立热更同时前端可调用express服务&#34;&gt;独立热更同时前端可调用express服务&lt;/h4&gt;
+&lt;p&gt;首先，我们在文件目录下建立&lt;code&gt;server&lt;/code&gt;文件夹，将&lt;code&gt;express&lt;/code&gt;服务器的开发，&lt;code&gt;src&lt;/code&gt;下为原先前端相关的代码&lt;/p&gt;
+&lt;p&gt;其次，安装&lt;code&gt;nodemon&lt;/code&gt;用来做&lt;code&gt;express&lt;/code&gt;项目的开发启动&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;package.json&lt;/code&gt;添加命令&lt;code&gt;&amp;quot;start:be&amp;quot;: &amp;quot;nodemon ./server/index.js&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;添加&lt;code&gt;vue.config.js&lt;/code&gt;, 加入&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;module&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;exports&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;devServer&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;proxy&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/{express服务的路径，例如api}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//127.0.0.1:{express端口},
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ws&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样，启动&lt;code&gt;npm run serve&lt;/code&gt;的时候同时启动&lt;code&gt;start: be&lt;/code&gt;即可同时开启前后端&lt;/p&gt;
+&lt;h4 id=&#34;打包让express应用调用vue结果&#34;&gt;打包让express应用调用vue结果&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;express&lt;/code&gt;有&lt;code&gt;static&lt;/code&gt;功能，假定用的是&lt;code&gt;public&lt;/code&gt; 文件夹&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;package.json&lt;/code&gt;添加命令&lt;code&gt;&amp;quot;build:be&amp;quot;: &amp;quot;cp package.json ./dist/ &amp;amp;&amp;amp; cp server/* ./dist/&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;这样来打包&lt;code&gt;express&lt;/code&gt;应用&lt;/p&gt;
+&lt;p&gt;同时express内添加一行，&lt;code&gt;app.use(express.static(&#39;./public&#39;))&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;接着，来改造&lt;code&gt;vue.config.js&lt;/code&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
 module.exports = {
+
 outputDir: &amp;#34;./dist/public&amp;#34;
+
 }
-&lt;/code>&lt;/pre>&lt;p>之后build命令运行完，运行build:fe即可&lt;/p></description></item><item><title>Electron构建如何支持m1芯片</title><link>https://mizuka-wu.github.io/posts/electron%E6%9E%84%E5%BB%BA%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81m1%E8%8A%AF%E7%89%87/</link><pubDate>Sat, 09 Jan 2021 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/electron%E6%9E%84%E5%BB%BA%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81m1%E8%8A%AF%E7%89%87/</guid><description>&lt;h1 id="起因">起因&lt;/h1>
-&lt;p>换了台&lt;code>m1&lt;/code>的macbook, 我之前的&lt;code>看板electron&lt;/code>程序构建的还是老的x64版本，使用上还需要使用&lt;code>rosetta2&lt;/code>进行转译，性能损失不说，说不定还有潜在的问题，所幸看到 &lt;code>electron11&lt;/code>开始支持使用&lt;code>arm64&lt;/code>芯片的&lt;code>mac&lt;/code>了，正好升级一波&lt;/p>
-&lt;h2 id="写在前面">写在前面&lt;/h2>
-&lt;p>目前工具库还在&lt;code>preview&lt;/code>，taobao镜像不可用&lt;/p>
-&lt;p>顺带提一下我之前的项目结构&lt;/p>
-&lt;ul>
-&lt;li>
-&lt;p>基于 &lt;code>@vue/cli4&lt;/code>&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>使用 &lt;a href="https://github.com/nklayman/vue-cli-plugin-electron-builder">vue-cli-plugin-electron-builder&lt;/a>注入的&lt;code>electron&lt;/code>相关&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>构建流 本地正常构建，自动构建流基于&lt;code>samuelmeuli/action-electron-builder@v1&lt;/code>自动构建&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>项目地址&lt;a href="https://github.com/mizuka-wu/kanban">点击这里&lt;/a>&lt;/p>
-&lt;/li>
-&lt;/ul>
-&lt;h2 id="开工">开工&lt;/h2>
-&lt;h3 id="升级依赖">升级依赖&lt;/h3>
-&lt;p>首先需要升级使用的&lt;code>electron&lt;/code>到支持新芯片的版本，目前能够使用的是&lt;a href="https://www.infoq.cn/article/towhhg7ik65o57horszr">electron11&lt;/a>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>npm install --save electron@11
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>同时我们需要升级&lt;code>electron-builder&lt;/code>到支持打包新芯片的版本, 根据&lt;a href="https://github.com/electron-userland/electron-builder/blob/master/packages/app-builder-lib/scheme.json#L4955-L4980">最新的方案&lt;/a>，&lt;code>arch&lt;/code>需要支持&lt;code>arm64&lt;/code>并且可以打包&lt;code>dmg&lt;/code>的话，需要升级到&lt;code>22.10.4&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>npm install --save-dev electron-builder@22.10.4
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>不过因为还在&lt;code>preview&lt;/code> 只有&lt;code>npm&lt;/code>官方仓库可以安装&lt;/p>
-&lt;p>接下来我们改造构建选项，因为我使用&lt;code>vue&lt;/code>的插件, 所以我写在&lt;code>vue.config.js&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">module&lt;/span>.&lt;span style="color:#a6e22e">exports&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">pluginOptions&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">electronBuilder&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">builderOptions&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">artifactName&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;${productName}-${version}-${os}-${arch}.${ext}&amp;#39;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">mac&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">target&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">arch&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;universal&amp;#39;&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">target&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#e6db74">&amp;#39;dmg&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>},
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样可以打包一个自适应芯片的版本，当然你想打两个包可以把&lt;code>arch&lt;/code>换成&lt;code>arch: ['x64', 'arm64']&lt;/code>&lt;/p></description></item><item><title>文字超过x行后补上省略号的几种办法</title><link>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</link><pubDate>Fri, 18 Oct 2019 12:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</guid><description>&lt;h2 id="文字超过-x-行后补上省略号的几种办法">文字超过 x 行后补上省略号的几种办法&lt;/h2>
-&lt;p>&lt;a href="https://css-tricks.com/line-clampin/">原文&lt;/a>&lt;/p>
-&lt;p>简单来说，在 pc 端，文字过长溢出的话，溢出的部分会被替换成&lt;code>...&lt;/code>,然而在显示情况中，更多的是在超过 x 行之后才启用这个特性，例如&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">div&lt;/span> &lt;span style="color:#a6e22e">class&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;module&amp;#34;&lt;/span>&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">p&lt;/span>&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Pellentesque habitant morbi tristique senectus et netus et malesuada fames
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ultricies mi vitae est. Mauris placerat eleifend leo.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">p&lt;/span>&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/&lt;span style="color:#f92672">div&lt;/span>&amp;gt;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>最终希望三行之后到这种效果:&lt;/p>
-&lt;p>&lt;img alt="省略号效果图" loading="lazy" src="https://css-tricks.com/wp-content/uploads/2013/05/clamped.png">&lt;/p>
-&lt;p>为了演示，我们先定义基础的 css，剩下的方法都在这个 css 的基础之上&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-css" data-lang="css">&lt;span style="display:flex;">&lt;span>.&lt;span style="color:#a6e22e">module&lt;/span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">width&lt;/span>: &lt;span style="color:#ae81ff">250&lt;/span>&lt;span style="color:#66d9ef">px&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">overflow&lt;/span>: &lt;span style="color:#66d9ef">hidden&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="weird-webkit-flexbox-way">Weird WebKit Flexbox Way&lt;/h2>
-&lt;p>使用 webkit 内置的方案&lt;/p></description></item><item><title>自动给表格空单元格补上字符串</title><link>https://mizuka-wu.github.io/posts/%E8%87%AA%E5%8A%A8%E7%BB%99%E8%A1%A8%E6%A0%BC%E7%A9%BA%E5%8D%95%E5%85%83%E6%A0%BC%E8%A1%A5%E4%B8%8A%E5%AD%97%E7%AC%A6%E4%B8%B2/</link><pubDate>Mon, 23 Sep 2019 09:11:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E8%87%AA%E5%8A%A8%E7%BB%99%E8%A1%A8%E6%A0%BC%E7%A9%BA%E5%8D%95%E5%85%83%E6%A0%BC%E8%A1%A5%E4%B8%8A%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid><description>&lt;h2 id="自动给表格空单元格补上字符串">自动给表格空单元格补上字符串&lt;/h2>
-&lt;h2 id="背景">背景&lt;/h2>
-&lt;p>ui 设计中，如果单元格内部为空的话，需要填充一个默认字符串标明是个空格子，本身计划使用 js 来做的，但是考虑到要需要遍历，判断等等一系列操作，而且 js 里 &lt;code>0&lt;/code> 做 boolean 判断也是返回 false，无形中增加了判断的步骤，所以这个时候还是求助于万能的 css 吧&lt;/p>
-&lt;p>以下为 less 代码&lt;/p>
-&lt;pre tabindex="0">&lt;code class="language-less" data-lang="less">td:empty {
-&amp;amp;::after {
-content: &amp;#34;-&amp;#34;;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;之后build命令运行完，运行build:fe即可&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Electron构建如何支持m1芯片</title>
+      <link>https://mizuka-wu.github.io/posts/electron%E6%9E%84%E5%BB%BA%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81m1%E8%8A%AF%E7%89%87/</link>
+      <pubDate>Sat, 09 Jan 2021 12:11:57 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/electron%E6%9E%84%E5%BB%BA%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81m1%E8%8A%AF%E7%89%87/</guid>
+      <description>&lt;h1 id=&#34;起因&#34;&gt;起因&lt;/h1&gt;
+&lt;p&gt;换了台&lt;code&gt;m1&lt;/code&gt;的macbook, 我之前的&lt;code&gt;看板electron&lt;/code&gt;程序构建的还是老的x64版本，使用上还需要使用&lt;code&gt;rosetta2&lt;/code&gt;进行转译，性能损失不说，说不定还有潜在的问题，所幸看到 &lt;code&gt;electron11&lt;/code&gt;开始支持使用&lt;code&gt;arm64&lt;/code&gt;芯片的&lt;code&gt;mac&lt;/code&gt;了，正好升级一波&lt;/p&gt;
+&lt;h2 id=&#34;写在前面&#34;&gt;写在前面&lt;/h2&gt;
+&lt;p&gt;目前工具库还在&lt;code&gt;preview&lt;/code&gt;，taobao镜像不可用&lt;/p&gt;
+&lt;p&gt;顺带提一下我之前的项目结构&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;基于 &lt;code&gt;@vue/cli4&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用 &lt;a href=&#34;https://github.com/nklayman/vue-cli-plugin-electron-builder&#34;&gt;vue-cli-plugin-electron-builder&lt;/a&gt;注入的&lt;code&gt;electron&lt;/code&gt;相关&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;构建流 本地正常构建，自动构建流基于&lt;code&gt;samuelmeuli/action-electron-builder@v1&lt;/code&gt;自动构建&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;项目地址&lt;a href=&#34;https://github.com/mizuka-wu/kanban&#34;&gt;点击这里&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;开工&#34;&gt;开工&lt;/h2&gt;
+&lt;h3 id=&#34;升级依赖&#34;&gt;升级依赖&lt;/h3&gt;
+&lt;p&gt;首先需要升级使用的&lt;code&gt;electron&lt;/code&gt;到支持新芯片的版本，目前能够使用的是&lt;a href=&#34;https://www.infoq.cn/article/towhhg7ik65o57horszr&#34;&gt;electron11&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;npm install --save electron@11
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同时我们需要升级&lt;code&gt;electron-builder&lt;/code&gt;到支持打包新芯片的版本, 根据&lt;a href=&#34;https://github.com/electron-userland/electron-builder/blob/master/packages/app-builder-lib/scheme.json#L4955-L4980&#34;&gt;最新的方案&lt;/a&gt;，&lt;code&gt;arch&lt;/code&gt;需要支持&lt;code&gt;arm64&lt;/code&gt;并且可以打包&lt;code&gt;dmg&lt;/code&gt;的话，需要升级到&lt;code&gt;22.10.4&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;npm install --save-dev electron-builder@22.10.4
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;不过因为还在&lt;code&gt;preview&lt;/code&gt; 只有&lt;code&gt;npm&lt;/code&gt;官方仓库可以安装&lt;/p&gt;
+&lt;p&gt;接下来我们改造构建选项，因为我使用&lt;code&gt;vue&lt;/code&gt;的插件, 所以我写在&lt;code&gt;vue.config.js&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;module&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;exports&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;pluginOptions&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;electronBuilder&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;builderOptions&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;artifactName&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;${productName}-${version}-${os}-${arch}.${ext}&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;mac&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;arch&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;universal&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;dmg&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样可以打包一个自适应芯片的版本，当然你想打两个包可以把&lt;code&gt;arch&lt;/code&gt;换成&lt;code&gt;arch: [&#39;x64&#39;, &#39;arm64&#39;]&lt;/code&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>文字超过x行后补上省略号的几种办法</title>
+      <link>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</link>
+      <pubDate>Fri, 18 Oct 2019 12:11:57 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/%E6%96%87%E5%AD%97%E8%B6%85%E8%BF%87x%E8%A1%8C%E5%90%8E%E8%A1%A5%E4%B8%8A%E7%9C%81%E7%95%A5%E5%8F%B7%E7%9A%84%E5%87%A0%E7%A7%8D%E5%8A%9E%E6%B3%95/</guid>
+      <description>&lt;h2 id=&#34;文字超过-x-行后补上省略号的几种办法&#34;&gt;文字超过 x 行后补上省略号的几种办法&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://css-tricks.com/line-clampin/&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;简单来说，在 pc 端，文字过长溢出的话，溢出的部分会被替换成&lt;code&gt;...&lt;/code&gt;,然而在显示情况中，更多的是在超过 x 行之后才启用这个特性，例如&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;module&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;p&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Pellentesque habitant morbi tristique senectus et netus et malesuada fames
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ultricies mi vitae est. Mauris placerat eleifend leo.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;p&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;最终希望三行之后到这种效果:&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;省略号效果图&#34; loading=&#34;lazy&#34; src=&#34;https://css-tricks.com/wp-content/uploads/2013/05/clamped.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;为了演示，我们先定义基础的 css，剩下的方法都在这个 css 的基础之上&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;module&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;width&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;250&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;px&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;overflow&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;hidden&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;weird-webkit-flexbox-way&#34;&gt;Weird WebKit Flexbox Way&lt;/h2&gt;
+&lt;p&gt;使用 webkit 内置的方案&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>自动给表格空单元格补上字符串</title>
+      <link>https://mizuka-wu.github.io/posts/%E8%87%AA%E5%8A%A8%E7%BB%99%E8%A1%A8%E6%A0%BC%E7%A9%BA%E5%8D%95%E5%85%83%E6%A0%BC%E8%A1%A5%E4%B8%8A%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <pubDate>Mon, 23 Sep 2019 09:11:57 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/%E8%87%AA%E5%8A%A8%E7%BB%99%E8%A1%A8%E6%A0%BC%E7%A9%BA%E5%8D%95%E5%85%83%E6%A0%BC%E8%A1%A5%E4%B8%8A%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <description>&lt;h2 id=&#34;自动给表格空单元格补上字符串&#34;&gt;自动给表格空单元格补上字符串&lt;/h2&gt;
+&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
+&lt;p&gt;ui 设计中，如果单元格内部为空的话，需要填充一个默认字符串标明是个空格子，本身计划使用 js 来做的，但是考虑到要需要遍历，判断等等一系列操作，而且 js 里 &lt;code&gt;0&lt;/code&gt; 做 boolean 判断也是返回 false，无形中增加了判断的步骤，所以这个时候还是求助于万能的 css 吧&lt;/p&gt;
+&lt;p&gt;以下为 less 代码&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-less&#34; data-lang=&#34;less&#34;&gt;td:empty {
+  &amp;amp;::after {
+    content: &amp;#34;-&amp;#34;;
+  }
 }
-}
-&lt;/code>&lt;/pre></description></item><item><title>上传app卡在通过app store进行鉴定</title><link>https://mizuka-wu.github.io/posts/%E4%B8%8A%E4%BC%A0app%E5%8D%A1%E5%9C%A8%E9%80%9A%E8%BF%87app-store%E8%BF%9B%E8%A1%8C%E9%89%B4%E5%AE%9A/</link><pubDate>Tue, 09 Jul 2019 18:17:35 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E4%B8%8A%E4%BC%A0app%E5%8D%A1%E5%9C%A8%E9%80%9A%E8%BF%87app-store%E8%BF%9B%E8%A1%8C%E9%89%B4%E5%AE%9A/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd ~
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mv .itmstransporter/ .old_itmstransporter/
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&amp;#34;/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/itms/bin/iTMSTransporter&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>如何删除除了Master之外的所有分支</title><link>https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E9%99%A4%E4%BA%86master%E4%B9%8B%E5%A4%96%E7%9A%84%E6%89%80%E6%9C%89%E5%88%86%E6%94%AF/</link><pubDate>Wed, 05 Jun 2019 11:41:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E9%99%A4%E4%BA%86master%E4%B9%8B%E5%A4%96%E7%9A%84%E6%89%80%E6%9C%89%E5%88%86%E6%94%AF/</guid><description>&lt;h2 id="如何删除除了master之外的所有分支">如何删除除了Master之外的所有分支&lt;/h2>
-&lt;ol>
-&lt;li>
-&lt;p>切换到 master&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>删了其他的&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git stash &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> git checkout master &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> git branch | grep -v &lt;span style="color:#e6db74">&amp;#34;master&amp;#34;&lt;/span> | xargs git branch -D
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>electron开机自动启动</title><link>https://mizuka-wu.github.io/posts/electron%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8/</link><pubDate>Mon, 11 Feb 2019 11:41:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/electron%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8/</guid><description>&lt;p>直接&lt;/p>
-&lt;p>直接上&lt;/p>
-&lt;p>直接上代码&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">exeName&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">path&lt;/span>.&lt;span style="color:#a6e22e">basename&lt;/span>(&lt;span style="color:#a6e22e">process&lt;/span>.&lt;span style="color:#a6e22e">execPath&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">app&lt;/span>.&lt;span style="color:#a6e22e">setLoginItemSettings&lt;/span>({
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">openAtLogin&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#f92672">!&lt;/span>&lt;span style="color:#a6e22e">openAtLogin&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">path&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">process&lt;/span>.&lt;span style="color:#a6e22e">execPath&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">args&lt;/span>&lt;span style="color:#f92672">:&lt;/span> [
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">&amp;#39;--processStart&amp;#39;&lt;/span>, &lt;span style="color:#e6db74">`&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>&lt;span style="color:#a6e22e">exeName&lt;/span>&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;`&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>html上实现div按照宽高比自适应</title><link>https://mizuka-wu.github.io/posts/html%E4%B8%8A%E5%AE%9E%E7%8E%B0div%E6%8C%89%E7%85%A7%E5%AE%BD%E9%AB%98%E6%AF%94%E8%87%AA%E9%80%82%E5%BA%94/</link><pubDate>Sun, 25 Nov 2018 09:40:02 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/html%E4%B8%8A%E5%AE%9E%E7%8E%B0div%E6%8C%89%E7%85%A7%E5%AE%BD%E9%AB%98%E6%AF%94%E8%87%AA%E9%80%82%E5%BA%94/</guid><description>&lt;h1 id="html-上实现-div-按照宽高比自适应">html 上实现 div 按照宽高比自适应&lt;/h1>
-&lt;p>原理很简单，padding 的百分比是根据宽度作为百分比自动设置的，所以容器上使用&lt;/p>
-&lt;pre tabindex="0">&lt;code class="language-less" data-lang="less">
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>上传app卡在通过app store进行鉴定</title>
+      <link>https://mizuka-wu.github.io/posts/%E4%B8%8A%E4%BC%A0app%E5%8D%A1%E5%9C%A8%E9%80%9A%E8%BF%87app-store%E8%BF%9B%E8%A1%8C%E9%89%B4%E5%AE%9A/</link>
+      <pubDate>Tue, 09 Jul 2019 18:17:35 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/%E4%B8%8A%E4%BC%A0app%E5%8D%A1%E5%9C%A8%E9%80%9A%E8%BF%87app-store%E8%BF%9B%E8%A1%8C%E9%89%B4%E5%AE%9A/</guid>
+      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd ~
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mv .itmstransporter/ .old_itmstransporter/
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/itms/bin/iTMSTransporter&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>如何删除除了Master之外的所有分支</title>
+      <link>https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E9%99%A4%E4%BA%86master%E4%B9%8B%E5%A4%96%E7%9A%84%E6%89%80%E6%9C%89%E5%88%86%E6%94%AF/</link>
+      <pubDate>Wed, 05 Jun 2019 11:41:57 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E9%99%A4%E4%BA%86master%E4%B9%8B%E5%A4%96%E7%9A%84%E6%89%80%E6%9C%89%E5%88%86%E6%94%AF/</guid>
+      <description>&lt;h2 id=&#34;如何删除除了master之外的所有分支&#34;&gt;如何删除除了Master之外的所有分支&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;切换到 master&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;删了其他的&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git stash &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; git checkout master &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; git branch | grep -v &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;master&amp;#34;&lt;/span&gt; | xargs git branch -D
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>electron开机自动启动</title>
+      <link>https://mizuka-wu.github.io/posts/electron%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8/</link>
+      <pubDate>Mon, 11 Feb 2019 11:41:57 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/electron%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8/</guid>
+      <description>&lt;p&gt;直接&lt;/p&gt;
+&lt;p&gt;直接上&lt;/p&gt;
+&lt;p&gt;直接上代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;exeName&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;path&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;basename&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;process&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;execPath&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;app&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;setLoginItemSettings&lt;/span&gt;({
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;openAtLogin&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;openAtLogin&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;path&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;process&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;execPath&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;args&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;--processStart&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;`&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;exeName&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>html上实现div按照宽高比自适应</title>
+      <link>https://mizuka-wu.github.io/posts/html%E4%B8%8A%E5%AE%9E%E7%8E%B0div%E6%8C%89%E7%85%A7%E5%AE%BD%E9%AB%98%E6%AF%94%E8%87%AA%E9%80%82%E5%BA%94/</link>
+      <pubDate>Sun, 25 Nov 2018 09:40:02 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/html%E4%B8%8A%E5%AE%9E%E7%8E%B0div%E6%8C%89%E7%85%A7%E5%AE%BD%E9%AB%98%E6%AF%94%E8%87%AA%E9%80%82%E5%BA%94/</guid>
+      <description>&lt;h1 id=&#34;html-上实现-div-按照宽高比自适应&#34;&gt;html 上实现 div 按照宽高比自适应&lt;/h1&gt;
+&lt;p&gt;原理很简单，padding 的百分比是根据宽度作为百分比自动设置的，所以容器上使用&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-less&#34; data-lang=&#34;less&#34;&gt;
 .container {
+
 height: 0;
+
 padding-top: 114%;
+
 .data {
+
 width: 100%;
+
 height: 100%;
+
 }
+
 }
-&lt;/code>&lt;/pre>&lt;p>就可以了&lt;/p></description></item><item><title>一段从js数组中获取重复数据的代码</title><link>https://mizuka-wu.github.io/posts/%E4%B8%80%E6%AE%B5%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E8%8E%B7%E5%8F%96%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BB%A3%E7%A0%81/</link><pubDate>Thu, 18 Oct 2018 11:12:53 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E4%B8%80%E6%AE%B5%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E8%8E%B7%E5%8F%96%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BB%A3%E7%A0%81/</guid><description>&lt;pre tabindex="0">&lt;code>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;就可以了&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>一段从js数组中获取重复数据的代码</title>
+      <link>https://mizuka-wu.github.io/posts/%E4%B8%80%E6%AE%B5%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E8%8E%B7%E5%8F%96%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BB%A3%E7%A0%81/</link>
+      <pubDate>Thu, 18 Oct 2018 11:12:53 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/%E4%B8%80%E6%AE%B5%E4%BB%8E%E6%95%B0%E7%BB%84%E4%B8%AD%E8%8E%B7%E5%8F%96%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BB%A3%E7%A0%81/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
 Array.prototype.duplicate=function() {
+
 let tmp = [];
+
 this.concat().sort().sort(function(a,b){
+
 if(a==b &amp;amp;&amp;amp; tmp.indexOf(a) === -1) tmp.push(a);
+
 });
+
 return tmp;
+
 }
-&lt;/code>&lt;/pre></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+  </channel>
+</rss>

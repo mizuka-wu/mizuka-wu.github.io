@@ -1,55 +1,73 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>列拖拽 on 水华的博客</title><link>https://mizuka-wu.github.io/tags/%E5%88%97%E6%8B%96%E6%8B%BD/</link><description>Recent content in 列拖拽 on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 11 Dec 2021 11:41:57 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/%E5%88%97%E6%8B%96%E6%8B%BD/index.xml" rel="self" type="application/rss+xml"/><item><title>如何实现表格的列拖拽的</title><link>https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%A1%A8%E6%A0%BC%E7%9A%84%E5%88%97%E6%8B%96%E6%8B%BD%E7%9A%84/</link><pubDate>Sat, 11 Dec 2021 11:41:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%A1%A8%E6%A0%BC%E7%9A%84%E5%88%97%E6%8B%96%E6%8B%BD%E7%9A%84/</guid><description>&lt;blockquote>
-&lt;p>因为使用el-table实现，所以一些抓取dom的class类通过el-table内置的类实现，实际如果是简单表格的话，可以自行增加&lt;code>class来实现&lt;/code>&lt;/p>&lt;/blockquote>
-&lt;h2 id="底层框架原理">底层框架/原理&lt;/h2>
-&lt;p>&lt;a href="http://www.sortablejs.com/options.html">sortablejs&lt;/a>&lt;/p>
-&lt;p>核心的拖拽原理，我们通过使用&lt;code>sortablejs&lt;/code>提供的&lt;code>dom&lt;/code>拖拽方案，实现&lt;/p>
-&lt;p>我们通过让&lt;code>sortablejs&lt;/code>的&lt;code>el&lt;/code>参数指定到&lt;code>el-table&lt;/code>的&lt;code>header&lt;/code>上&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">query&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;.el-table__header-wrapper thead tr&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">el&lt;/span> &lt;span style="color:#a6e22e">docuemnt&lt;/span>.&lt;span style="color:#a6e22e">querySelector&lt;/span>(&lt;span style="color:#a6e22e">query&lt;/span>) &lt;span style="color:#75715e">// this.$el.querySelector(query)
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>那么表头的那一行的所有&lt;code>th&lt;/code>就变为拖拽目标了，之后根据&lt;code>index&lt;/code>的顺序变化，可以反推到列的切换上&lt;/p>
-&lt;p>核心代码&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">sortable&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">Sortable&lt;/span>(&lt;span style="color:#a6e22e">el&lt;/span>, {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">onEnd&lt;/span>(&lt;span style="color:#a6e22e">evt&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">let&lt;/span> { &lt;span style="color:#a6e22e">newIndex&lt;/span>, &lt;span style="color:#a6e22e">oldIndex&lt;/span>, &lt;span style="color:#a6e22e">item&lt;/span> } &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">evt&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 通知上级交换column位置
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="其他一些实现">其他一些实现&lt;/h2>
-&lt;h3 id="跨表格实现">跨表格实现&lt;/h3>
-&lt;p>跨表格实现思路在于，通过在&lt;code>window&lt;/code>上建立一个桥接用的&lt;code>map&lt;/code>&lt;/p>
-&lt;p>缓存&lt;code>table&lt;/code>的dom =&amp;gt; vue实例对应关系&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">sortable&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">Sortable&lt;/span>(&lt;span style="color:#a6e22e">el&lt;/span>, {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">onEnd&lt;/span>(&lt;span style="color:#a6e22e">evt&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> { &lt;span style="color:#a6e22e">to&lt;/span>, &lt;span style="color:#a6e22e">from&lt;/span>, &lt;span style="color:#a6e22e">pullMode&lt;/span> } &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">evt&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">toContext&lt;/span> &lt;span style="color:#f92672">=&lt;/span> window.&lt;span style="color:#a6e22e">bridge&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#a6e22e">to&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">fromContext&lt;/span> &lt;span style="color:#f92672">=&lt;/span> window.&lt;span style="color:#a6e22e">bridge&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#a6e22e">from&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">let&lt;/span> { &lt;span style="color:#a6e22e">newIndex&lt;/span>, &lt;span style="color:#a6e22e">oldIndex&lt;/span>, &lt;span style="color:#a6e22e">item&lt;/span> } &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">evt&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 通知from和to对应的数据进行切换即可
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="拖拽优化">拖拽优化&lt;/h3>
-&lt;p>虽然核心代码很简单，但是不够完美，拖拽的时候只有表头可以进行拖动，实际上整列是没有跟着一起拖动的&lt;/p>
-&lt;p>所以我们需要进行样式上的优化，主要有两点&lt;/p>
-&lt;ol>
-&lt;li>
-&lt;p>拖拽时候的影子&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>该列所有td跟随表头拖动&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>列拖拽 on 水华的博客</title>
+    <link>https://mizuka-wu.github.io/tags/%E5%88%97%E6%8B%96%E6%8B%BD/</link>
+    <description>Recent content in 列拖拽 on 水华的博客</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 11 Dec 2021 11:41:57 +0000</lastBuildDate>
+    <atom:link href="https://mizuka-wu.github.io/tags/%E5%88%97%E6%8B%96%E6%8B%BD/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>如何实现表格的列拖拽的</title>
+      <link>https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%A1%A8%E6%A0%BC%E7%9A%84%E5%88%97%E6%8B%96%E6%8B%BD%E7%9A%84/</link>
+      <pubDate>Sat, 11 Dec 2021 11:41:57 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%A1%A8%E6%A0%BC%E7%9A%84%E5%88%97%E6%8B%96%E6%8B%BD%E7%9A%84/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;因为使用el-table实现，所以一些抓取dom的class类通过el-table内置的类实现，实际如果是简单表格的话，可以自行增加&lt;code&gt;class来实现&lt;/code&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;底层框架原理&#34;&gt;底层框架/原理&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.sortablejs.com/options.html&#34;&gt;sortablejs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;核心的拖拽原理，我们通过使用&lt;code&gt;sortablejs&lt;/code&gt;提供的&lt;code&gt;dom&lt;/code&gt;拖拽方案，实现&lt;/p&gt;
+&lt;p&gt;我们通过让&lt;code&gt;sortablejs&lt;/code&gt;的&lt;code&gt;el&lt;/code&gt;参数指定到&lt;code&gt;el-table&lt;/code&gt;的&lt;code&gt;header&lt;/code&gt;上&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.el-table__header-wrapper thead tr&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;el&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;docuemnt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;querySelector&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;// this.$el.querySelector(query)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;那么表头的那一行的所有&lt;code&gt;th&lt;/code&gt;就变为拖拽目标了，之后根据&lt;code&gt;index&lt;/code&gt;的顺序变化，可以反推到列的切换上&lt;/p&gt;
+&lt;p&gt;核心代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sortable&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Sortable&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;el&lt;/span&gt;, {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;onEnd&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;evt&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; { &lt;span style=&#34;color:#a6e22e&#34;&gt;newIndex&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;oldIndex&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;item&lt;/span&gt; } &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;evt&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 通知上级交换column位置
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;其他一些实现&#34;&gt;其他一些实现&lt;/h2&gt;
+&lt;h3 id=&#34;跨表格实现&#34;&gt;跨表格实现&lt;/h3&gt;
+&lt;p&gt;跨表格实现思路在于，通过在&lt;code&gt;window&lt;/code&gt;上建立一个桥接用的&lt;code&gt;map&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;缓存&lt;code&gt;table&lt;/code&gt;的dom =&amp;gt; vue实例对应关系&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sortable&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Sortable&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;el&lt;/span&gt;, {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;onEnd&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;evt&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; { &lt;span style=&#34;color:#a6e22e&#34;&gt;to&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;from&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;pullMode&lt;/span&gt; } &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;evt&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;toContext&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; window.&lt;span style=&#34;color:#a6e22e&#34;&gt;bridge&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;get&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;to&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fromContext&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; window.&lt;span style=&#34;color:#a6e22e&#34;&gt;bridge&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;get&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;from&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; { &lt;span style=&#34;color:#a6e22e&#34;&gt;newIndex&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;oldIndex&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;item&lt;/span&gt; } &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;evt&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 通知from和to对应的数据进行切换即可
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;拖拽优化&#34;&gt;拖拽优化&lt;/h3&gt;
+&lt;p&gt;虽然核心代码很简单，但是不够完美，拖拽的时候只有表头可以进行拖动，实际上整列是没有跟着一起拖动的&lt;/p&gt;
+&lt;p&gt;所以我们需要进行样式上的优化，主要有两点&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;拖拽时候的影子&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;该列所有td跟随表头拖动&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,175 +1,232 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>El-Table on 水华的博客</title><link>https://mizuka-wu.github.io/tags/el-table/</link><description>Recent content in El-Table on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 11 Dec 2021 11:41:57 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/el-table/index.xml" rel="self" type="application/rss+xml"/><item><title>如何实现表格的列拖拽的</title><link>https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%A1%A8%E6%A0%BC%E7%9A%84%E5%88%97%E6%8B%96%E6%8B%BD%E7%9A%84/</link><pubDate>Sat, 11 Dec 2021 11:41:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%A1%A8%E6%A0%BC%E7%9A%84%E5%88%97%E6%8B%96%E6%8B%BD%E7%9A%84/</guid><description>&lt;blockquote>
-&lt;p>因为使用el-table实现，所以一些抓取dom的class类通过el-table内置的类实现，实际如果是简单表格的话，可以自行增加&lt;code>class来实现&lt;/code>&lt;/p>&lt;/blockquote>
-&lt;h2 id="底层框架原理">底层框架/原理&lt;/h2>
-&lt;p>&lt;a href="http://www.sortablejs.com/options.html">sortablejs&lt;/a>&lt;/p>
-&lt;p>核心的拖拽原理，我们通过使用&lt;code>sortablejs&lt;/code>提供的&lt;code>dom&lt;/code>拖拽方案，实现&lt;/p>
-&lt;p>我们通过让&lt;code>sortablejs&lt;/code>的&lt;code>el&lt;/code>参数指定到&lt;code>el-table&lt;/code>的&lt;code>header&lt;/code>上&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">query&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;.el-table__header-wrapper thead tr&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">el&lt;/span> &lt;span style="color:#a6e22e">docuemnt&lt;/span>.&lt;span style="color:#a6e22e">querySelector&lt;/span>(&lt;span style="color:#a6e22e">query&lt;/span>) &lt;span style="color:#75715e">// this.$el.querySelector(query)
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>那么表头的那一行的所有&lt;code>th&lt;/code>就变为拖拽目标了，之后根据&lt;code>index&lt;/code>的顺序变化，可以反推到列的切换上&lt;/p>
-&lt;p>核心代码&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">sortable&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">Sortable&lt;/span>(&lt;span style="color:#a6e22e">el&lt;/span>, {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">onEnd&lt;/span>(&lt;span style="color:#a6e22e">evt&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">let&lt;/span> { &lt;span style="color:#a6e22e">newIndex&lt;/span>, &lt;span style="color:#a6e22e">oldIndex&lt;/span>, &lt;span style="color:#a6e22e">item&lt;/span> } &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">evt&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 通知上级交换column位置
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="其他一些实现">其他一些实现&lt;/h2>
-&lt;h3 id="跨表格实现">跨表格实现&lt;/h3>
-&lt;p>跨表格实现思路在于，通过在&lt;code>window&lt;/code>上建立一个桥接用的&lt;code>map&lt;/code>&lt;/p>
-&lt;p>缓存&lt;code>table&lt;/code>的dom =&amp;gt; vue实例对应关系&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">sortable&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#a6e22e">Sortable&lt;/span>(&lt;span style="color:#a6e22e">el&lt;/span>, {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">onEnd&lt;/span>(&lt;span style="color:#a6e22e">evt&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> { &lt;span style="color:#a6e22e">to&lt;/span>, &lt;span style="color:#a6e22e">from&lt;/span>, &lt;span style="color:#a6e22e">pullMode&lt;/span> } &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">evt&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">toContext&lt;/span> &lt;span style="color:#f92672">=&lt;/span> window.&lt;span style="color:#a6e22e">bridge&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#a6e22e">to&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">fromContext&lt;/span> &lt;span style="color:#f92672">=&lt;/span> window.&lt;span style="color:#a6e22e">bridge&lt;/span>.&lt;span style="color:#a6e22e">get&lt;/span>(&lt;span style="color:#a6e22e">from&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">let&lt;/span> { &lt;span style="color:#a6e22e">newIndex&lt;/span>, &lt;span style="color:#a6e22e">oldIndex&lt;/span>, &lt;span style="color:#a6e22e">item&lt;/span> } &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">evt&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 通知from和to对应的数据进行切换即可
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="拖拽优化">拖拽优化&lt;/h3>
-&lt;p>虽然核心代码很简单，但是不够完美，拖拽的时候只有表头可以进行拖动，实际上整列是没有跟着一起拖动的&lt;/p>
-&lt;p>所以我们需要进行样式上的优化，主要有两点&lt;/p>
-&lt;ol>
-&lt;li>
-&lt;p>拖拽时候的影子&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>该列所有td跟随表头拖动&lt;/p></description></item><item><title>el-table拖拽开发实践</title><link>https://mizuka-wu.github.io/posts/el-table%E6%8B%96%E6%8B%BD%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/</link><pubDate>Mon, 02 Aug 2021 10:17:35 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/el-table%E6%8B%96%E6%8B%BD%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/</guid><description>&lt;h3 id="当前使用的">当前使用的&lt;/h3>
-&lt;p>&lt;code>element-ui-el-table-draggable&lt;/code> 提供了对&lt;code>element-ui&lt;/code>内&lt;code>el-table&lt;/code>的行进行拖拽排序的能力&lt;/p>
-&lt;h3 id="不足之处">不足之处&lt;/h3>
-&lt;h4 id="element-ui-el-table-draggable">element-ui-el-table-draggable&lt;/h4>
-&lt;p>只能配置两个参数，不支持列拖拽，不支持类似&lt;code>group&lt;/code>等参数&lt;/p>
-&lt;h2 id="改进和开发记录">改进和开发记录&lt;/h2>
-&lt;p>基本属于重写了, 根据核心原理做了一个出来, 也就是，&lt;code>dom&lt;/code>结构使用&lt;code>.el-table__body-wrapper tbody&lt;/code>，然后直接交换&lt;code>el-table&lt;/code>这个&lt;code>data&lt;/code>对应&lt;code>index&lt;/code>的数据&lt;/p>
-&lt;p>&lt;strong>重点提示，需要给el-table增加row-key，保证交换之后重新渲染的数据正确！！！&lt;/strong>&lt;/p>
-&lt;pre tabindex="0">&lt;code>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>El-Table on 水华的博客</title>
+    <link>https://mizuka-wu.github.io/tags/el-table/</link>
+    <description>Recent content in El-Table on 水华的博客</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 11 Dec 2021 11:41:57 +0000</lastBuildDate>
+    <atom:link href="https://mizuka-wu.github.io/tags/el-table/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>如何实现表格的列拖拽的</title>
+      <link>https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%A1%A8%E6%A0%BC%E7%9A%84%E5%88%97%E6%8B%96%E6%8B%BD%E7%9A%84/</link>
+      <pubDate>Sat, 11 Dec 2021 11:41:57 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%A1%A8%E6%A0%BC%E7%9A%84%E5%88%97%E6%8B%96%E6%8B%BD%E7%9A%84/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;因为使用el-table实现，所以一些抓取dom的class类通过el-table内置的类实现，实际如果是简单表格的话，可以自行增加&lt;code&gt;class来实现&lt;/code&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;底层框架原理&#34;&gt;底层框架/原理&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.sortablejs.com/options.html&#34;&gt;sortablejs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;核心的拖拽原理，我们通过使用&lt;code&gt;sortablejs&lt;/code&gt;提供的&lt;code&gt;dom&lt;/code&gt;拖拽方案，实现&lt;/p&gt;
+&lt;p&gt;我们通过让&lt;code&gt;sortablejs&lt;/code&gt;的&lt;code&gt;el&lt;/code&gt;参数指定到&lt;code&gt;el-table&lt;/code&gt;的&lt;code&gt;header&lt;/code&gt;上&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.el-table__header-wrapper thead tr&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;el&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;docuemnt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;querySelector&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;// this.$el.querySelector(query)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;那么表头的那一行的所有&lt;code&gt;th&lt;/code&gt;就变为拖拽目标了，之后根据&lt;code&gt;index&lt;/code&gt;的顺序变化，可以反推到列的切换上&lt;/p&gt;
+&lt;p&gt;核心代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sortable&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Sortable&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;el&lt;/span&gt;, {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;onEnd&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;evt&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; { &lt;span style=&#34;color:#a6e22e&#34;&gt;newIndex&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;oldIndex&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;item&lt;/span&gt; } &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;evt&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 通知上级交换column位置
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;其他一些实现&#34;&gt;其他一些实现&lt;/h2&gt;
+&lt;h3 id=&#34;跨表格实现&#34;&gt;跨表格实现&lt;/h3&gt;
+&lt;p&gt;跨表格实现思路在于，通过在&lt;code&gt;window&lt;/code&gt;上建立一个桥接用的&lt;code&gt;map&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;缓存&lt;code&gt;table&lt;/code&gt;的dom =&amp;gt; vue实例对应关系&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sortable&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Sortable&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;el&lt;/span&gt;, {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;onEnd&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;evt&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; { &lt;span style=&#34;color:#a6e22e&#34;&gt;to&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;from&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;pullMode&lt;/span&gt; } &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;evt&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;toContext&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; window.&lt;span style=&#34;color:#a6e22e&#34;&gt;bridge&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;get&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;to&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fromContext&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; window.&lt;span style=&#34;color:#a6e22e&#34;&gt;bridge&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;get&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;from&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; { &lt;span style=&#34;color:#a6e22e&#34;&gt;newIndex&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;oldIndex&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;item&lt;/span&gt; } &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;evt&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 通知from和to对应的数据进行切换即可
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;拖拽优化&#34;&gt;拖拽优化&lt;/h3&gt;
+&lt;p&gt;虽然核心代码很简单，但是不够完美，拖拽的时候只有表头可以进行拖动，实际上整列是没有跟着一起拖动的&lt;/p&gt;
+&lt;p&gt;所以我们需要进行样式上的优化，主要有两点&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;拖拽时候的影子&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;该列所有td跟随表头拖动&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>el-table拖拽开发实践</title>
+      <link>https://mizuka-wu.github.io/posts/el-table%E6%8B%96%E6%8B%BD%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/</link>
+      <pubDate>Mon, 02 Aug 2021 10:17:35 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/el-table%E6%8B%96%E6%8B%BD%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/</guid>
+      <description>&lt;h3 id=&#34;当前使用的&#34;&gt;当前使用的&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;element-ui-el-table-draggable&lt;/code&gt; 提供了对&lt;code&gt;element-ui&lt;/code&gt;内&lt;code&gt;el-table&lt;/code&gt;的行进行拖拽排序的能力&lt;/p&gt;
+&lt;h3 id=&#34;不足之处&#34;&gt;不足之处&lt;/h3&gt;
+&lt;h4 id=&#34;element-ui-el-table-draggable&#34;&gt;element-ui-el-table-draggable&lt;/h4&gt;
+&lt;p&gt;只能配置两个参数，不支持列拖拽，不支持类似&lt;code&gt;group&lt;/code&gt;等参数&lt;/p&gt;
+&lt;h2 id=&#34;改进和开发记录&#34;&gt;改进和开发记录&lt;/h2&gt;
+&lt;p&gt;基本属于重写了, 根据核心原理做了一个出来, 也就是，&lt;code&gt;dom&lt;/code&gt;结构使用&lt;code&gt;.el-table__body-wrapper tbody&lt;/code&gt;，然后直接交换&lt;code&gt;el-table&lt;/code&gt;这个&lt;code&gt;data&lt;/code&gt;对应&lt;code&gt;index&lt;/code&gt;的数据&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;重点提示，需要给el-table增加row-key，保证交换之后重新渲染的数据正确！！！&lt;/strong&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
 const elTableContext = this.$children[0] // 因为是通过slot引入
+
 const container = elTableContext.$el.querySelector(&amp;#39;.el-table__body-wrapper tbody&amp;#39;)
+
 Sortable.create(container, {
+
 onEnd(evt) {
+
 let { newIndex, oldIndex, } = evt
+
 // 交换elTableContext.data里的位置，不展开了
+
 exchange(oldIndex, newIndex)
+
 this.$emit(&amp;#39;sort&amp;#39;)
+
 }
+
 })
-&lt;/code>&lt;/pre>&lt;p>之后我们解决几个核心问题&lt;/p>
-&lt;ul>
-&lt;li>
-&lt;p>不能使用sortable.js的配置（例如group属性来多列表之间拖拽）&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>跨表格数据更新&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>支持列拖拽&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>expanded的row特殊处理&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>空处理&lt;/p>
-&lt;/li>
-&lt;/ul>
-&lt;h3 id="sortablejs配置">sortable.js配置&lt;/h3>
-&lt;p>这个好解决，一方面是可以配置&lt;code>props&lt;/code>, 另一方面，我们可以使用&lt;code>$attrs&lt;/code>这个属性，将未在&lt;code>props&lt;/code>内定义的属性直接获取&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">Sortable&lt;/span>.&lt;span style="color:#a6e22e">create&lt;/span>(&lt;span style="color:#a6e22e">container&lt;/span>, {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>...&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">$attrs&lt;/span>,
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// sortable的onXXX事件转为vue的事件格式emit掉
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>...Object.&lt;span style="color:#a6e22e">keys&lt;/span>(&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">$listeners&lt;/span>).&lt;span style="color:#a6e22e">reduce&lt;/span>((&lt;span style="color:#a6e22e">events&lt;/span>, &lt;span style="color:#a6e22e">key&lt;/span>) =&amp;gt; {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">handler&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">$listeners&lt;/span>[&lt;span style="color:#a6e22e">key&lt;/span>]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 首字母大写
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">eventName&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">`on&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>&lt;span style="color:#a6e22e">key&lt;/span>.&lt;span style="color:#a6e22e">replace&lt;/span>(&lt;span style="color:#e6db74">/\b(\w)(\w*)/g&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>(&lt;span style="color:#a6e22e">$0&lt;/span>, &lt;span style="color:#a6e22e">$1&lt;/span>, &lt;span style="color:#a6e22e">$2&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">$1&lt;/span>.&lt;span style="color:#a6e22e">toUpperCase&lt;/span>() &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">$2&lt;/span>.&lt;span style="color:#a6e22e">toLowerCase&lt;/span>()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">)}`&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">events&lt;/span>[&lt;span style="color:#a6e22e">eventName&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> (...&lt;span style="color:#a6e22e">args&lt;/span>) =&amp;gt; &lt;span style="color:#a6e22e">handler&lt;/span>(...&lt;span style="color:#a6e22e">args&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">events&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}, {}),
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">onEnd&lt;/span>(&lt;span style="color:#a6e22e">evt&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 之前的处理代码
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">this&lt;/span>.&lt;span style="color:#a6e22e">$emit&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;end&amp;#39;&lt;/span>, &lt;span style="color:#a6e22e">evt&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>},
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>同时增加一个监听，自动更新对应的参数&lt;/p></description></item><item><title>el-table横向滚动条吸底处理方案思路</title><link>https://mizuka-wu.github.io/posts/el-table%E6%A8%AA%E5%90%91%E6%BB%9A%E5%8A%A8%E6%9D%A1%E5%90%B8%E5%BA%95%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88%E6%80%9D%E8%B7%AF/</link><pubDate>Tue, 09 Jul 2019 18:17:35 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/el-table%E6%A8%AA%E5%90%91%E6%BB%9A%E5%8A%A8%E6%9D%A1%E5%90%B8%E5%BA%95%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88%E6%80%9D%E8%B7%AF/</guid><description>&lt;h2 id="起因">起因&lt;/h2>
-&lt;p>工作中用到的 &lt;code>el-table&lt;/code>显示大批量数据的时候，一页放不下，一般性的处理方案是限定了高，让表格固定表头之后内部可以滚动，不过因为实际操作中样式的问题，需要我把整个表格高度全部显示出来，这样就造成了一个问题，就是横向滚动不方便&lt;/p>
-&lt;p>不过作为&lt;code>mac&lt;/code>用户已开始没啥感觉，但是被用&lt;code>windows&lt;/code>的同事吐槽了好久，于是终于决定花半天时间解决&lt;/p>
-&lt;h2 id="仓库">仓库&lt;/h2>
-&lt;p>已开源，不想看的，可以直接看代码&lt;a href="https://github.com/mizuka-wu/el-table-horizontal-scroll">https://github.com/mizuka-wu/el-table-horizontal-scroll&lt;/a>&lt;/p>
-&lt;p>或者安装&lt;code>npm i el-table-horizontal-scroll&lt;/code>用指令的形式使用该项目&lt;/p>
-&lt;h2 id="实现原理">实现原理&lt;/h2>
-&lt;p>其实是模拟了一个&lt;code>el-scroll&lt;/code>进行同步，为了方便，制作成了一个指令&lt;/p>
-&lt;h3 id="核心代码">核心代码&lt;/h3>
-&lt;p>通过&lt;code>Scroller&lt;/code>类，创建一个&lt;code>scroller&lt;/code>的&lt;code>dom&lt;/code>，并插入到指令提供的&lt;code>el&lt;/code>内部&lt;/p>
-&lt;pre tabindex="0">&lt;code>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;之后我们解决几个核心问题&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;不能使用sortable.js的配置（例如group属性来多列表之间拖拽）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;跨表格数据更新&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;支持列拖拽&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;expanded的row特殊处理&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;空处理&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;sortablejs配置&#34;&gt;sortable.js配置&lt;/h3&gt;
+&lt;p&gt;这个好解决，一方面是可以配置&lt;code&gt;props&lt;/code&gt;, 另一方面，我们可以使用&lt;code&gt;$attrs&lt;/code&gt;这个属性，将未在&lt;code&gt;props&lt;/code&gt;内定义的属性直接获取&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Sortable&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;create&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;container&lt;/span&gt;, {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;...&lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;$attrs&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// sortable的onXXX事件转为vue的事件格式emit掉
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;...Object.&lt;span style=&#34;color:#a6e22e&#34;&gt;keys&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;$listeners&lt;/span&gt;).&lt;span style=&#34;color:#a6e22e&#34;&gt;reduce&lt;/span&gt;((&lt;span style=&#34;color:#a6e22e&#34;&gt;events&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;key&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;handler&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;$listeners&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;key&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 首字母大写
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;eventName&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`on&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;key&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;replace&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;/\b(\w)(\w*)/g&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;$0&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;$1&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;$2&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;$1&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;toUpperCase&lt;/span&gt;() &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;$2&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;toLowerCase&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;)}`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;events&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;eventName&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (...&lt;span style=&#34;color:#a6e22e&#34;&gt;args&lt;/span&gt;) =&amp;gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;handler&lt;/span&gt;(...&lt;span style=&#34;color:#a6e22e&#34;&gt;args&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;events&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}, {}),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;onEnd&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;evt&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 之前的处理代码
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;$emit&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;end&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;evt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同时增加一个监听，自动更新对应的参数&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>el-table横向滚动条吸底处理方案思路</title>
+      <link>https://mizuka-wu.github.io/posts/el-table%E6%A8%AA%E5%90%91%E6%BB%9A%E5%8A%A8%E6%9D%A1%E5%90%B8%E5%BA%95%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88%E6%80%9D%E8%B7%AF/</link>
+      <pubDate>Tue, 09 Jul 2019 18:17:35 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/el-table%E6%A8%AA%E5%90%91%E6%BB%9A%E5%8A%A8%E6%9D%A1%E5%90%B8%E5%BA%95%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88%E6%80%9D%E8%B7%AF/</guid>
+      <description>&lt;h2 id=&#34;起因&#34;&gt;起因&lt;/h2&gt;
+&lt;p&gt;工作中用到的 &lt;code&gt;el-table&lt;/code&gt;显示大批量数据的时候，一页放不下，一般性的处理方案是限定了高，让表格固定表头之后内部可以滚动，不过因为实际操作中样式的问题，需要我把整个表格高度全部显示出来，这样就造成了一个问题，就是横向滚动不方便&lt;/p&gt;
+&lt;p&gt;不过作为&lt;code&gt;mac&lt;/code&gt;用户已开始没啥感觉，但是被用&lt;code&gt;windows&lt;/code&gt;的同事吐槽了好久，于是终于决定花半天时间解决&lt;/p&gt;
+&lt;h2 id=&#34;仓库&#34;&gt;仓库&lt;/h2&gt;
+&lt;p&gt;已开源，不想看的，可以直接看代码&lt;a href=&#34;https://github.com/mizuka-wu/el-table-horizontal-scroll&#34;&gt;https://github.com/mizuka-wu/el-table-horizontal-scroll&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;或者安装&lt;code&gt;npm i el-table-horizontal-scroll&lt;/code&gt;用指令的形式使用该项目&lt;/p&gt;
+&lt;h2 id=&#34;实现原理&#34;&gt;实现原理&lt;/h2&gt;
+&lt;p&gt;其实是模拟了一个&lt;code&gt;el-scroll&lt;/code&gt;进行同步，为了方便，制作成了一个指令&lt;/p&gt;
+&lt;h3 id=&#34;核心代码&#34;&gt;核心代码&lt;/h3&gt;
+&lt;p&gt;通过&lt;code&gt;Scroller&lt;/code&gt;类，创建一个&lt;code&gt;scroller&lt;/code&gt;的&lt;code&gt;dom&lt;/code&gt;，并插入到指令提供的&lt;code&gt;el&lt;/code&gt;内部&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
 el.appendChild(scroller.dom)
-&lt;/code>&lt;/pre>&lt;p>目标对象&lt;/p>
-&lt;pre tabindex="0">&lt;code>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;目标对象&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
 const targetTableWrapperEl = el.querySelector(&amp;#39;.el-table__body-wrapper&amp;#39;)
-&lt;/code>&lt;/pre>&lt;h4 id="scroller类-具体地址">Scroller类 &lt;a href="https://github.com/mizuka-wu/el-table-horizontal-scroll/blob/master/src/lib/directive.js">具体地址&lt;/a>&lt;/h4>
-&lt;p>主要负责了&lt;code>scroller&lt;/code>的创建和管理，具体可以直接看代码&lt;/p>
-&lt;p>其模拟了一个&lt;code>el-scroll&lt;/code>的&lt;code>dom&lt;/code>结构(为了省的写样式)&lt;/p>
-&lt;p>大概会出现一个这样的&lt;code>dom&lt;/code>结构&lt;/p>
-&lt;pre tabindex="0">&lt;code>
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;scroller类-具体地址&#34;&gt;Scroller类 &lt;a href=&#34;https://github.com/mizuka-wu/el-table-horizontal-scroll/blob/master/src/lib/directive.js&#34;&gt;具体地址&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;主要负责了&lt;code&gt;scroller&lt;/code&gt;的创建和管理，具体可以直接看代码&lt;/p&gt;
+&lt;p&gt;其模拟了一个&lt;code&gt;el-scroll&lt;/code&gt;的&lt;code&gt;dom&lt;/code&gt;结构(为了省的写样式)&lt;/p&gt;
+&lt;p&gt;大概会出现一个这样的&lt;code&gt;dom&lt;/code&gt;结构&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
 &amp;lt;!-- scroll/dom整个dom结构 --&amp;gt;
+
 &amp;lt;div class=&amp;#34;el-scrollbar&amp;#34;&amp;gt;
+
 &amp;lt;!-- bar横条容器 --&amp;gt;
+
 &amp;lt;div class=&amp;#34;&amp;#39;el-scrollbar__bar is-horizontal&amp;#34;&amp;gt;
+
 &amp;lt;!-- thumb滑块 --&amp;gt;
+
 &amp;lt;div class=&amp;#34;el-scrollbar__thumb&amp;#34;&amp;gt;&amp;lt;/div&amp;gt;
+
 &amp;lt;/div&amp;gt;
+
 &amp;lt;/div&amp;gt;
-&lt;/code>&lt;/pre>&lt;p>然后整体就是对这个结构进行操作&lt;/p>
-&lt;p>例如，&lt;code>scroll&lt;/code>的整体样式需要手动添加，让其可以自由浮动，然后显示在&lt;code>fixed&lt;/code>列前，所以需要&lt;/p>
-&lt;pre tabindex="0">&lt;code>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后整体就是对这个结构进行操作&lt;/p&gt;
+&lt;p&gt;例如，&lt;code&gt;scroll&lt;/code&gt;的整体样式需要手动添加，让其可以自由浮动，然后显示在&lt;code&gt;fixed&lt;/code&gt;列前，所以需要&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
 scroller.style.height = &amp;#39;12px&amp;#39;
+
 scroller.style.position = &amp;#39;fixed&amp;#39;
+
 scroller.style.bottom = 0
+
 scroller.style.zIndex = 3
-&lt;/code>&lt;/pre>&lt;p>以及一些其他的调整，具体不再阐述&lt;/p>
-&lt;h4 id="自动吸底原理">自动吸底原理&lt;/h4>
-&lt;p>这个就是目前监听&lt;code>document&lt;/code>的&lt;code>scroll&lt;/code>事件，判断是否需要显示&lt;/p>
-&lt;p>核心判断代码就是判断&lt;code>el&lt;/code>的底部是否出现在页面内&lt;/p>
-&lt;pre tabindex="0">&lt;code>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;以及一些其他的调整，具体不再阐述&lt;/p&gt;
+&lt;h4 id=&#34;自动吸底原理&#34;&gt;自动吸底原理&lt;/h4&gt;
+&lt;p&gt;这个就是目前监听&lt;code&gt;document&lt;/code&gt;的&lt;code&gt;scroll&lt;/code&gt;事件，判断是否需要显示&lt;/p&gt;
+&lt;p&gt;核心判断代码就是判断&lt;code&gt;el&lt;/code&gt;的底部是否出现在页面内&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
 const viewHeight = window.innerHeight || document.documentElement.clientHeight
+
 const { bottom } = targetTableWrapperEl.getBoundingClientRect() // 当前的el-table的wrapper，可以在el内获取到
+
 if (bottom &amp;lt;= viewHeight) {
+
 hideScroller()
+
 } else {
+
 showScroller()
+
 }
-&lt;/code>&lt;/pre>&lt;p>平时就&lt;code>position: fixed&lt;/code>在页面底部，如果表格底部显示在页面里了，就自动隐藏即可&lt;/p></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;平时就&lt;code&gt;position: fixed&lt;/code&gt;在页面底部，如果表格底部显示在页面里了，就自动隐藏即可&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

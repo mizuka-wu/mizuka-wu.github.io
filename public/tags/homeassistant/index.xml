@@ -1,7 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>HomeAssistant on 水华的博客</title><link>https://mizuka-wu.github.io/tags/homeassistant/</link><description>Recent content in HomeAssistant on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sun, 26 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/homeassistant/index.xml" rel="self" type="application/rss+xml"/><item><title>HomeAssistant安装指南</title><link>https://mizuka-wu.github.io/posts/%E5%AE%89%E8%A3%85/</link><pubDate>Sun, 26 May 2024 00:00:00 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E5%AE%89%E8%A3%85/</guid><description>&lt;h1 id="homeassistant安装指南">HomeAssistant安装指南&lt;/h1>
-&lt;p>安装hacs
-&lt;a href="https://github.com/hacs-china">https://github.com/hacs-china&lt;/a>
-&lt;br/>
-之后在页面安装hacs&lt;/p>
-&lt;p>&lt;a href="https://github.com/XiaoMi/ha_xiaomi_home/blob/main/doc/README_zh.md">https://github.com/XiaoMi/ha_xiaomi_home/blob/main/doc/README_zh.md&lt;/a>&lt;/p>
-&lt;p>根据小米的ai自动接入&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>HomeAssistant on 水华的博客</title>
+    <link>https://mizuka-wu.github.io/tags/homeassistant/</link>
+    <description>Recent content in HomeAssistant on 水华的博客</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 26 May 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mizuka-wu.github.io/tags/homeassistant/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HomeAssistant安装指南</title>
+      <link>https://mizuka-wu.github.io/posts/%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Sun, 26 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/%E5%AE%89%E8%A3%85/</guid>
+      <description>&lt;h1 id=&#34;homeassistant安装指南&#34;&gt;HomeAssistant安装指南&lt;/h1&gt;
+&lt;p&gt;安装hacs
+&lt;a href=&#34;https://github.com/hacs-china&#34;&gt;https://github.com/hacs-china&lt;/a&gt;
+&lt;br/&gt;
+之后在页面安装hacs&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/XiaoMi/ha_xiaomi_home/blob/main/doc/README_zh.md&#34;&gt;https://github.com/XiaoMi/ha_xiaomi_home/blob/main/doc/README_zh.md&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;根据小米的ai自动接入&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

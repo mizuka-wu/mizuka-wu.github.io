@@ -1,94 +1,112 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>AngularJs on 水华的博客</title><link>https://mizuka-wu.github.io/tags/angularjs/</link><description>Recent content in AngularJs on 水华的博客</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 03 Jan 2019 21:41:57 +0000</lastBuildDate><atom:link href="https://mizuka-wu.github.io/tags/angularjs/index.xml" rel="self" type="application/rss+xml"/><item><title>我们是怎么从ng迁移到vue的</title><link>https://mizuka-wu.github.io/posts/%E6%88%91%E4%BB%AC%E6%98%AF%E6%80%8E%E4%B9%88%E4%BB%8Eng%E8%BF%81%E7%A7%BB%E5%88%B0vue%E7%9A%84/</link><pubDate>Thu, 03 Jan 2019 21:41:57 +0000</pubDate><guid>https://mizuka-wu.github.io/posts/%E6%88%91%E4%BB%AC%E6%98%AF%E6%80%8E%E4%B9%88%E4%BB%8Eng%E8%BF%81%E7%A7%BB%E5%88%B0vue%E7%9A%84/</guid><description>&lt;h1 id="我们是如何从ng1迁移ing到vue的">我们是如何从ng1迁移ing到vue的&lt;/h1>
-&lt;blockquote>
-&lt;p>原本的技术栈 ng1 + gulp + slim +&lt;/p>&lt;/blockquote>
-&lt;blockquote>
-&lt;p>vue *2 + iframe 的一个后端管理项目&lt;/p>&lt;/blockquote>
-&lt;p>&lt;a href="https://juejin.im/post/5c2e109fe51d453fdd604763">&lt;img loading="lazy" src="https://badge.juejin.im/entry/5c2e10c7f265da613d7c31ee/likes.svg?style=flat-square">&lt;/a>&lt;/p>
-&lt;p>&lt;img loading="lazy" src="https://camo.githubusercontent.com/5082953bc69645086be2b2ac5e1a8fa20eff0314/68747470733a2f2f73696e676c652d7370612e6a732e6f72672f696d672f6c6f676f2d77686974652d6267626c75652e737667">&lt;/p>
-&lt;p>这是一个本身因为人手不足，一开始由后端同学创建的后端管理项目，基本采用了gulp + ng1来进行开发，同时前端接手之后为了方便开发以及跟上潮流，采用了新开子目录使用vue开发，nginx和iframe进行整合的方式，最后一个项目变成了三个项目，其实最开始进行开发的时候，连怎么启动都不知道😂&lt;/p>
-&lt;h1 id="要解决的问题">要解决的问题&lt;/h1>
-&lt;h2 id="项目的层级结构">项目的层级结构&lt;/h2>
-&lt;h3 id="原本的结构">原本的结构&lt;/h3>
-&lt;p>顶级目录只包含多个子文件夹以及build.sh，每个子项目需要独立进行编译以及开发&lt;/p>
-&lt;h3 id="新的结构">新的结构&lt;/h3>
-&lt;p>采用signle-spa作为入口文件解决方案，统一管理所有项目的入口文件，实现一次启动，所有项目都能一起开发以及编译，省去了来回切换以及端口冲突&lt;/p>
-&lt;h2 id="构建语言的混乱">构建语言的混乱&lt;/h2>
-&lt;h3 id="原本的架构">原本的架构&lt;/h3>
-&lt;p>原本的app是使用ng1来进行编写js部分，slim来编写页面模版，同时使用gulp来完成遍历所有的js文件，并打包到一个js中，后来一些新的页面部分采用iframe引入另一个vue-cli项目，两者之间通过cookie来进行登录数据的共享。&lt;/p>
-&lt;h3 id="更新之后的架构">更新之后的架构&lt;/h3>
-&lt;p>因为模版文件的问题，仍然以gulp为主，webpack负责vue和原本app的js打包和资源文件的编译工作，大家约定好，原本的ng部分尽量不更新，新的采用vue进行编写&lt;/p>
-&lt;h2 id="逐步过渡">逐步过渡&lt;/h2>
-&lt;h3 id="原本的方案">原本的方案&lt;/h3>
-&lt;p>老的不管它，需要更新就回去更新，新的需求去vue的项目中编写&lt;/p>
-&lt;h3 id="现在的方案">现在的方案&lt;/h3>
-&lt;p>single-spa进行页面的拆分，将需要更新的老的ng部分作为一个新的子app，拆分出来之后再进行更新，保证局部更新，不影响整体&lt;/p>
-&lt;h1 id="解决过程">解决过程&lt;/h1>
-&lt;h2 id="编译工具">编译工具&lt;/h2>
-&lt;p>确定了整体的迁移方案之后，就是首先对编译工具的改造了，最开始是想把gulp先替换成webpack的（因为习惯配置webpack了，以及webpack4 + babel7真的编译速度快了很多）&lt;/p>
-&lt;p>但是因为slim始终找不到适合使用的webpack插件的关系，最终决定还是保留gulp进行编译ng的相关的html文件&lt;/p>
-&lt;h3 id="小问题">小问题&lt;/h3>
-&lt;h4 id="gulp支持webpack的问题">gulp支持webpack的问题&lt;/h4>
-&lt;p>gulp-webpack插件支持的webpack版本是2，但是目标是使用4(为了快),好在webpack支持使用node来进行调用，只要在编译结束之后给gulp一个回调就可以了&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">webpack&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;webpack&amp;#39;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">fs&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;fs&amp;#39;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">module&lt;/span>.&lt;span style="color:#a6e22e">exports&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span> (&lt;span style="color:#a6e22e">webpackConfig&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> Promise((&lt;span style="color:#a6e22e">resolve&lt;/span>, &lt;span style="color:#a6e22e">reject&lt;/span>) =&amp;gt; {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">compiler&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">webpack&lt;/span>(&lt;span style="color:#a6e22e">webpackConfig&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">compiler&lt;/span>.&lt;span style="color:#a6e22e">run&lt;/span>((&lt;span style="color:#a6e22e">err&lt;/span>, &lt;span style="color:#a6e22e">stats&lt;/span>) =&amp;gt; {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> (&lt;span style="color:#a6e22e">err&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">console&lt;/span>.&lt;span style="color:#a6e22e">error&lt;/span>(&lt;span style="color:#a6e22e">err&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">reject&lt;/span>(&lt;span style="color:#a6e22e">err&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// 输出
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">process&lt;/span>.&lt;span style="color:#a6e22e">stdout&lt;/span>.&lt;span style="color:#a6e22e">write&lt;/span>(&lt;span style="color:#a6e22e">stats&lt;/span>.&lt;span style="color:#a6e22e">toString&lt;/span>({
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">// stats对象中保存着编译过程中的各种消息
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">colors&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>, &lt;span style="color:#75715e">// 增加控制台颜色开关
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">modules&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>, &lt;span style="color:#75715e">// 不增加内置模块信息
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">children&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>, &lt;span style="color:#75715e">// 不增加子级信息
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">chunks&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>, &lt;span style="color:#75715e">// 允许较少的输出
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">chunkModules&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span> &lt;span style="color:#75715e">// 不将内置模块的信息加到包信息
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}) &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#e6db74">&amp;#39;\n\n&amp;#39;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">compiler&lt;/span>.&lt;span style="color:#a6e22e">hooks&lt;/span>.&lt;span style="color:#a6e22e">afterEmit&lt;/span>.&lt;span style="color:#a6e22e">tap&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;gulp&amp;#39;&lt;/span>, &lt;span style="color:#66d9ef">function&lt;/span>() {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">resolve&lt;/span>()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>同理，devServer也使用自定义的脚本, 当然因为公司原因，其中的api切换也直接放在devServer的before中&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>AngularJs on 水华的博客</title>
+    <link>https://mizuka-wu.github.io/tags/angularjs/</link>
+    <description>Recent content in AngularJs on 水华的博客</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 03 Jan 2019 21:41:57 +0000</lastBuildDate>
+    <atom:link href="https://mizuka-wu.github.io/tags/angularjs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>我们是怎么从ng迁移到vue的</title>
+      <link>https://mizuka-wu.github.io/posts/%E6%88%91%E4%BB%AC%E6%98%AF%E6%80%8E%E4%B9%88%E4%BB%8Eng%E8%BF%81%E7%A7%BB%E5%88%B0vue%E7%9A%84/</link>
+      <pubDate>Thu, 03 Jan 2019 21:41:57 +0000</pubDate>
+      <guid>https://mizuka-wu.github.io/posts/%E6%88%91%E4%BB%AC%E6%98%AF%E6%80%8E%E4%B9%88%E4%BB%8Eng%E8%BF%81%E7%A7%BB%E5%88%B0vue%E7%9A%84/</guid>
+      <description>&lt;h1 id=&#34;我们是如何从ng1迁移ing到vue的&#34;&gt;我们是如何从ng1迁移ing到vue的&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原本的技术栈 ng1 + gulp + slim +&lt;/p&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;vue *2 + iframe 的一个后端管理项目&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://juejin.im/post/5c2e109fe51d453fdd604763&#34;&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://badge.juejin.im/entry/5c2e10c7f265da613d7c31ee/likes.svg?style=flat-square&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://camo.githubusercontent.com/5082953bc69645086be2b2ac5e1a8fa20eff0314/68747470733a2f2f73696e676c652d7370612e6a732e6f72672f696d672f6c6f676f2d77686974652d6267626c75652e737667&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这是一个本身因为人手不足，一开始由后端同学创建的后端管理项目，基本采用了gulp + ng1来进行开发，同时前端接手之后为了方便开发以及跟上潮流，采用了新开子目录使用vue开发，nginx和iframe进行整合的方式，最后一个项目变成了三个项目，其实最开始进行开发的时候，连怎么启动都不知道😂&lt;/p&gt;
+&lt;h1 id=&#34;要解决的问题&#34;&gt;要解决的问题&lt;/h1&gt;
+&lt;h2 id=&#34;项目的层级结构&#34;&gt;项目的层级结构&lt;/h2&gt;
+&lt;h3 id=&#34;原本的结构&#34;&gt;原本的结构&lt;/h3&gt;
+&lt;p&gt;顶级目录只包含多个子文件夹以及build.sh，每个子项目需要独立进行编译以及开发&lt;/p&gt;
+&lt;h3 id=&#34;新的结构&#34;&gt;新的结构&lt;/h3&gt;
+&lt;p&gt;采用signle-spa作为入口文件解决方案，统一管理所有项目的入口文件，实现一次启动，所有项目都能一起开发以及编译，省去了来回切换以及端口冲突&lt;/p&gt;
+&lt;h2 id=&#34;构建语言的混乱&#34;&gt;构建语言的混乱&lt;/h2&gt;
+&lt;h3 id=&#34;原本的架构&#34;&gt;原本的架构&lt;/h3&gt;
+&lt;p&gt;原本的app是使用ng1来进行编写js部分，slim来编写页面模版，同时使用gulp来完成遍历所有的js文件，并打包到一个js中，后来一些新的页面部分采用iframe引入另一个vue-cli项目，两者之间通过cookie来进行登录数据的共享。&lt;/p&gt;
+&lt;h3 id=&#34;更新之后的架构&#34;&gt;更新之后的架构&lt;/h3&gt;
+&lt;p&gt;因为模版文件的问题，仍然以gulp为主，webpack负责vue和原本app的js打包和资源文件的编译工作，大家约定好，原本的ng部分尽量不更新，新的采用vue进行编写&lt;/p&gt;
+&lt;h2 id=&#34;逐步过渡&#34;&gt;逐步过渡&lt;/h2&gt;
+&lt;h3 id=&#34;原本的方案&#34;&gt;原本的方案&lt;/h3&gt;
+&lt;p&gt;老的不管它，需要更新就回去更新，新的需求去vue的项目中编写&lt;/p&gt;
+&lt;h3 id=&#34;现在的方案&#34;&gt;现在的方案&lt;/h3&gt;
+&lt;p&gt;single-spa进行页面的拆分，将需要更新的老的ng部分作为一个新的子app，拆分出来之后再进行更新，保证局部更新，不影响整体&lt;/p&gt;
+&lt;h1 id=&#34;解决过程&#34;&gt;解决过程&lt;/h1&gt;
+&lt;h2 id=&#34;编译工具&#34;&gt;编译工具&lt;/h2&gt;
+&lt;p&gt;确定了整体的迁移方案之后，就是首先对编译工具的改造了，最开始是想把gulp先替换成webpack的（因为习惯配置webpack了，以及webpack4 + babel7真的编译速度快了很多）&lt;/p&gt;
+&lt;p&gt;但是因为slim始终找不到适合使用的webpack插件的关系，最终决定还是保留gulp进行编译ng的相关的html文件&lt;/p&gt;
+&lt;h3 id=&#34;小问题&#34;&gt;小问题&lt;/h3&gt;
+&lt;h4 id=&#34;gulp支持webpack的问题&#34;&gt;gulp支持webpack的问题&lt;/h4&gt;
+&lt;p&gt;gulp-webpack插件支持的webpack版本是2，但是目标是使用4(为了快),好在webpack支持使用node来进行调用，只要在编译结束之后给gulp一个回调就可以了&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;webpack&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;require&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;webpack&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fs&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;require&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;fs&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;module&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;exports&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;webpackConfig&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Promise((&lt;span style=&#34;color:#a6e22e&#34;&gt;resolve&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;reject&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;compiler&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;webpack&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;webpackConfig&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;compiler&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;run&lt;/span&gt;((&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;stats&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;error&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;reject&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 输出
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;process&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;stdout&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;write&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;stats&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;toString&lt;/span&gt;({
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// stats对象中保存着编译过程中的各种消息
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;colors&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;, &lt;span style=&#34;color:#75715e&#34;&gt;// 增加控制台颜色开关
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;modules&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;, &lt;span style=&#34;color:#75715e&#34;&gt;// 不增加内置模块信息
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;children&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;, &lt;span style=&#34;color:#75715e&#34;&gt;// 不增加子级信息
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;chunks&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;, &lt;span style=&#34;color:#75715e&#34;&gt;// 允许较少的输出
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;chunkModules&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// 不将内置模块的信息加到包信息
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;\n\n&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;compiler&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;hooks&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;afterEmit&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;tap&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;gulp&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;resolve&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同理，devServer也使用自定义的脚本, 当然因为公司原因，其中的api切换也直接放在devServer的before中&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
