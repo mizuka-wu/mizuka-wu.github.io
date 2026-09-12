@@ -1,4 +1,4 @@
----
+  - --
 title: Unknown
 date: 2020-12-06 12
 tags:
@@ -10,7 +10,7 @@ tags:
 categories:
   - --
 summary: title: 用JS去读取【MMD】中vmd文件的那些事
----
+  - --
   
 
 > 未来能用`js`编写的软件，都会用`js`编写
@@ -375,9 +375,9 @@ fetch('/models/mmd/vmds/test.vmd')
 
   
 
-- Vocaloid Motion Data file
+  - Vocaloid Motion Data file
 
-- Vocaloid Motion Data 0002
+  - Vocaloid Motion Data 0002
 
   
 

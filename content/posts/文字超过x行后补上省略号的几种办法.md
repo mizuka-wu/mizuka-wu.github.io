@@ -1,4 +1,4 @@
----
+  - --
 title: 文字超过x行后补上省略号的几种办法
 tags:
   - 前端
@@ -8,7 +8,7 @@ tags:
   - overflow
 date: 2019-10-18 12:11:57
 categories: 代码片段
----
+  - --
 
 ## 文字超过 x 行后补上省略号的几种办法
 
@@ -47,8 +47,8 @@ ultricies mi vitae est. Mauris placerat eleifend leo.
 ```css
 .line-clamp {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  - webkit-line-clamp: 3;
+  - webkit-box-orient: vertical;
 }
 ```
 
@@ -59,9 +59,9 @@ ultricies mi vitae est. Mauris placerat eleifend leo.
 ```css
 .line-clamp {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  - webkit-line-clamp: 3;
   /* autoprefixer: ignore next */
-  -webkit-box-orient: vertical;
+  - webkit-box-orient: vertical;
 }
 
 ```

@@ -1,4 +1,4 @@
----
+  - --
 title: 带权重的搜索引擎
 date: 2019-10-18 17
 tags:
@@ -8,7 +8,7 @@ tags:
 categories:
   - --
 summary: title: postgresql全文搜索引擎
----
+  - --
   
 
 # 带权重的搜索引擎
@@ -106,27 +106,27 @@ ALTER TEXT SEARCH CONFIGURATION zhcfg ADD MAPPING FOR [没有的类型] WITH sim
 
 ```
 
--- 忽略所有的标点等特殊符号
+  - - 忽略所有的标点等特殊符号
 
 set zhparser.punctuation_ignore = on;
 
--- 全部单字复合
+  - - 全部单字复合
 
 set zhparser.multi_zall = on;
 
--- 散字二元复合
+  - - 散字二元复合
 
 set zhparser.multi_duality = on;
 
--- 闲散文字自动以二字分词法聚合
+  - - 闲散文字自动以二字分词法聚合
 
 set zhparser.seg_with_duality = on;
 
--- 短词复合
+  - - 短词复合
 
 set zhparser.multi_short = on;
 
--- 重要单字复合
+  - - 重要单字复合
 
 set zhparser.multi_zmain = on;
 
@@ -248,7 +248,7 @@ result.company_status_name_en,
 
 result.weight,
 
--- 添加支持拼音 不需要的话 直接用ts
+  - - 添加支持拼音 不需要的话 直接用ts
 
 ((get_pinyin((result.ts)::text))::tsvector || (get_pinyin((result.ts)::text, 'zm'::text))::tsvector || result.ts) AS ts
 
@@ -278,7 +278,7 @@ computed_list.company_status_name_cn,
 
 computed_list.company_status_name_en,
 
--- 添加权重 将company_status_id转为权重 第一个null可以改为联查作为第三方权重
+  - - 添加权重 将company_status_id转为权重 第一个null可以改为联查作为第三方权重
 
 COALESCE(NULL::integer,
 
@@ -292,7 +292,7 @@ ELSE 0
 
 END) AS weight,
 
--- 字段权重 有一部分比如company_shortname_cn用全部作为关键词
+  - - 字段权重 有一部分比如company_shortname_cn用全部作为关键词
 
 COALESCE(setweight(((computed_list.company_id) || ':1 ')::tsvector, 'A'::"char"),'') ||
 
@@ -312,7 +312,7 @@ COALESCE(setweight(((computed_list.brand_name) || ':1 ')::tsvector, 'A'::"char")
 
 as ts
 
--- 合并掉该合并的部分比如brand name
+  - - 合并掉该合并的部分比如brand name
 
 FROM ( SELECT list.company_id,
 
@@ -330,7 +330,7 @@ list.company_shortname_cn,
 
 list.company_shortname_en,
 
--- 合并brand_name
+  - - 合并brand_name
 
 array_to_string(array_agg(list.brand_name), ','::text) AS brand_name,
 
@@ -340,7 +340,7 @@ list.company_status_name_cn,
 
 list.company_status_name_en
 
--- 先整理原始的数据
+  - - 先整理原始的数据
 
 FROM ( SELECT DISTINCT a.company_id,
 
@@ -430,11 +430,11 @@ search_company
 
 WHERE
 
--- 原本的全文搜索方式
+  - - 原本的全文搜索方式
 
--- ts @@ (phraseto_tsquery('zhcfg',lower('海思')) || phraseto_tsquery('zhcfg',upper('海思')))
+  - - ts @@ (phraseto_tsquery('zhcfg',lower('海思')) || phraseto_tsquery('zhcfg',upper('海思')))
 
--- 通过模糊查询保证顺序 9.6可以更换为原本的全文搜索添加距离部分来完成
+  - - 通过模糊查询保证顺序 9.6可以更换为原本的全文搜索添加距离部分来完成
 
 ts::text ~ upper('海思')
 
@@ -459,7 +459,7 @@ LIMIT 25
 
   
 
-- 构建函数
+  - 构建函数
 
   
 
@@ -485,7 +485,7 @@ res_py:='';
 
 res_zm:='';
 
--- 循环每个字进行替换
+  - - 循环每个字进行替换
 
 for i in 1..length(vhz)
 
@@ -509,11 +509,11 @@ end if;
 
 end loop;
 
--- return lower(res_py || ' ' || res_zm);
+  - - return lower(res_py || ' ' || res_zm);
 
--- return return_type;
+  - - return return_type;
 
--- 根据return type来看返回首字母还是全拼音
+  - - 根据return type来看返回首字母还是全拼音
 
 if return_type = 'py' then
 
@@ -537,9 +537,9 @@ $$ language plpgsql strict immutable;
 
   
 
-- 引入表 py.sql(有道云)
+  - 引入表 py.sql(有道云)
 
-- 把分词结果转为拼音`get_pinyin('上海')`
+  - 把分词结果转为拼音`get_pinyin('上海')`
 
   
 
@@ -549,7 +549,7 @@ $$ language plpgsql strict immutable;
 
 ```
 
--- 引入 trgm
+  - - 引入 trgm
 
 create extension pg_trgm;
 
@@ -570,7 +570,7 @@ $$ language sql strict immutable;
 
   
 
--- 重建部分
+  - - 重建部分
 
 drop index idx_search_company_ts ;
 
@@ -588,15 +588,15 @@ create index idx_search_company_ts on search_company using gin(record_to_text(se
 
 ```
 
--- 往自定义分词词典里面插入新的分词
+  - - 往自定义分词词典里面插入新的分词
 
 insert into pg_ts_custom_word values ('保障房资');
 
--- 使新的分词生效
+  - - 使新的分词生效
 
 select zhprs_sync_dict_xdb();
 
--- 退出此连接
+  - - 退出此连接
 
 ```
 
@@ -684,9 +684,9 @@ $$ language plpgsql strict immutable;
 
   
 
--- create index ids_foreign_search_engine_gin on foreign_search_engine using gin (record_to_text(foreign_search_engine) gin_trgm_ops) ;
+  - - create index ids_foreign_search_engine_gin on foreign_search_engine using gin (record_to_text(foreign_search_engine) gin_trgm_ops) ;
 
--- create index ids_foreign_search_engine_gist on foreign_search_engine using gin (record_to_text(foreign_search_engine) gin_trgm_ops) ;
+  - - create index ids_foreign_search_engine_gist on foreign_search_engine using gin (record_to_text(foreign_search_engine) gin_trgm_ops) ;
 
 create index idx_foreign_search_engine_split_gin_accelerate on foreign_search_engine using gin (split_gin_accelerate(record_to_text(foreign_search_engine)));
 

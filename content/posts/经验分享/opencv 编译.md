@@ -1,4 +1,4 @@
----
+  - --
 title: 为啥要编译opencv
 date: 2024-05-05
 tags:
@@ -8,7 +8,7 @@ tags:
 categories:
   - 经验分享
 summary: title: opencv 编译
----# 为啥要编译opencv
+  - --# 为啥要编译opencv
 因为 opencv 是频域水印需要的一个功能
 但是本体这个包实在是太大了
 

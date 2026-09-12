@@ -1,4 +1,4 @@
----
+  - --
 title: Unknown
 date: 2019-10-18 12
 tags:
@@ -10,7 +10,7 @@ tags:
 categories:
   - --
 summary: title: 文字超过x行后补上省略号的几种办法
----
+  - --
 ## 文字超过 x 行后补上省略号的几种办法
 
 [原文](https://css-tricks.com/line-clampin/)
@@ -48,8 +48,8 @@ ultricies mi vitae est. Mauris placerat eleifend leo.
 ```css
 .line-clamp {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  - webkit-line-clamp: 3;
+  - webkit-box-orient: vertical;
 }
 ```
 
@@ -60,9 +60,9 @@ ultricies mi vitae est. Mauris placerat eleifend leo.
 ```css
 .line-clamp {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  - webkit-line-clamp: 3;
   /* autoprefixer: ignore next */
-  -webkit-box-orient: vertical;
+  - webkit-box-orient: vertical;
 }
 
 ```

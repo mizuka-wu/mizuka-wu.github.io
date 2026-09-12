@@ -1,4 +1,4 @@
----
+  - --
 title: 我们是怎么从ng迁移到vue的
 tags:
   - vue
@@ -8,7 +8,7 @@ tags:
   - 经验
 date: 2019-01-03 21:41:57
 categories: 可以公开的情报
----
+  - --
 
 # 我们是如何从ng1迁移ing到vue的
 

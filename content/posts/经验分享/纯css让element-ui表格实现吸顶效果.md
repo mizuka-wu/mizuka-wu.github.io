@@ -1,4 +1,4 @@
----
+  - --
 title: Unknown
 date: 2024-05-02
 tags:
@@ -10,7 +10,7 @@ tags:
 categories:
   - 经验分享
 summary: title: 纯css让element-ui表格实现吸顶效果
----
+  - --
 ## Position Sticky 与表格头
 
 > 原文章[https://css-tricks.com/position-sticky-and-table-headers/](https://css-tricks.com/position-sticky-and-table-headers/). 本身产品有个需求需要表格自动吸顶，本身用了 antd design 的 scroll 实现的，现在使用 css 实现，效果更好

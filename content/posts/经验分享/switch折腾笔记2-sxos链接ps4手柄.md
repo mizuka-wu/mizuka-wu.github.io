@@ -1,4 +1,4 @@
----
+  - --
 title: 手柄危机
 date: 2020-08-08 12
 tags:
@@ -8,7 +8,7 @@ tags:
 categories:
   - --
 summary: title: switch折腾笔记2-sxos链接ps4手柄
----
+  - --
   
 
 # 手柄危机
@@ -29,11 +29,11 @@ summary: title: switch折腾笔记2-sxos链接ps4手柄
 
 本人配置
 
-- switch国行
+  - switch国行
 
-- sxos
+  - sxos
 
-- ps4 手柄
+  - ps4 手柄
 
   
 
@@ -41,15 +41,15 @@ summary: title: switch折腾笔记2-sxos链接ps4手柄
 
   
 
-- 一台破解的`switch`
+  - 一台破解的`switch`
 
-- ftp client
+  - ftp client
 
-- 手柄(ps4/xbox)
+  - 手柄(ps4/xbox)
 
-- usb数据连接线
+  - usb数据连接线
 
-- [sys-con](https://github.com/cathery/sys-con/releases
+  - [sys-con](https://github.com/cathery/sys-con/releases
 
   
 

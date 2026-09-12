@@ -1,4 +1,4 @@
----
+  - --
 title: 用JS去读取【MMD】中vmd文件的那些事
 tags:
   - 前端
@@ -8,7 +8,7 @@ tags:
   - 读取
 date: 2020-12-06 12:11:57
 categories: 可以公开的情报
----
+  - --
 
   
 
@@ -374,9 +374,9 @@ fetch('/models/mmd/vmds/test.vmd')
 
   
 
-- Vocaloid Motion Data file
+  - Vocaloid Motion Data file
 
-- Vocaloid Motion Data 0002
+  - Vocaloid Motion Data 0002
 
   
 

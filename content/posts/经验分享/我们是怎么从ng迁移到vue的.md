@@ -1,4 +1,4 @@
----
+  - --
 title: 目前进度
 date: 2019-01-03 21
 tags:
@@ -10,7 +10,7 @@ tags:
 categories:
   - --
 summary: title: 我们是怎么从ng迁移到vue的
----
+  - --
 # 我们是如何从ng1迁移ing到vue的
 
 > 原本的技术栈 ng1 + gulp + slim +

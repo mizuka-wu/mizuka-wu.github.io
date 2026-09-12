@@ -1,4 +1,4 @@
----
+  - --
 title: Reminders access: Full access
 date: 2026-03-26 10:39:14
 tags:
@@ -8,7 +8,7 @@ tags:
 categories:
   - 经验分享
 summary: tags:
----
+  - --
 # 在 WorkBuddy / Claw 等环境中使用 remindctl
 
 ## 问题
@@ -19,7 +19,7 @@ summary: tags:
 Reminders access denied.
 ```
 
-即使已经在终端里执行过 `remindctl authorize` 也没用——因为 macOS 的隐私权限是**以进程主体**为单位的，Ghostty/Terminal 里授权的是那个 App，WorkBuddy fork 出来的子进程不在授权范围内。
+即使已经在终端里执行过 `remindctl authorize` 也没用--因为 macOS 的隐私权限是**以进程主体**为单位的，Ghostty/Terminal 里授权的是那个 App，WorkBuddy fork 出来的子进程不在授权范围内。
 
 ## 解决方法
 
@@ -40,5 +40,5 @@ remindctl status
 
 ## 注意
 
-- 重启 WorkBuddy 或重启电脑后可能需要重新执行一次
-- 如果弹窗没有出现，去**系统设置 → 隐私与安全性 → 提醒事项**，手动添加对应 App 的权限
+  - 重启 WorkBuddy 或重启电脑后可能需要重新执行一次
+  - 如果弹窗没有出现，去**系统设置 → 隐私与安全性 → 提醒事项**，手动添加对应 App 的权限

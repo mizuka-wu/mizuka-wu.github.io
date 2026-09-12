@@ -1,4 +1,4 @@
----
+  - --
 title: Unknown
 date: 2019-09-09 12
 tags:
@@ -10,7 +10,7 @@ tags:
 categories:
   - --
 summary: title: 纯css实现table表头吸顶
----
+  - --
   
 
 > 原文章[https://css-tricks.com/position-sticky-and-table-headers/](https://css-tricks.com/position-sticky-and-table-headers/). 本身产品有个需求需要表格自动吸顶，本身用了 antd design 的 scroll 实现的，现在使用 css 实现，效果更好

@@ -1,4 +1,4 @@
----
+  - --
 title: Unknown
 date: 2019-06-05 11
 tags:
@@ -9,7 +9,7 @@ tags:
 categories:
   - --
 summary: title: 如何删除除了Master之外的所有分支
----
+  - --
 ## 如何删除除了Master之外的所有分支
 
 1. 切换到 master

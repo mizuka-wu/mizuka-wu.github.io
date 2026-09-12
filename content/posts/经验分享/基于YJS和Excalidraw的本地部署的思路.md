@@ -1,4 +1,4 @@
----
+  - --
 title: Unknown
 date: 2025-05-25
 tags:
@@ -7,7 +7,7 @@ tags:
 categories:
   - 经验分享
 summary: title: 基于YJS和Excalidraw的本地部署的思路
----
+  - --
 
 大家好呀，今天简单聊聊如何通过Yjs私有化部署一个支持协同和存储Excalidraw白板的思路
 

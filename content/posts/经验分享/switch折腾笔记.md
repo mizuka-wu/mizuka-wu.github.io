@@ -1,4 +1,4 @@
----
+  - --
 title: 破解和折腾小记
 date: 2020-07-08 12
 tags:
@@ -7,7 +7,7 @@ tags:
 categories:
   - --
 summary: title: switch折腾笔记
----
+  - --
   
 
 # 入手

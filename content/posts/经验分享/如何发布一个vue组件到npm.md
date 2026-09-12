@@ -1,4 +1,4 @@
----
+  - --
 title: Sequence of patterns matched against refs/tags
 date: 2020-08-08 22
 tags:
@@ -8,7 +8,7 @@ tags:
 categories:
   - --
 summary: title: 如何发布一个vue组件到npm
----  
+  - --
 
 ![head](https://cdn.pixabay.com/photo/2016/11/30/20/58/programming-1873854_1280.png)
 
@@ -22,9 +22,9 @@ summary: title: 如何发布一个vue组件到npm
 
   
 
-- `github`账号和仓库地址
+  - `github`账号和仓库地址
 
-- `npmjs`的账号
+  - `npmjs`的账号
 
   
 
@@ -40,15 +40,15 @@ summary: title: 如何发布一个vue组件到npm
 
   
 
-- `vue-cli` 创建项目
+  - `vue-cli` 创建项目
 
-- `github code` 用于在`github action`的时候访问授权
+  - `github code` 用于在`github action`的时候访问授权
 
-- `npmjs code` 发布的时候用的`code`
+  - `npmjs code` 发布的时候用的`code`
 
-- `vuepress` 可以在`md`中使用`vue`组件的文档构建工具
+  - `vuepress` 可以在`md`中使用`vue`组件的文档构建工具
 
-- 一些合理的命名，在组件发布到`npm`后，调用者也能正确的使用
+  - 一些合理的命名，在组件发布到`npm`后，调用者也能正确的使用
 
   
 
@@ -526,7 +526,7 @@ push:
 
 branches:
 
-- master
+  - master
 
 jobs:
 
@@ -536,7 +536,7 @@ runs-on: ubuntu-latest
 
 steps:
 
-- name: Checkout
+  - name: Checkout
 
 uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
 
@@ -544,11 +544,11 @@ with:
 
 persist-credentials: false
 
-- name: Install
+  - name: Install
 
 run: npm ci && npm run-script docs:build
 
-- name: Install SSH Client
+  - name: Install SSH Client
 
 uses: webfactory/ssh-agent@v0.2.0 # This step installs the ssh client into the workflow run. There's many options available for this on the action marketplace.
 
@@ -558,7 +558,7 @@ ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
   
 
-- name: Build and Deploy Repo
+  - name: Build and Deploy Repo
 
 uses: JamesIves/github-pages-deploy-action@releases/v3
 
@@ -606,7 +606,7 @@ push:
 
 tags:
 
-- "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
+  - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
 
@@ -618,7 +618,7 @@ runs-on: ubuntu-latest
 
 steps:
 
-- name: Checkout
+  - name: Checkout
 
 uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
 
@@ -626,11 +626,11 @@ with:
 
 persist-credentials: false
 
-- name: Install
+  - name: Install
 
 run: npm ci && npm run build && npm run changelog
 
-- name: Read Changelog
+  - name: Read Changelog
 
 id: read_changelog
 
@@ -640,11 +640,11 @@ with:
 
 file-name: ${{ './dist/CHANGELOG.md' }}
 
-- name: Build project # This would actually build your project, using zip for an example artifact
+  - name: Build project # This would actually build your project, using zip for an example artifact
 
 run: zip -r lib.zip dist
 
-- name: Create Release
+  - name: Create Release
 
 id: create_release
 
@@ -666,7 +666,7 @@ draft: false
 
 prerelease: false
 
-- name: Upload Release Asset
+  - name: Upload Release Asset
 
 uses: actions/upload-release-asset@v1.0.1
 
@@ -716,13 +716,13 @@ push:
 
 tags:
 
-- "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
+  - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
 
 pull_request:
 
 tags:
 
-- "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
+  - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
 
   
 
@@ -734,7 +734,7 @@ runs-on: ubuntu-latest
 
 steps:
 
-- name: Checkout
+  - name: Checkout
 
 uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
 
@@ -742,11 +742,11 @@ with:
 
 persist-credentials: false
 
-- name: Install
+  - name: Install
 
 run: npm ci && npm run build
 
-- name: publish
+  - name: publish
 
 uses: JS-DevTools/npm-publish@v1
 

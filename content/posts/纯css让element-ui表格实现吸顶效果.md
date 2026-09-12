@@ -1,4 +1,4 @@
----
+  - --
 title: 纯css让element-ui表格实现吸顶效果
 tags:
   - 表格
@@ -6,7 +6,7 @@ tags:
   - Element UI
   - position sticky
 date: 2024-05-02
----
+  - --
 
 ## Position Sticky 与表格头
 
