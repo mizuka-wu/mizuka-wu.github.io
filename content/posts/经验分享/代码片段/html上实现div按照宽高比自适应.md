@@ -1,0 +1,42 @@
+---
+title: html 上实现 div 按照宽高比自适应
+date: 2018-11-25 09
+tags:
+  - 宽高比
+  - html5
+  - vue
+categories:
+  - 经验分享
+summary: title: html 上实现 div 按照宽高比自适应
+---
+# html 上实现 div 按照宽高比自适应
+
+  
+
+原理很简单，padding 的百分比是根据宽度作为百分比自动设置的，所以容器上使用
+
+  
+
+```less
+
+.container {
+
+height: 0;
+
+padding-top: 114%;
+
+.data {
+
+width: 100%;
+
+height: 100%;
+
+}
+
+}
+
+```
+
+  
+
+就可以了

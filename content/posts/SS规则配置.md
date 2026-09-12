@@ -1,13 +1,28 @@
-  - --
-title: SS规则配置
+---
+title: RESTful web API listening address
+date: 2024-05-26
 tags:
   - 网络
   - 代理
   - 配置
-date: 2024-05-26
-  - --
-
-```
+  - 经验分享
+  - {name: 手动选择, type: select , include-all-providers: true}
+  - {name: PROXY, type: url-test, include-all-providers: true, interval: 300, lazy: true}
+  - DOMAIN,clash.razord.top,DIRECT
+  - DOMAIN,yacd.haishan.me,DIRECT
+  - RULE-SET,google-cn-proxy-ip,PROXY
+  - RULE-SET,local-area-network,DIRECT
+  - RULE-SET,unban,DIRECT
+  - RULE-SET,china-domain,DIRECT
+  - RULE-SET,china-media,DIRECT
+  - RULE-SET,china-company-ip,DIRECT
+  - RULE-SET,china-ip,DIRECT
+  - GEOIP,CN,DIRECT,no-resolve
+  - MATCH,PROXY
+categories:
+  - 经验分享
+summary: title: RESTful web API listening address
+---
 # 官方配置模板：https://github.com/Dreamacro/clash/wiki/Configuration
 # Meta配置模板：https://github.com/MetaCubeX/Clash.Meta/blob/Alpha/docs/config.yaml
 # 接管：部分参数不支持在此页面直接修改，请到全局设置页面进行修改
