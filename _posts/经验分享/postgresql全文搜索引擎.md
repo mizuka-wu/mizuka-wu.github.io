@@ -1,21 +1,14 @@
 ---
-
-title: postgresql全文搜索引擎
-
+title: 带权重的搜索引擎
+date: 2019-10-18 17
 tags:
-
-- 数据库
-
-- 搜索引擎
-
-- postgresql
-
-date: 2019-10-18 17:41:57
-
-categories: 可以公开的情报
-
+  - 数据库
+  - 搜索引擎
+  - postgresql
+categories:
+  - --
+summary: title: postgresql全文搜索引擎
 ---
-
   
 
 # 带权重的搜索引擎

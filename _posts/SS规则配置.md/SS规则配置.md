@@ -1,12 +1,15 @@
 ---
-title: SS规则配置
+title: RESTful web API listening address
+date: 2024-05-26
 tags:
   - 网络
   - 代理
   - 配置
-date: 2024-05-26
+  - --
+categories:
+  - 经验分享
+summary: title: SS规则配置
 ---
-
 ```
 # 官方配置模板：https://github.com/Dreamacro/clash/wiki/Configuration
 # Meta配置模板：https://github.com/MetaCubeX/Clash.Meta/blob/Alpha/docs/config.yaml

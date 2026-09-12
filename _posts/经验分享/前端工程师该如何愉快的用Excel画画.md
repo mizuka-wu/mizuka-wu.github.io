@@ -1,15 +1,16 @@
 ---
-title: 前端工程师该如何愉快的用Excel画画
+title: 开始工作
+date: 2020-05-14 21
 tags:
   - 前端
   - excel
   - canvas
   - 画画
   - input
-date: 2020-05-14 21:11:57
-categories: 教程
+categories:
+  - --
+summary: title: 前端工程师该如何愉快的用Excel画画
 ---
-
   
 
 虽然微软推出的Excel是一个强大的表格工具，但是世界上总有那么些人可以把一些常见的东西玩出花来[就像日本老人用Excel画画一样](https://baijiahao.baidu.com/s?id=1601995793246815437&wfr=spider&for=pc)

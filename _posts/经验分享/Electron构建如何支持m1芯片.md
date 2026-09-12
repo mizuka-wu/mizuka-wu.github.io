@@ -1,14 +1,15 @@
 ---
-title: Electron构建如何支持m1芯片
+title: 起因
+date: 2021-01-09 12
 tags:
   - electron
   - apple
   - electron-builder
   - arm64
-date: 2021-01-09 12:11:57
-categories: 代码片段
+categories:
+  - --
+summary: title: Electron构建如何支持m1芯片
 ---
-
 # 起因
 
   

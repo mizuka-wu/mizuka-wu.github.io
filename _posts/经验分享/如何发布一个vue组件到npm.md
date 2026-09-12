@@ -1,15 +1,14 @@
 ---
-
-title: 如何发布一个vue组件到npm
-
+title: Sequence of patterns matched against refs/tags
+date: 2020-08-08 22
 tags:
-
-date: 2020-08-08 22:58:16
-
-categories: 可以公开的情报
-
----
-  
+  - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
+  - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
+  - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
+categories:
+  - --
+summary: title: 如何发布一个vue组件到npm
+---  
 
 ![head](https://cdn.pixabay.com/photo/2016/11/30/20/58/programming-1873854_1280.png)
 

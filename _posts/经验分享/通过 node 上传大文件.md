@@ -1,14 +1,15 @@
 ---
-title: 通过 node 上传大文件
+title: 反思
+date: 2024-05-07
 tags:
   - nodejs
   - node
   - 大文件
   - form-data
-categories: 代码片段
-date: 2024-05-07
+categories:
+  - 经验分享
+summary: title: 通过 node 上传大文件
 ---
-
 ## 通过 node 上传大文件
 
 ## 背景

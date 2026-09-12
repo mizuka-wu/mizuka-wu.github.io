@@ -1,15 +1,16 @@
 ---
-title: 文字超过x行后补上省略号的几种办法
+title: Unknown
+date: 2019-10-18 12
 tags:
   - 前端
   - CSS
   - 文本截断
   - 省略号
   - overflow
-date: 2019-10-18 12:11:57
-categories: 代码片段
+categories:
+  - --
+summary: title: 文字超过x行后补上省略号的几种办法
 ---
-
 ## 文字超过 x 行后补上省略号的几种办法
 
 [原文](https://css-tricks.com/line-clampin/)

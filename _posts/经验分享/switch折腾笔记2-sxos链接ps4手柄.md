@@ -1,21 +1,14 @@
 ---
-
-title: switch折腾笔记2-sxos链接ps4手柄
-
+title: 手柄危机
+date: 2020-08-08 12
 tags:
-
-- switch
-
-- sxos
-
-- 折腾
-
-date: 2020-08-08 12:11:57
-
-categories: switch
-
+  - switch
+  - sxos
+  - 折腾
+categories:
+  - --
+summary: title: switch折腾笔记2-sxos链接ps4手柄
 ---
-
   
 
 # 手柄危机

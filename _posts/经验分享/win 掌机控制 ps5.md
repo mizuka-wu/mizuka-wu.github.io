@@ -1,13 +1,14 @@
 ---
-title: win 掌机远程控制 ps5
+title: psremoteplay
+date: 2024-05-05
 tags:
   - chiaki
   - rewasd
   - psremoteplay
-categories: 可以公开的情报
-date: 2024-05-05
----
-其实一共有两套方案
+categories:
+  - 经验分享
+summary: title: win 掌机远程控制 ps5
+---其实一共有两套方案
 稍微麻烦一点的时使用 chiaki 或者和我一样使用 psremoteplay
 
 # chiaki

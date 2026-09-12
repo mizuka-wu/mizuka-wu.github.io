@@ -1,11 +1,14 @@
 ---
+title: Reminders access: Full access
+date: 2026-03-26 10:39:14
 tags:
   - 工具推荐
   - 经验
   - apple
-created: 2026-03-26
+categories:
+  - 经验分享
+summary: tags:
 ---
-
 # 在 WorkBuddy / Claw 等环境中使用 remindctl
 
 ## 问题

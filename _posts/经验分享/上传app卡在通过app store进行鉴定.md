@@ -1,14 +1,15 @@
 ---
-title: 上传app卡在通过app store进行鉴定
+title: Unknown
+date: 2019-07-09 18
 tags:
   - iOS
   - App Store
   - 开发
   - 错误解决
-date: 2019-07-09 18:17:35
-categories: 代码片段
+categories:
+  - --
+summary: title: 上传app卡在通过app store进行鉴定
 ---
-
   
 
 ```bash

@@ -1,25 +1,16 @@
 ---
-
-title: 用JS去读取【MMD】中vmd文件的那些事
-
+title: Unknown
+date: 2020-12-06 12
 tags:
-
-- 前端
-
-- mmd
-
-- vmd
-
-- 二进制
-
-- 读取
-
-date: 2020-12-06 12:11:57
-
-categories: 可以公开的情报
-
+  - 前端
+  - mmd
+  - vmd
+  - 二进制
+  - 读取
+categories:
+  - --
+summary: title: 用JS去读取【MMD】中vmd文件的那些事
 ---
-
   
 
 > 未来能用`js`编写的软件，都会用`js`编写

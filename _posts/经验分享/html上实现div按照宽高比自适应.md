@@ -1,13 +1,14 @@
 ---
-title: html上实现div按照宽高比自适应
+title: html 上实现 div 按照宽高比自适应
+date: 2018-11-25 09
 tags:
   - 宽高比
   - html5
   - vue
-date: 2018-11-25 09:40:02
-categories: 代码片段
+categories:
+  - --
+summary: title: html上实现div按照宽高比自适应
 ---
-
   
 
 # html 上实现 div 按照宽高比自适应

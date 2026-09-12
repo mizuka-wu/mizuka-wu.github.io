@@ -1,12 +1,13 @@
 ---
 title: 借助Blazor在浏览器运行dotnet代码
+date: 2021-05-10 12
 tags:
   - 前端
   - dotnet
-date: 2021-05-10 12:11:57
-categories: 功能笔记
+categories:
+  - --
+summary: title: 借助Blazor在浏览器运行dotnet代码
 ---
-
   
 
 # 借助Blazor在浏览器运行dotnet代码
