@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>DrawioFile | 水华的博客</title>
+<meta name="keywords" content="技术">
+<meta name="description" content="暂无摘要">
+<meta name="author" content="">
+<link rel="canonical" href="https://mizuka-wu.github.io/posts/drawio%E8%A7%A3%E6%9E%90/drawiofile/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.d92d9aa382a827dda21bf1377e9203e27a444da2e8b4ef76913833adb6d6ba15.css" integrity="sha256-2S2ao4KoJ92iG/E3fpID4npETaLotO92kTgzrbbWuhU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://mizuka-wu.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://mizuka-wu.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://mizuka-wu.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://mizuka-wu.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://mizuka-wu.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://mizuka-wu.github.io/posts/drawio%E8%A7%A3%E6%9E%90/drawiofile/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://mizuka-wu.github.io/posts/drawio%E8%A7%A3%E6%9E%90/drawiofile/">
+  <meta property="og:site_name" content="水华的博客">
+  <meta property="og:title" content="DrawioFile">
+  <meta property="og:description" content="暂无摘要">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:tag" content="技术">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="DrawioFile">
+  <meta name="twitter:description" content="暂无摘要">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://mizuka-wu.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "DrawioFile",
+      "item": "https://mizuka-wu.github.io/posts/drawio%E8%A7%A3%E6%9E%90/drawiofile/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "DrawioFile",
+  "name": "DrawioFile",
+  "description": "暂无摘要",
+  "keywords": [
+    "技术"
+  ],
+  "articleBody": "DrawioFile 模块解析与实时协作要点 来源代码路径：submodules/drawio/src/main/webapp/js/diagramly/DrawioFile.js\n概览 职责：文档数据/状态管理，影子页维护，保存与自动保存，补丁生成与应用，冲突与校验处理，UI 状态更新，与同步模块的集成。 协作关系：与 DrawioFileSync 协同；保存前后通知同步模块；远端变更时由同步模块驱动合并回放。 关键方法与职责 open()：载入 XML 到 UI，安装监听；未修改时设置影子页 setShadowPages(ui.clonePages(ui.pages))。 startSync()：允许协作时创建并启动 DrawioFileSync。 fileChanged(sync = true)：标记已修改、触发 autosave/UI 提示；若存在 this.sync 则 this.sync.localFileChanged()。 autosave()：基于 autosaveDelay/maxAutosaveDelay 与 isAutosaveNow() 节流；结束后 autosaveCompleted()。 fileSaving()：保存开始时通知同步模块（乐观模式可仅广播通知）。 fileSaved(savedData, lastDesc, success, error, token)： 解析当前页面 ui.getPagesForXml(savedData)。 若乐观或无 sync：更新影子页并完成。 否则委托 this.sync.fileSaved(pages, lastDesc, ...) 将补丁与校验写入缓存并广播。 updateFile()/mergeFile()/patch()：拉新/合并/应用补丁的核心链路；patchRealtime() 可优先处理“仅影响本端页”的补丁段。 descriptorChanged()、contentChanged()：触发相应事件，供外部订阅。 removeListeners()、destroy()：清理监听与同步对象、停止自动保存。 实时协作交互点 影子页（Shadow Pages）：setShadowPages() 维护与服务端期望一致的快照；保存后更新影子。 校验（Checksum）：通过 ui.getHashValueForPages(pages) 计算，合并前校验一致性；失败回退全量刷新。 乐观同步：isOptimisticSync() 时仅发通知，不写缓存数据，由其它端拉取并合并。 冲突与回退 标志位：invalidChecksum、inConflictState 控制 UI 提示与对话（刷新/合并/覆盖/复制）。 回退策略：校验失败或异常 → synchronizeFile() / reloadFile() 拉取最新；必要时 LWW（backupPatch）。 重要数据结构 Descriptor：版本/etag、secret、lastModified 等元信息。 Pages/Own/Remote Pages：页面集合，用于 diff 与实时分流。 时序（简化） 本地保存：fileSaving() → 编辑器保存 → fileSaved() →（乐观：更新影子｜非乐观：sync.fileSaved() 写缓存+广播）。 远端更新：sync.fileChanged() → catchup/merge → patchRealtime 或 patch() 应用 → patchDescriptor()。 注意事项 自动保存节流：autosaveDelay/maxAutosaveDelay/isAutosaveNow()。 实时开关：isRealtime()、isOptimisticSync()。 评论 API：当前默认占位实现（commentsSupported() 返回 false）。 函数清单与说明 getSize(): 返回当前数据长度。 getShadowPages(): 获取/初始化影子页快照。 setShadowPages(pages): 赋值影子页。 getAnonymizedXmlForPages(pages): 生成脱敏后的页面 XML（报错/上报用）。 compressReportData(data, limit, max): 压缩上报数据，控制体积。 checksumError(error, patches, details, etag, functionName, checksum, current, rev): 处理校验和不一致，进入冲突态并统计。 sendErrorReport(title, details, error, max): 发送错误与诊断报告。 reloadFile(success, error): 全量拉取并重载文件。 mergeLatestVersion(patches, success, error): 载入最新版本并尝试应用给定补丁。 copyFile(success, error): 以当前数据另存为新文件并打开。 ignorePatches(patches): 判断补丁数组是否可忽略（空或无效）。 patch(patches, resolver, undoable, sendChanges): 应用补丁；必要时不更新同步快照以便计算 diff 并广播。 save(revision, success, error, unloading, overwrite, manual): 触发保存流程（本地→存储），处理修订参数。 createData(): 从 UI 生成可保存的数据（页面列表等）。 updateFileData(): 在存在同步时先发送本地待发变更并更新自身页面。 isCompressedStorage(): 返回是否使用压缩存储（true）。 isCompressed(): 检查当前文件节点的压缩标记。 saveAs(filename, success, error): 占位，子类实现具体保存为。 saveFile(title, revision, success, error): 占位，子类实现实际持久化。 getFileUrl(): 占位，返回文件直链（默认 null）。 getFolderUrl(fn): 占位，返回所在目录链接（默认 null）。 getPublicUrl(fn): 异步回调公开链接（默认 null）。 isRestricted(): 是否限制复制/导出/打印（默认 false）。 isModified(): 是否已修改。 getShadowModified(): 影子页是否已修改。 setShadowModified(value): 设置影子修改标记。 setModified(value): 设置修改标记并同步影子标记。 isAutosaveOptional(): 是否显示可选的自动保存开关（默认 false）。 isAutosave(): 是否允许自动保存（冲突中或关闭时为 false）。 isRenamable(): 是否可重命名（默认 false）。 rename(title, success, error): 占位，重命名文件。 isMovable(): 是否可移动（默认 false）。 isTrashed(): 是否在回收站（默认 false）。 move(folderId, success, error): 占位，移动到文件夹。 getHash(): 返回存储前缀+ID 组成的哈希（默认空串）。 getId(): 返回文件 ID（默认空串）。 isEditable(): 是否可编辑（非 chromeless 或可编辑）。 getUi(): 返回 UI 实例。 getTitle(): 返回标题（默认空串）。 getData(): 返回当前数据 XML。 setData(data): 设置当前数据。 isSyncSupported(): 是否支持同步（默认 false，子类重写）。 isRealtime(): 是否已初始化实时模型（ownPages 非空）。 isRealtimeSupported(): 是否支持实时协作（默认 false）。 isRealtimeEnabled(): 是否启用实时（受 Editor.enableRealtime 与 urlParams 控制）。 isRealtimeOptional(): 实时是否可开关（默认 false）。 getRealtimeState(): 返回实时通道状态码（若无通道则 CLOSED）。 getRealtimeError(): 返回最近一次实时错误（若有）。 isOptimisticSync(): 是否采用乐观同步（默认 false）。 setRealtimeEnabled(): 预留，设置实时开关（默认空实现）。 patchDescriptor(desc, patch): 用补丁里的 etag 更新描述符并触发变更。 startSync(): 根据配置/权限创建并启动 DrawioFileSync。 setCurrentRevisionId(id): 设置当前修订号到描述符。 setCurrentEtag(etag): 设置当前 etag 到描述符。 setDescriptor(): 占位，设置文件描述符。 setDescriptorRevisionId(desc, id): 在给定描述符上更新修订号（内部借用 etag 字段存放）。 setDescriptorEtag(desc, etag): 占位，更新描述符 etag。 saveDraft(): 保存草稿到本地存储。 removeDraft(): 移除本地草稿。 setConflictStatus(message, fn): 设置冲突状态并在状态栏提示（可绑定动作）。 showRefreshDialog(success, error, message): 显示需刷新对话框。 showCopyDialog(success, error, overwrite): 显示复制为新文件的对话框。 showConflictDialog(overwrite, synchronize): 冲突对话框（覆盖/同步选项）。 redirectToNewApp(error, details): 引导用户切换到新应用处理。 removeListeners(): 移除内部变更监听与事件。 newComment(content, user): 生成新评论对象（占位实现）。 fileChanged(sync = true): 标记本地修改、更新时间戳、触发 autosave，必要时通知同步模块。 fileSaving(): 保存前置钩子，通知同步模块并更新影子。 fileSaved(savedData, lastDesc, success, error, token): 保存完成回调；解析页面，乐观模式直更影子，否则委托给同步模块写入缓存并广播。 createSecret(success): 生成写缓存所需的 secret/token 对（供同步模块使用）。 autosave(delay, maxDelay, success, error): 自动保存调度（含强制时间上限与空闲判断）。 autosaveCompleted(): 自动保存完成后的钩子（占位）。 synchronizeFile(success, error): 协调本地与远端（保存/拉新）动作的统一入口。 updateFile(success, error, abort, shadow): 拉取并更新本地文件/影子。 mergeFile(file, success, error, diffShadow): 将远端文件合并进当前文件，可选基于影子 diff。 open(): 打开文件到编辑器，初始化影子、监听与统计。 destroy(): 清理自动保存与监听，释放同步对象。 关键函数详解 patch(patches, resolver, undoable, sendChanges) 作用：将补丁序列应用到 this.ui.pages，并根据需要更新 UI、撤销栈与同步快照。 参数： patches:Array — 页面级补丁列表。 resolver:Function|Object — 冲突解析器（传入给 applyPatches）。 undoable:Boolean — 是否保留撤销历史；false 时临时保存并在结束后恢复。 sendChanges:Boolean — 为 true 时不同步快照，用于随后计算本地差异并传播。 关键流程： 隐藏 Graph、暂存撤销栈与 changeListenerEnabled；拦截 cellRenderer.redraw 保障编辑器光标与滚动。 this.ui.applyPatches(...) 应用补丁；确保至少一页；若当前页被删则切到第一页。 结束后恢复 UI/撤销栈；必要时触发 graph.refresh/validate、graph.view.revalidate、sizeDidChange。 若开启实时协作且未要求 sendChanges，则刷新 this.sync.snapshot。 触发事件：editor.fireEvent('pagesPatched', {patches})。 返回：原 patches。 副作用：可能重排页面、切换当前页、影响撤销栈与同步快照。 mergeFile(file, success, error, diffShadow) 作用：将远端最新文件页作为新 shadow，计算并应用补丁，同步到实时通道与当前文档。 关键流程： 读取 file.getShadowPages() 为新 shadow；与旧 shadow 或 diffShadow 生成补丁。 ignorePatches 过滤无需处理的补丁；更新本地 shadow。 若存在实时通道，先 sync.sendLocalChanges()；创建 backupPatch 以备校验失败回退（LWW 时启用）。 进行校验：对“旧 shadow + patches[0]”求 hash，与“新 pages” hash 比较，不一致则 checksumError(...) 并中止。 若一致： 实时模式下 sync.patchRealtime(patches, backup)；如返回 pending，并入 patches。 调用 this.patch(patches, (LWW? backupPatch : null)) 应用到当前文档。 成功时清理 invalidChecksum/inConflictState/backupPatch，更新描述符与 UI，并回调 success()。 错误：进入冲突态，descriptorChanged()，回调 error(e)，并视设置发送错误日志/报告。 fileSaved(savedData, lastDesc, success, error, token) 作用：保存落盘或远端成功后的收尾动作，更新 shadow 与同步状态。 流程： 解析 savedData 得到 pages，清除冲突与校验标记，统计计数。 若未启用严格同步或处于乐观模式： setShadowPages(pages)；若存在同步，刷新 sync.lastModified 与状态并在实时模式中 scheduleCleanup()；回调 success()。 否则代理给 sync.fileSaved(pages, lastDesc, success, error, token)。 异常：置冲突与校验标记、descriptorChanged()。 fileSaving() 作用：保存前的同步钩子；若存在同步，转调 sync.fileSaving()。 autosave(delay, maxDelay, success, error) 作用：基于节流的自动保存调度器。 关键点： 基于 lastAutosave 与 maxDelay 决定立即保存或延后； 若 isModified() \u0026\u0026 isAutosaveNow()，决定是否生成修订 revision 并调用 save(rev, ...)； 否则清理状态并回调 success(null)；异常时回调 error(e)。 相关：clearAutosave()、isAutosaveRevision()、autosaveCompleted()、isAutosaveNow()。 fileChanged(sync=true) 作用：标记文件修改并根据自动保存策略调度 autosave。 关键点：更新 lastChanged 与 modified；若自动保存开启： 设置“保存中”状态、scheduleSanityCheck()； 管理 ageStart； 调用 autosave(...)，成功时 handleFileSuccess(true) 并清空/刷新 ageStart，必要时继续 scheduleSanityCheck()。 其他工具函数 getAnonymizedXmlForPages(pages): 生成匿名化的 mxfile XML（可包含 viewState）。 compressReportData(data, limit=10000, max): 超长截断或压缩后返回，便于日志/上报。 isOverdue(): 基于 ageStart 与 ui.warnInterval 判断是否超时未保存。 clearAutosave(): 清除自动保存的定时器。 isAutosaveRevision(): 基于 lastAutosaveRevision 与上限间隔判定是否记录修订。 autosaveCompleted(): 钩子，无默认实现。 isAutosaveNow(): 默认 true，可被子类改写。 descriptorChanged(): 触发 descriptorChanged 事件。 ",
+  "wordCount" : "556",
+  "inLanguage": "en",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://mizuka-wu.github.io/posts/drawio%E8%A7%A3%E6%9E%90/drawiofile/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "水华的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://mizuka-wu.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://mizuka-wu.github.io/" accesskey="h" title="水华的博客 (Alt + H)">水华的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://mizuka-wu.github.io/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://mizuka-wu.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://mizuka-wu.github.io/archive/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/mizuka-wu" title="GitHub">
+                    <span>GitHub</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      DrawioFile
+    </h1>
+    <div class="post-meta">
+
+<span>3 min</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><h1 id="drawiofile-模块解析与实时协作要点">DrawioFile 模块解析与实时协作要点<a hidden class="anchor" aria-hidden="true" href="#drawiofile-模块解析与实时协作要点">#</a></h1>
+<p>来源代码路径：<code>submodules/drawio/src/main/webapp/js/diagramly/DrawioFile.js</code></p>
+<h2 id="概览">概览<a hidden class="anchor" aria-hidden="true" href="#概览">#</a></h2>
+<ul>
+<li><strong>职责</strong>：文档数据/状态管理，影子页维护，保存与自动保存，补丁生成与应用，冲突与校验处理，UI 状态更新，与同步模块的集成。</li>
+<li><strong>协作关系</strong>：与 <code>DrawioFileSync</code> 协同；保存前后通知同步模块；远端变更时由同步模块驱动合并回放。</li>
+</ul>
+<h2 id="关键方法与职责">关键方法与职责<a hidden class="anchor" aria-hidden="true" href="#关键方法与职责">#</a></h2>
+<ul>
+<li><strong><code>open()</code></strong>：载入 XML 到 UI，安装监听；未修改时设置影子页 <code>setShadowPages(ui.clonePages(ui.pages))</code>。</li>
+<li><strong><code>startSync()</code></strong>：允许协作时创建并启动 <code>DrawioFileSync</code>。</li>
+<li><strong><code>fileChanged(sync = true)</code></strong>：标记已修改、触发 autosave/UI 提示；若存在 <code>this.sync</code> 则 <code>this.sync.localFileChanged()</code>。</li>
+<li><strong><code>autosave()</code></strong>：基于 <code>autosaveDelay/maxAutosaveDelay</code> 与 <code>isAutosaveNow()</code> 节流；结束后 <code>autosaveCompleted()</code>。</li>
+<li><strong><code>fileSaving()</code></strong>：保存开始时通知同步模块（乐观模式可仅广播通知）。</li>
+<li><strong><code>fileSaved(savedData, lastDesc, success, error, token)</code></strong>：
+<ul>
+<li>解析当前页面 <code>ui.getPagesForXml(savedData)</code>。</li>
+<li>若乐观或无 <code>sync</code>：更新影子页并完成。</li>
+<li>否则委托 <code>this.sync.fileSaved(pages, lastDesc, ...)</code> 将补丁与校验写入缓存并广播。</li>
+</ul>
+</li>
+<li><strong><code>updateFile()/mergeFile()/patch()</code></strong>：拉新/合并/应用补丁的核心链路；<code>patchRealtime()</code> 可优先处理“仅影响本端页”的补丁段。</li>
+<li><strong><code>descriptorChanged()</code></strong>、<strong><code>contentChanged()</code></strong>：触发相应事件，供外部订阅。</li>
+<li><strong><code>removeListeners()</code></strong>、<strong><code>destroy()</code></strong>：清理监听与同步对象、停止自动保存。</li>
+</ul>
+<h2 id="实时协作交互点">实时协作交互点<a hidden class="anchor" aria-hidden="true" href="#实时协作交互点">#</a></h2>
+<ul>
+<li><strong>影子页（Shadow Pages）</strong>：<code>setShadowPages()</code> 维护与服务端期望一致的快照；保存后更新影子。</li>
+<li><strong>校验（Checksum）</strong>：通过 <code>ui.getHashValueForPages(pages)</code> 计算，合并前校验一致性；失败回退全量刷新。</li>
+<li><strong>乐观同步</strong>：<code>isOptimisticSync()</code> 时仅发通知，不写缓存数据，由其它端拉取并合并。</li>
+</ul>
+<h2 id="冲突与回退">冲突与回退<a hidden class="anchor" aria-hidden="true" href="#冲突与回退">#</a></h2>
+<ul>
+<li><strong>标志位</strong>：<code>invalidChecksum</code>、<code>inConflictState</code> 控制 UI 提示与对话（刷新/合并/覆盖/复制）。</li>
+<li><strong>回退策略</strong>：校验失败或异常 → <code>synchronizeFile()</code> / <code>reloadFile()</code> 拉取最新；必要时 LWW（<code>backupPatch</code>）。</li>
+</ul>
+<h2 id="重要数据结构">重要数据结构<a hidden class="anchor" aria-hidden="true" href="#重要数据结构">#</a></h2>
+<ul>
+<li><strong>Descriptor</strong>：版本/etag、<code>secret</code>、<code>lastModified</code> 等元信息。</li>
+<li><strong>Pages/Own/Remote Pages</strong>：页面集合，用于 diff 与实时分流。</li>
+</ul>
+<h2 id="时序简化">时序（简化）<a hidden class="anchor" aria-hidden="true" href="#时序简化">#</a></h2>
+<ul>
+<li><strong>本地保存</strong>：<code>fileSaving()</code> → 编辑器保存 → <code>fileSaved()</code> →（乐观：更新影子｜非乐观：<code>sync.fileSaved()</code> 写缓存+广播）。</li>
+<li><strong>远端更新</strong>：<code>sync.fileChanged()</code> → <code>catchup/merge</code> → <code>patchRealtime</code> 或 <code>patch()</code> 应用 → <code>patchDescriptor()</code>。</li>
+</ul>
+<h2 id="注意事项">注意事项<a hidden class="anchor" aria-hidden="true" href="#注意事项">#</a></h2>
+<ul>
+<li>自动保存节流：<code>autosaveDelay/maxAutosaveDelay/isAutosaveNow()</code>。</li>
+<li>实时开关：<code>isRealtime()</code>、<code>isOptimisticSync()</code>。</li>
+<li>评论 API：当前默认占位实现（<code>commentsSupported()</code> 返回 false）。</li>
+</ul>
+<h2 id="函数清单与说明">函数清单与说明<a hidden class="anchor" aria-hidden="true" href="#函数清单与说明">#</a></h2>
+<ul>
+<li>getSize(): 返回当前数据长度。</li>
+<li>getShadowPages(): 获取/初始化影子页快照。</li>
+<li>setShadowPages(pages): 赋值影子页。</li>
+<li>getAnonymizedXmlForPages(pages): 生成脱敏后的页面 XML（报错/上报用）。</li>
+<li>compressReportData(data, limit, max): 压缩上报数据，控制体积。</li>
+<li>checksumError(error, patches, details, etag, functionName, checksum, current, rev): 处理校验和不一致，进入冲突态并统计。</li>
+<li>sendErrorReport(title, details, error, max): 发送错误与诊断报告。</li>
+<li>reloadFile(success, error): 全量拉取并重载文件。</li>
+<li>mergeLatestVersion(patches, success, error): 载入最新版本并尝试应用给定补丁。</li>
+<li>copyFile(success, error): 以当前数据另存为新文件并打开。</li>
+<li>ignorePatches(patches): 判断补丁数组是否可忽略（空或无效）。</li>
+<li>patch(patches, resolver, undoable, sendChanges): 应用补丁；必要时不更新同步快照以便计算 diff 并广播。</li>
+<li>save(revision, success, error, unloading, overwrite, manual): 触发保存流程（本地→存储），处理修订参数。</li>
+<li>createData(): 从 UI 生成可保存的数据（页面列表等）。</li>
+<li>updateFileData(): 在存在同步时先发送本地待发变更并更新自身页面。</li>
+<li>isCompressedStorage(): 返回是否使用压缩存储（true）。</li>
+<li>isCompressed(): 检查当前文件节点的压缩标记。</li>
+<li>saveAs(filename, success, error): 占位，子类实现具体保存为。</li>
+<li>saveFile(title, revision, success, error): 占位，子类实现实际持久化。</li>
+<li>getFileUrl(): 占位，返回文件直链（默认 null）。</li>
+<li>getFolderUrl(fn): 占位，返回所在目录链接（默认 null）。</li>
+<li>getPublicUrl(fn): 异步回调公开链接（默认 null）。</li>
+<li>isRestricted(): 是否限制复制/导出/打印（默认 false）。</li>
+<li>isModified(): 是否已修改。</li>
+<li>getShadowModified(): 影子页是否已修改。</li>
+<li>setShadowModified(value): 设置影子修改标记。</li>
+<li>setModified(value): 设置修改标记并同步影子标记。</li>
+<li>isAutosaveOptional(): 是否显示可选的自动保存开关（默认 false）。</li>
+<li>isAutosave(): 是否允许自动保存（冲突中或关闭时为 false）。</li>
+<li>isRenamable(): 是否可重命名（默认 false）。</li>
+<li>rename(title, success, error): 占位，重命名文件。</li>
+<li>isMovable(): 是否可移动（默认 false）。</li>
+<li>isTrashed(): 是否在回收站（默认 false）。</li>
+<li>move(folderId, success, error): 占位，移动到文件夹。</li>
+<li>getHash(): 返回存储前缀+ID 组成的哈希（默认空串）。</li>
+<li>getId(): 返回文件 ID（默认空串）。</li>
+<li>isEditable(): 是否可编辑（非 chromeless 或可编辑）。</li>
+<li>getUi(): 返回 UI 实例。</li>
+<li>getTitle(): 返回标题（默认空串）。</li>
+<li>getData(): 返回当前数据 XML。</li>
+<li>setData(data): 设置当前数据。</li>
+<li>isSyncSupported(): 是否支持同步（默认 false，子类重写）。</li>
+<li>isRealtime(): 是否已初始化实时模型（ownPages 非空）。</li>
+<li>isRealtimeSupported(): 是否支持实时协作（默认 false）。</li>
+<li>isRealtimeEnabled(): 是否启用实时（受 Editor.enableRealtime 与 urlParams 控制）。</li>
+<li>isRealtimeOptional(): 实时是否可开关（默认 false）。</li>
+<li>getRealtimeState(): 返回实时通道状态码（若无通道则 CLOSED）。</li>
+<li>getRealtimeError(): 返回最近一次实时错误（若有）。</li>
+<li>isOptimisticSync(): 是否采用乐观同步（默认 false）。</li>
+<li>setRealtimeEnabled(): 预留，设置实时开关（默认空实现）。</li>
+<li>patchDescriptor(desc, patch): 用补丁里的 etag 更新描述符并触发变更。</li>
+<li>startSync(): 根据配置/权限创建并启动 DrawioFileSync。</li>
+<li>setCurrentRevisionId(id): 设置当前修订号到描述符。</li>
+<li>setCurrentEtag(etag): 设置当前 etag 到描述符。</li>
+<li>setDescriptor(): 占位，设置文件描述符。</li>
+<li>setDescriptorRevisionId(desc, id): 在给定描述符上更新修订号（内部借用 etag 字段存放）。</li>
+<li>setDescriptorEtag(desc, etag): 占位，更新描述符 etag。</li>
+<li>saveDraft(): 保存草稿到本地存储。</li>
+<li>removeDraft(): 移除本地草稿。</li>
+<li>setConflictStatus(message, fn): 设置冲突状态并在状态栏提示（可绑定动作）。</li>
+<li>showRefreshDialog(success, error, message): 显示需刷新对话框。</li>
+<li>showCopyDialog(success, error, overwrite): 显示复制为新文件的对话框。</li>
+<li>showConflictDialog(overwrite, synchronize): 冲突对话框（覆盖/同步选项）。</li>
+<li>redirectToNewApp(error, details): 引导用户切换到新应用处理。</li>
+<li>removeListeners(): 移除内部变更监听与事件。</li>
+<li>newComment(content, user): 生成新评论对象（占位实现）。</li>
+<li>fileChanged(sync = true): 标记本地修改、更新时间戳、触发 autosave，必要时通知同步模块。</li>
+<li>fileSaving(): 保存前置钩子，通知同步模块并更新影子。</li>
+<li>fileSaved(savedData, lastDesc, success, error, token): 保存完成回调；解析页面，乐观模式直更影子，否则委托给同步模块写入缓存并广播。</li>
+<li>createSecret(success): 生成写缓存所需的 secret/token 对（供同步模块使用）。</li>
+<li>autosave(delay, maxDelay, success, error): 自动保存调度（含强制时间上限与空闲判断）。</li>
+<li>autosaveCompleted(): 自动保存完成后的钩子（占位）。</li>
+<li>synchronizeFile(success, error): 协调本地与远端（保存/拉新）动作的统一入口。</li>
+<li>updateFile(success, error, abort, shadow): 拉取并更新本地文件/影子。</li>
+<li>mergeFile(file, success, error, diffShadow): 将远端文件合并进当前文件，可选基于影子 diff。</li>
+<li>open(): 打开文件到编辑器，初始化影子、监听与统计。</li>
+<li>destroy(): 清理自动保存与监听，释放同步对象。</li>
+</ul>
+<h2 id="关键函数详解">关键函数详解<a hidden class="anchor" aria-hidden="true" href="#关键函数详解">#</a></h2>
+<h3 id="patchpatches-resolver-undoable-sendchanges">patch(patches, resolver, undoable, sendChanges)<a hidden class="anchor" aria-hidden="true" href="#patchpatches-resolver-undoable-sendchanges">#</a></h3>
+<ul>
+<li>作用：将补丁序列应用到 <code>this.ui.pages</code>，并根据需要更新 UI、撤销栈与同步快照。</li>
+<li>参数：
+<ul>
+<li>patches:Array — 页面级补丁列表。</li>
+<li>resolver:Function|Object — 冲突解析器（传入给 <code>applyPatches</code>）。</li>
+<li>undoable:Boolean — 是否保留撤销历史；false 时临时保存并在结束后恢复。</li>
+<li>sendChanges:Boolean — 为 true 时不同步快照，用于随后计算本地差异并传播。</li>
+</ul>
+</li>
+<li>关键流程：
+<ul>
+<li>隐藏 Graph、暂存撤销栈与 <code>changeListenerEnabled</code>；拦截 <code>cellRenderer.redraw</code> 保障编辑器光标与滚动。</li>
+<li><code>this.ui.applyPatches(...)</code> 应用补丁；确保至少一页；若当前页被删则切到第一页。</li>
+<li>结束后恢复 UI/撤销栈；必要时触发 <code>graph.refresh/validate</code>、<code>graph.view.revalidate</code>、<code>sizeDidChange</code>。</li>
+<li>若开启实时协作且未要求 sendChanges，则刷新 <code>this.sync.snapshot</code>。</li>
+<li>触发事件：<code>editor.fireEvent('pagesPatched', {patches})</code>。</li>
+</ul>
+</li>
+<li>返回：原 <code>patches</code>。</li>
+<li>副作用：可能重排页面、切换当前页、影响撤销栈与同步快照。</li>
+</ul>
+<h3 id="mergefilefile-success-error-diffshadow">mergeFile(file, success, error, diffShadow)<a hidden class="anchor" aria-hidden="true" href="#mergefilefile-success-error-diffshadow">#</a></h3>
+<ul>
+<li>作用：将远端最新文件页作为新 shadow，计算并应用补丁，同步到实时通道与当前文档。</li>
+<li>关键流程：
+<ul>
+<li>读取 <code>file.getShadowPages()</code> 为新 shadow；与旧 shadow 或 <code>diffShadow</code> 生成补丁。</li>
+<li><code>ignorePatches</code> 过滤无需处理的补丁；更新本地 shadow。</li>
+<li>若存在实时通道，先 <code>sync.sendLocalChanges()</code>；创建 <code>backupPatch</code> 以备校验失败回退（LWW 时启用）。</li>
+<li>进行校验：对“旧 shadow + patches[0]”求 hash，与“新 pages” hash 比较，不一致则 <code>checksumError(...)</code> 并中止。</li>
+<li>若一致：
+<ul>
+<li>实时模式下 <code>sync.patchRealtime(patches, backup)</code>；如返回 <code>pending</code>，并入 <code>patches</code>。</li>
+<li>调用 <code>this.patch(patches, (LWW? backupPatch : null))</code> 应用到当前文档。</li>
+</ul>
+</li>
+<li>成功时清理 <code>invalidChecksum/inConflictState/backupPatch</code>，更新描述符与 UI，并回调 <code>success()</code>。</li>
+</ul>
+</li>
+<li>错误：进入冲突态，<code>descriptorChanged()</code>，回调 <code>error(e)</code>，并视设置发送错误日志/报告。</li>
+</ul>
+<h3 id="filesavedsaveddata-lastdesc-success-error-token">fileSaved(savedData, lastDesc, success, error, token)<a hidden class="anchor" aria-hidden="true" href="#filesavedsaveddata-lastdesc-success-error-token">#</a></h3>
+<ul>
+<li>作用：保存落盘或远端成功后的收尾动作，更新 shadow 与同步状态。</li>
+<li>流程：
+<ul>
+<li>解析 <code>savedData</code> 得到 <code>pages</code>，清除冲突与校验标记，统计计数。</li>
+<li>若未启用严格同步或处于乐观模式：
+<ul>
+<li><code>setShadowPages(pages)</code>；若存在同步，刷新 <code>sync.lastModified</code> 与状态并在实时模式中 <code>scheduleCleanup()</code>；回调 <code>success()</code>。</li>
+</ul>
+</li>
+<li>否则代理给 <code>sync.fileSaved(pages, lastDesc, success, error, token)</code>。</li>
+</ul>
+</li>
+<li>异常：置冲突与校验标记、<code>descriptorChanged()</code>。</li>
+</ul>
+<h3 id="filesaving">fileSaving()<a hidden class="anchor" aria-hidden="true" href="#filesaving">#</a></h3>
+<ul>
+<li>作用：保存前的同步钩子；若存在同步，转调 <code>sync.fileSaving()</code>。</li>
+</ul>
+<h3 id="autosavedelay-maxdelay-success-error">autosave(delay, maxDelay, success, error)<a hidden class="anchor" aria-hidden="true" href="#autosavedelay-maxdelay-success-error">#</a></h3>
+<ul>
+<li>作用：基于节流的自动保存调度器。</li>
+<li>关键点：
+<ul>
+<li>基于 <code>lastAutosave</code> 与 <code>maxDelay</code> 决定立即保存或延后；</li>
+<li>若 <code>isModified() &amp;&amp; isAutosaveNow()</code>，决定是否生成修订 <code>revision</code> 并调用 <code>save(rev, ...)</code>；</li>
+<li>否则清理状态并回调 <code>success(null)</code>；异常时回调 <code>error(e)</code>。</li>
+</ul>
+</li>
+<li>相关：<code>clearAutosave()</code>、<code>isAutosaveRevision()</code>、<code>autosaveCompleted()</code>、<code>isAutosaveNow()</code>。</li>
+</ul>
+<h3 id="filechangedsynctrue">fileChanged(sync=true)<a hidden class="anchor" aria-hidden="true" href="#filechangedsynctrue">#</a></h3>
+<ul>
+<li>作用：标记文件修改并根据自动保存策略调度 <code>autosave</code>。</li>
+<li>关键点：更新 <code>lastChanged</code> 与 <code>modified</code>；若自动保存开启：
+<ul>
+<li>设置“保存中”状态、<code>scheduleSanityCheck()</code>；</li>
+<li>管理 <code>ageStart</code>；</li>
+<li>调用 <code>autosave(...)</code>，成功时 <code>handleFileSuccess(true)</code> 并清空/刷新 <code>ageStart</code>，必要时继续 <code>scheduleSanityCheck()</code>。</li>
+</ul>
+</li>
+</ul>
+<h3 id="其他工具函数">其他工具函数<a hidden class="anchor" aria-hidden="true" href="#其他工具函数">#</a></h3>
+<ul>
+<li>getAnonymizedXmlForPages(pages): 生成匿名化的 mxfile XML（可包含 viewState）。</li>
+<li>compressReportData(data, limit=10000, max): 超长截断或压缩后返回，便于日志/上报。</li>
+<li>isOverdue(): 基于 <code>ageStart</code> 与 <code>ui.warnInterval</code> 判断是否超时未保存。</li>
+<li>clearAutosave(): 清除自动保存的定时器。</li>
+<li>isAutosaveRevision(): 基于 <code>lastAutosaveRevision</code> 与上限间隔判定是否记录修订。</li>
+<li>autosaveCompleted(): 钩子，无默认实现。</li>
+<li>isAutosaveNow(): 默认 true，可被子类改写。</li>
+<li>descriptorChanged(): 触发 <code>descriptorChanged</code> 事件。</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://mizuka-wu.github.io/tags/%E6%8A%80%E6%9C%AF/">技术</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://mizuka-wu.github.io/posts/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/%E5%8A%9F%E8%83%BD%E7%AC%94%E8%AE%B0/axios%E5%A6%82%E4%BD%95%E4%B8%AD%E6%96%AD%E8%AF%B7%E6%B1%82/">
+    <span class="title">« Prev</span>
+    <span>axios如何中断请求</span>
+  </a>
+  <a class="next" href="https://mizuka-wu.github.io/posts/drawio%E8%A7%A3%E6%9E%90/drawiofilesync/">
+    <span class="title">Next »</span>
+    <span>DrawioFileSync</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share DrawioFile on x"
+            href="https://x.com/intent/tweet/?text=DrawioFile&amp;url=https%3a%2f%2fmizuka-wu.github.io%2fposts%2fdrawio%25E8%25A7%25A3%25E6%259E%2590%2fdrawiofile%2f&amp;hashtags=%e6%8a%80%e6%9c%af">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share DrawioFile on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fmizuka-wu.github.io%2fposts%2fdrawio%25E8%25A7%25A3%25E6%259E%2590%2fdrawiofile%2f&amp;title=DrawioFile&amp;summary=DrawioFile&amp;source=https%3a%2f%2fmizuka-wu.github.io%2fposts%2fdrawio%25E8%25A7%25A3%25E6%259E%2590%2fdrawiofile%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share DrawioFile on reddit"
+            href="https://reddit.com/submit?url=https%3a%2f%2fmizuka-wu.github.io%2fposts%2fdrawio%25E8%25A7%25A3%25E6%259E%2590%2fdrawiofile%2f&title=DrawioFile">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share DrawioFile on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fmizuka-wu.github.io%2fposts%2fdrawio%25E8%25A7%25A3%25E6%259E%2590%2fdrawiofile%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share DrawioFile on whatsapp"
+            href="https://api.whatsapp.com/send?text=DrawioFile%20-%20https%3a%2f%2fmizuka-wu.github.io%2fposts%2fdrawio%25E8%25A7%25A3%25E6%259E%2590%2fdrawiofile%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share DrawioFile on telegram"
+            href="https://telegram.me/share/url?text=DrawioFile&amp;url=https%3a%2f%2fmizuka-wu.github.io%2fposts%2fdrawio%25E8%25A7%25A3%25E6%259E%2590%2fdrawiofile%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share DrawioFile on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=DrawioFile&u=https%3a%2f%2fmizuka-wu.github.io%2fposts%2fdrawio%25E8%25A7%25A3%25E6%259E%2590%2fdrawiofile%2f">
+            <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+                <path
+                    d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://mizuka-wu.github.io/">水华的博客</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

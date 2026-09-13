@@ -1,11 +1,19 @@
 ---
-title: 文章标题
-date: 2019-07-09 18
+title: 上传app卡在通过app store进行鉴定
+date: 2026-09-13T10:00:00
 tags:
-  - iOS
-  - App Store
-  - 开发
-  - 错误解决
+  - 技术
 categories:
   - 经验分享
-summary: title: Unknown
+summary: 暂无摘要
+---
+
+```bash
+
+cd ~
+
+mv .itmstransporter/ .old_itmstransporter/
+
+"/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/itms/bin/iTMSTransporter"
+
+```
