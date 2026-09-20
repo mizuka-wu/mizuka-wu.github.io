@@ -3,7 +3,7 @@ title: "miRouter-Tailscale：小米路由器 Tailscale 管理脚本完整指南"
 date: "2026-09-13"
 tags: ["路由器", "Tailscale", "ShellCrash", "NAS 远程访问", "OpenWrt"]
 categories: ["经验分享"]
-summary: "在小米/红米路由器上部署 Tailscale，实现远程访问家庭 NAS。支持 Tun 模式和 Userspace 模式，自动守护、内存运行、无需配置代理。
+summary: "在小米/红米路由器上部署 Tailscale，实现远程访问家庭 NAS。支持 Tun 模式和 Userspace 模式，自动守护、内存运行、无需配置代理。"
 ---
 
 # miRouter-Tailscale：小米路由器 Tailscale 管理脚本完整指南
