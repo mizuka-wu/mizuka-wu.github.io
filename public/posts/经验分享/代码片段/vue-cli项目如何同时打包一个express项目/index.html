@@ -71,6 +71,8 @@
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-09-13T10:00:00+00:00">
+    <meta property="article:modified_time" content="2026-09-13T10:00:00+00:00">
     <meta property="article:tag" content="技术">
 
   <meta name="twitter:card" content="summary">
@@ -111,8 +113,8 @@
   "articleBody": " vue-cli项目一般只会生成一个纯前端的vue项目，不过有时候，如果我们想开发一个express项目同时又想用vue作为前端该怎么搞呢？\n几个解决方案 两个项目分别开发\nmono-repo\n其他方案\nvue/express一个项目一次打包 其实因为怕打包麻烦，所以我是希望一个项目内，可以同时开发express/vue打包的时候又能只打包输出到一个文件夹下\n所以我选择在vue-cli生产的项目内，增加一个server文件夹，用来开发express相关的代码，只有在最后打包的时候，变为一个express项目\n改造的要点 前后端独立的hmr\n前后端最终成果打包在一起\n改造过程 独立热更同时前端可调用express服务 首先，我们在文件目录下建立server文件夹，将express服务器的开发，src下为原先前端相关的代码\n其次，安装nodemon用来做express项目的开发启动\npackage.json添加命令\"start:be\": \"nodemon ./server/index.js\"\n添加vue.config.js, 加入\nmodule.exports = { devServer: { proxy: { '/{express服务的路径，例如api}': { target: 'http://127.0.0.1:{express端口}, ws: true, }, } } } 这样，启动npm run serve的时候同时启动start: be即可同时开启前后端\n打包让express应用调用vue结果 express有static功能，假定用的是public 文件夹\npackage.json添加命令\"build:be\": \"cp package.json ./dist/ \u0026\u0026 cp server/* ./dist/\"\n这样来打包express应用\n同时express内添加一行，app.use(express.static('./public'))\n接着，来改造vue.config.js\nmodule.exports = { outputDir: \"./dist/public\" } 之后build命令运行完，运行build:fe即可\ntypesciprt支持 安装node-ts即可，同时build命令，将cp server相关改为tsc ./server/**/* -o ./dist即可\n",
   "wordCount" : "68",
   "inLanguage": "en",
-  "datePublished": "0001-01-01T00:00:00Z",
-  "dateModified": "0001-01-01T00:00:00Z",
+  "datePublished": "2026-09-13T10:00:00Z",
+  "dateModified": "2026-09-13T10:00:00Z",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://mizuka-wu.github.io/posts/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/vue-cli%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E6%89%93%E5%8C%85%E4%B8%80%E4%B8%AAexpress%E9%A1%B9%E7%9B%AE/"
@@ -196,7 +198,7 @@
     </h1>
     <div class="post-meta">
 
-<span>1 min</span>
+<span title='2026-09-13 10:00:00 +0000 UTC'>September 13, 2026</span>&nbsp;·&nbsp;<span>1 min</span>
 
 </div>
   </header> 

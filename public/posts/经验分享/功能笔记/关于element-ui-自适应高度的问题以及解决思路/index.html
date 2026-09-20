@@ -71,6 +71,8 @@
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-09-13T10:00:00+00:00">
+    <meta property="article:modified_time" content="2026-09-13T10:00:00+00:00">
     <meta property="article:tag" content="技术">
 
   <meta name="twitter:card" content="summary">
@@ -111,8 +113,8 @@
   "articleBody": "起因 还是接手了之前同事的代码，之前他的代码遗留了一个历史问题，一个element-ui的表格高度只有500 当然，在开发用的mac电脑上看还是很正常的，但是在实际的业务场景中，会有一些使用人使用的是一些大号的屏幕，实际效果上表格只占了页面的一小部分，又因为表格的内容很多，所以空了一大块页面，但是浏览数据却需要不停的滚轮\n改进过程 分析要做什么 首先分析了一波造成这样现象的原因，发现是element-ui table的高度被钉死了，但是又由于是历史项目，页面被包裹在一个iframe里，同时element-ui不支持使用auto属性\n综上所述，为了一个顺溜的滚动条体验，只能让table自动填满剩余高度了，盘算了一下需要做\n监听页面大小变化\n防抖，省的卡顿\n获取剩余高度\n设定一个最小高度\n做好各类检测，防止报错\n开写 监听问题 window.addEventListener(‘resize’, handler)\n记得也要在对应时间销毁\n防抖 这里直接上debounce\n高度 首先获取页面高度window.innerHeight\n然后获取table距离顶部的高度el.getBoundingClientRect().top\n这里有个小问题，就是定义的高度是body的高度，但是剩余区域是包括head的所以我们获取对应的高度el.querySelector(‘.el-table__header-wrapper’).offsetHeight\n空余高度计算Math.max(innerHeight - offsetTop - tableHeaderHeight - OFFSET_BUTTON, MIN_TABLE_MAX_HEIGHT)\n这个是考虑了一个最小高度和空余页面底部距离的算式\n整合 const TABLE_OFFSET_BOTTOM = 10 const MIN_TABLE_MAX_HEIGHT = 500 window.addEventListener(‘resize’, _.debounce(function() { const innerHeight = window.innerHeight const table = document.getElementById(‘table’) if (!table) { return } const offsetTop = table.getBoundingClientRect().top const tableHeaderHeight = table.querySelector(‘.el-table__header-wrapper’).offsetHeight const maxTableHeight = Math.max(innerHeight - offsetTop - tableHeaderHeight - TABLE_OFFSET_BOTTOM, MIN_TABLE_MAX_HEIGHT) // 改变element的参数即可 },300)) 结果 很完美，哎嘿\n",
   "wordCount" : "82",
   "inLanguage": "en",
-  "datePublished": "0001-01-01T00:00:00Z",
-  "dateModified": "0001-01-01T00:00:00Z",
+  "datePublished": "2026-09-13T10:00:00Z",
+  "dateModified": "2026-09-13T10:00:00Z",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://mizuka-wu.github.io/posts/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/%E5%8A%9F%E8%83%BD%E7%AC%94%E8%AE%B0/%E5%85%B3%E4%BA%8Eelement-ui-%E8%87%AA%E9%80%82%E5%BA%94%E9%AB%98%E5%BA%A6%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/"
@@ -196,7 +198,7 @@
     </h1>
     <div class="post-meta">
 
-<span>1 min</span>
+<span title='2026-09-13 10:00:00 +0000 UTC'>September 13, 2026</span>&nbsp;·&nbsp;<span>1 min</span>
 
 </div>
   </header> 

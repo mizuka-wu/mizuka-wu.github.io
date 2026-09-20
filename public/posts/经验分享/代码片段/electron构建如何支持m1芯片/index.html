@@ -71,6 +71,8 @@
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-09-13T10:00:00+00:00">
+    <meta property="article:modified_time" content="2026-09-13T10:00:00+00:00">
     <meta property="article:tag" content="技术">
 
   <meta name="twitter:card" content="summary">
@@ -111,8 +113,8 @@
   "articleBody": "起因 换了台m1的macbook, 我之前的看板electron程序构建的还是老的x64版本，使用上还需要使用rosetta2进行转译，性能损失不说，说不定还有潜在的问题，所幸看到 electron11开始支持使用arm64芯片的mac了，正好升级一波\n写在前面 目前工具库还在preview，taobao镜像不可用\n顺带提一下我之前的项目结构\n基于 @vue/cli4\n使用 vue-cli-plugin-electron-builder注入的electron相关\n构建流 本地正常构建，自动构建流基于samuelmeuli/action-electron-builder@v1自动构建\n项目地址点击这里\n开工 升级依赖 首先需要升级使用的electron到支持新芯片的版本，目前能够使用的是electron11\nnpm install --save electron@11 同时我们需要升级electron-builder到支持打包新芯片的版本, 根据最新的方案，arch需要支持arm64并且可以打包dmg的话，需要升级到22.10.4\nnpm install --save-dev electron-builder@22.10.4 不过因为还在preview 只有npm官方仓库可以安装\n接下来我们改造构建选项，因为我使用vue的插件, 所以我写在vue.config.js\nmodule.exports = { pluginOptions: { electronBuilder: { builderOptions: { artifactName: '${productName}-${version}-${os}-${arch}.${ext}', mac: { target: { arch: 'universal', target: 'dmg' } } }, } } } 这样可以打包一个自适应芯片的版本，当然你想打两个包可以把arch换成arch: ['x64', 'arm64']\n没有使用vue插件的，直接在package.json里增加\n{ \"build\": { \"mac\": { \"target\": { \"arch\": \"universal\", \"target\": \"dmg\" } } } } 最终 成功打出dmg，正常使用中\n当然universal模式的大了100多m尽量还是按需打包把\n",
   "wordCount" : "78",
   "inLanguage": "en",
-  "datePublished": "0001-01-01T00:00:00Z",
-  "dateModified": "0001-01-01T00:00:00Z",
+  "datePublished": "2026-09-13T10:00:00Z",
+  "dateModified": "2026-09-13T10:00:00Z",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://mizuka-wu.github.io/posts/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/electron%E6%9E%84%E5%BB%BA%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81m1%E8%8A%AF%E7%89%87/"
@@ -196,7 +198,7 @@
     </h1>
     <div class="post-meta">
 
-<span>1 min</span>
+<span title='2026-09-13 10:00:00 +0000 UTC'>September 13, 2026</span>&nbsp;·&nbsp;<span>1 min</span>
 
 </div>
   </header> 

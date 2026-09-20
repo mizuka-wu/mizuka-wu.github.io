@@ -71,6 +71,8 @@
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-09-13T10:00:00+00:00">
+    <meta property="article:modified_time" content="2026-09-13T10:00:00+00:00">
     <meta property="article:tag" content="技术">
 
   <meta name="twitter:card" content="summary">
@@ -111,8 +113,8 @@
   "articleBody": "当前使用的 element-ui-el-table-draggable 提供了对element-ui内el-table的行进行拖拽排序的能力\n不足之处 element-ui-el-table-draggable 只能配置两个参数，不支持列拖拽，不支持类似group等参数\n改进和开发记录 基本属于重写了, 根据核心原理做了一个出来, 也就是，dom结构使用.el-table__body-wrapper tbody，然后直接交换el-table这个data对应index的数据\n重点提示，需要给el-table增加row-key，保证交换之后重新渲染的数据正确！！！\nconst elTableContext = this.$children[0] // 因为是通过slot引入 const container = elTableContext.$el.querySelector('.el-table__body-wrapper tbody') Sortable.create(container, { onEnd(evt) { let { newIndex, oldIndex, } = evt // 交换elTableContext.data里的位置，不展开了 exchange(oldIndex, newIndex) this.$emit('sort') } }) 之后我们解决几个核心问题\n不能使用sortable.js的配置（例如group属性来多列表之间拖拽）\n跨表格数据更新\n支持列拖拽\nexpanded的row特殊处理\n空处理\nsortable.js配置 这个好解决，一方面是可以配置props, 另一方面，我们可以使用$attrs这个属性，将未在props内定义的属性直接获取\nSortable.create(container, { ...this.$attrs, // sortable的onXXX事件转为vue的事件格式emit掉 ...Object.keys(this.$listeners).reduce((events, key) =\u003e { const handler = this.$listeners[key] // 首字母大写 const eventName = `on${key.replace(/\\b(\\w)(\\w*)/g, function($0, $1, $2) { return $1.toUpperCase() + $2.toLowerCase() })}` events[eventName] = (...args) =\u003e handler(...args) return events }, {}), onEnd(evt) { // 之前的处理代码 this.$emit('end', evt) }, }) 同时增加一个监听，自动更新对应的参数\nwatch: { $attrs: { deep: true, handler(options) { // 已经创建完实例后 if (this._sortable) { // 排除事件，目前sortable没有on开头的属性 const keys = Object.keys(options).filter(key =\u003e key.indexOf(\"on\") !== 0) keys.forEach(key =\u003e { this._sortable.option(key, options[key]) }) } } } }, 拖拽跨表格 因为onEnd事件是可以在event中拿到to和from的对应的dom的，所以问题就转变为了如何在将exchange函数中，操作的对象从to/from转为el-table的vue对象中的data\n因为，to/from是我们传递给sortable的container这个dom对象，所以我们要做的就是在一个地方做一个dom =\u003e el-table的映射关系表\n我的选择是在window上挂一个weakMap这样对应的dom如果销毁的话，也能够自动清除内存\nmounted() { if (!window.__ElTableDraggableContext) { window.__ElTableDraggableContext = new WeakMap() } this.init(); }, methods: { init() { const context = window.__ElTableDraggableContext this.table = this.$children[0].$el.querySelector(''.el-table__body-wrapper tbody''); context.set(this.table, elTableContext) } } 在exchange中，直接const toData = context.get(to).data; const fromData = context.get(from).data\n就能直接获取需要更新的数据了，之后按照之前的操作数据即可\n支持列拖拽 这个比较简单，将交换的对象和对应的dom获取参数换成.el-table__header-wrapper thead tr即可，这样就能拖动列头交换了，唯一的问题和expanded的行一样，因为拖拽本身的限制，只能拖动自身这个dom结构，其关联的dom结构是不会动的，这个需要写判断和脚本修改，或者个通过html2canvas截图，修改dataTransfer.setDragImage来修改拖动显示的快照\nexpanded行处理 这个的问题在于，使用了的列，如果展开了行，其实在dom结构上是在那一行tr后增加一个tr并在里面渲染对应的dom的, 形如\n\u003ctr class=\"expanded\"\u003e\u003c/tr\u003e \u003ctr\u003e展开行内的相关dom\u003c/tr\u003e ，所以会影响onEnd事件中newIndex和oldIndex的真实性（主要是因为index是通过tr的对应位置确定的）但是我们不需要计算展开的tr\n所以我们通过index需要修正一下，我们可以通过el-table组件查询到哪些行被展开了\nfunction fixIndex(sourceIndex, context) { const { expandRows } = context.store.states const { data } = context const indexOfExpandedRows = expandRows .map(row =\u003e data.indexOf(row)) .map((rowIndex, index) =\u003e index + rowIndex + 1) // index 之前有几个展开了， rowIndex + 1， 不算之前已经展开的话，实际应该在的位置 const offset = indexOfExpandedRows.filter(index =\u003e index \u003c sourceIndex).length // 偏移量，也就是有几个expand的row小于当前row return sourceIndex - offset } 偏移量只需要计算那些在index之前的expandedTr\n即可\n同时因为dom上，expanded的行不应该被拖拽和拖入这个问题，需要\n在拖动的时候，将当前行的展开给收起\n禁止其他已经展开的行的展开部分拖入\n好在el-table的行都带有css, 所以将sortable.js的draggable设置为.el-table__row就行了\n然后在onStart的时候，将正在拖拽的这行的expand取消，结束的时候放回来就行\n// onStart if (item.className.includes(\"expanded\")) { const expandedTr = item.nextSibling expandedTr.parentNode.removeChild(expandedTr) const sourceContext = context.get(from) const index = fixIndex(oldIndex, sourceContext) this.movingExpandedRows = sourceContext.data[index] } 先关闭再打开，因为之前是直接删除的dom\n// onEnd if (this.movingExpandedRows) { // 缓存需要展开的row const row = this.movingExpandedRows this.$nextTick(() =\u003e { tableContext.toggleRowExpansion(row, false) this.$nextTick(() =\u003e { tableContext.toggleRowExpansion(row, true) }) }) } 这样，就完成了一个满足我们条件的el-table拖拽组件了\n",
   "wordCount" : "295",
   "inLanguage": "en",
-  "datePublished": "0001-01-01T00:00:00Z",
-  "dateModified": "0001-01-01T00:00:00Z",
+  "datePublished": "2026-09-13T10:00:00Z",
+  "dateModified": "2026-09-13T10:00:00Z",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://mizuka-wu.github.io/posts/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/%E5%8A%9F%E8%83%BD%E7%AC%94%E8%AE%B0/el-table%E6%8B%96%E6%8B%BD%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/"
@@ -196,7 +198,7 @@
     </h1>
     <div class="post-meta">
 
-<span>2 min</span>
+<span title='2026-09-13 10:00:00 +0000 UTC'>September 13, 2026</span>&nbsp;·&nbsp;<span>2 min</span>
 
 </div>
   </header> 

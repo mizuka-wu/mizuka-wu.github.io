@@ -71,6 +71,8 @@
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-09-13T10:00:00+00:00">
+    <meta property="article:modified_time" content="2026-09-13T10:00:00+00:00">
     <meta property="article:tag" content="技术">
 
   <meta name="twitter:card" content="summary">
@@ -111,8 +113,8 @@
   "articleBody": "在 WorkBuddy / Claw 等环境中使用 remindctl 问题 在 WorkBuddy（Claw）中调用 remindctl 时，会提示权限不足：\nReminders access denied. 即使已经在终端里执行过 remindctl authorize 也没用——因为 macOS 的隐私权限是以进程主体为单位的，Ghostty/Terminal 里授权的是那个 App，WorkBuddy fork 出来的子进程不在授权范围内。\n解决方法 在终端执行一次下面的脚本，用 osascript 强制触发一次 Reminders 访问授权：\nosascript -e 'tell application \"Reminders\" to get name of every list' 系统会弹出权限请求，点击好之后，当前整个进程组（包括 WorkBuddy）都会获得 Reminders 访问权限。\n之后再用 remindctl 就完全正常了：\nremindctl status # Reminders access: Full access 注意 重启 WorkBuddy 或重启电脑后可能需要重新执行一次 如果弹窗没有出现，去系统设置 → 隐私与安全性 → 提醒事项，手动添加对应 App 的权限 ",
   "wordCount" : "66",
   "inLanguage": "en",
-  "datePublished": "0001-01-01T00:00:00Z",
-  "dateModified": "0001-01-01T00:00:00Z",
+  "datePublished": "2026-09-13T10:00:00Z",
+  "dateModified": "2026-09-13T10:00:00Z",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://mizuka-wu.github.io/posts/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/remindctl-ghostty-%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5-2/"
@@ -196,7 +198,7 @@
     </h1>
     <div class="post-meta">
 
-<span>1 min</span>
+<span title='2026-09-13 10:00:00 +0000 UTC'>September 13, 2026</span>&nbsp;·&nbsp;<span>1 min</span>
 
 </div>
   </header> 

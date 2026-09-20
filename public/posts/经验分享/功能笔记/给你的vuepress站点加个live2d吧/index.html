@@ -71,6 +71,8 @@
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-09-13T10:00:00+00:00">
+    <meta property="article:modified_time" content="2026-09-13T10:00:00+00:00">
     <meta property="article:tag" content="技术">
 
   <meta name="twitter:card" content="summary">
@@ -111,8 +113,8 @@
   "articleBody": "很早以前，个人博客站点用的是hexo构建的，当时因为好玩给自己的站点加了一个live2d挂件，现在倒是将博客迁移到了vuepress上，可是找了半天没有一个vuepress的插件可以让我使用自定义的live2d模型，没办法只能自己封装了一个\n如何使用 基于pixi-live2d-display我封装了一个vuepress插件，叫vuepress-plugin-pixi-live2d-display,可以自定义传入model的地址\n不过只支持model3之后的模型版本\n安装 npm i vuepress-plugin-pixi-live2d-display or yarn add vuepress-plugin-pixi-live2d-display 上传模型 可以上传到第三方平台比如oss, 或者在vuepress的.vuepress/public文件夹下\n拿到对应的model3.json文件地址\n添加配置 在.vuepress.config.js中添加\nmodule.exports = { plugins: [ ['vuepress-plugin-pixi-live2d-display', { model: \"你的模型地址\" }] ] } 就可以使用啦\n当然，因为底层依赖包是通过script引入的，本身存在时间差，所以live2d加载一开始会比较慢，也有可能会因为依赖库未加载完成报错\n其他还有一些配置参数可以参考组件配置https://www.npmjs.com/package/vuepress-plugin-pixi-live2d-display\n",
   "wordCount" : "33",
   "inLanguage": "en",
-  "datePublished": "0001-01-01T00:00:00Z",
-  "dateModified": "0001-01-01T00:00:00Z",
+  "datePublished": "2026-09-13T10:00:00Z",
+  "dateModified": "2026-09-13T10:00:00Z",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://mizuka-wu.github.io/posts/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/%E5%8A%9F%E8%83%BD%E7%AC%94%E8%AE%B0/%E7%BB%99%E4%BD%A0%E7%9A%84vuepress%E7%AB%99%E7%82%B9%E5%8A%A0%E4%B8%AAlive2d%E5%90%A7/"
@@ -196,7 +198,7 @@
     </h1>
     <div class="post-meta">
 
-<span>1 min</span>
+<span title='2026-09-13 10:00:00 +0000 UTC'>September 13, 2026</span>&nbsp;·&nbsp;<span>1 min</span>
 
 </div>
   </header> 

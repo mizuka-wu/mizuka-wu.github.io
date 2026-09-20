@@ -71,6 +71,8 @@
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-09-13T10:00:00+00:00">
+    <meta property="article:modified_time" content="2026-09-13T10:00:00+00:00">
     <meta property="article:tag" content="技术">
 
   <meta name="twitter:card" content="summary">
@@ -111,8 +113,8 @@
   "articleBody": "起因 工作中用到的 el-table显示大批量数据的时候，一页放不下，一般性的处理方案是限定了高，让表格固定表头之后内部可以滚动，不过因为实际操作中样式的问题，需要我把整个表格高度全部显示出来，这样就造成了一个问题，就是横向滚动不方便\n不过作为mac用户已开始没啥感觉，但是被用windows的同事吐槽了好久，于是终于决定花半天时间解决\n仓库 已开源，不想看的，可以直接看代码https://github.com/mizuka-wu/el-table-horizontal-scroll\n或者安装npm i el-table-horizontal-scroll用指令的形式使用该项目\n实现原理 其实是模拟了一个el-scroll进行同步，为了方便，制作成了一个指令\n核心代码 通过Scroller类，创建一个scroller的dom，并插入到指令提供的el内部\nel.appendChild(scroller.dom) 目标对象\nconst targetTableWrapperEl = el.querySelector('.el-table__body-wrapper') Scroller类 具体地址 主要负责了scroller的创建和管理，具体可以直接看代码\n其模拟了一个el-scroll的dom结构(为了省的写样式)\n大概会出现一个这样的dom结构\n然后整体就是对这个结构进行操作\n例如，scroll的整体样式需要手动添加，让其可以自由浮动，然后显示在fixed列前，所以需要\nscroller.style.height = '12px' scroller.style.position = 'fixed' scroller.style.bottom = 0 scroller.style.zIndex = 3 以及一些其他的调整，具体不再阐述\n自动吸底原理 这个就是目前监听document的scroll事件，判断是否需要显示\n核心判断代码就是判断el的底部是否出现在页面内\nconst viewHeight = window.innerHeight || document.documentElement.clientHeight const { bottom } = targetTableWrapperEl.getBoundingClientRect() // 当前的el-table的wrapper，可以在el内获取到 if (bottom \u003c= viewHeight) { hideScroller() } else { showScroller() } 平时就position: fixed在页面底部，如果表格底部显示在页面里了，就自动隐藏即可\n顺带一提，这个部分因为positon是fixed, 所以宽度需要手动设置成el的offsetWidth\n如果表格出现宽度变化，也需要重设位置和重新计算滑块宽度\n滑块相关 滑槽因为默认的样式是opacity: 0所以我顺手做了el根据鼠标事件自动显示和隐藏\n滑块主要是需要计算宽度和向左滑动的距离\n宽度计算 代码如下，我直接放类里面了，具体targetTableWrapperEl是哪个dom可以自己看一下具体的dom结构，表格的容器，因为宽度不变，所以滑块的宽度我们通过可滚动距离和容器宽度换算成一个百分比\n因为el-table初始化的问题，初始化计算的时候最好做个延迟，或者监听宽度变化重设宽度，这里我实际代码两个都做了\n/** * 自动设置Bar */ resetBar () { const { targetTableWrapperEl } = this const widthPercentage = (targetTableWrapperEl.clientWidth * 100 / targetTableWrapperEl.scrollWidth) const thumbWidth = Math.min(widthPercentage, 100) this.thumb.style.width = `${thumbWidth}%` if (thumbWidth \u003e= 100) { this.fullwidth = true this.hideScroller() } else { this.fullwidth = false this.checkIsScrollBottom() } } 滑块距离 具体代码, 原理同样是换算成百分比\nresetThumbPosition () { this.thumb.style.transform = `translateX(${this.moveX}%)` } get moveX () { const { targetTableWrapperEl } = this eturn ((targetTableWrapperEl.scrollLeft * 100) / targetTableWrapperEl.clientWidth) } 同步滚动距离 table =\u003e scroller 直接在targetTableWrapperEl的scroll事件里进行设置resetThumbPosition即可\nscroller =》table 分了两个情况，拖滑块 和 点击滑槽\n滑槽请自行查看代码\n讲一下滑块的原理\n记录鼠标滚动距离然后设置给table 然后让table自动更新回scroller\n需要三个事件\nonmousemove\nonmouseup\nonmousedown\n注意点\nmousemove建议挂在document上\n右键 + ctrl这类特殊情况需要处理\n计算距离 通过e.clientX可以得出每次滚动的offset, 但是这个offset需要换算成具体需要滚动的scrollLeft\ntargetTableWrapperEl.scrollLeft += offset * rate 然后每个像素的对应的比例，其实可以通过滑块和滑槽的比例直接算出来（两者同样出自容器）\nconst rate = bar.offsetWidth / thumb.offsetWidth 总结 还有一些例如\n悬停显示\n自动宽度适配\n的小功能都在代码中了\n欢迎提issue和告诉我那些部分想要自定义的，我可以写在binding里\n",
   "wordCount" : "215",
   "inLanguage": "en",
-  "datePublished": "0001-01-01T00:00:00Z",
-  "dateModified": "0001-01-01T00:00:00Z",
+  "datePublished": "2026-09-13T10:00:00Z",
+  "dateModified": "2026-09-13T10:00:00Z",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://mizuka-wu.github.io/posts/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/%E5%8A%9F%E8%83%BD%E7%AC%94%E8%AE%B0/el-table%E6%A8%AA%E5%90%91%E6%BB%9A%E5%8A%A8%E6%9D%A1%E5%90%B8%E5%BA%95%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88%E6%80%9D%E8%B7%AF/"
@@ -196,7 +198,7 @@
     </h1>
     <div class="post-meta">
 
-<span>2 min</span>
+<span title='2026-09-13 10:00:00 +0000 UTC'>September 13, 2026</span>&nbsp;·&nbsp;<span>2 min</span>
 
 </div>
   </header> 

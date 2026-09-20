@@ -71,6 +71,8 @@
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-09-13T10:00:00+00:00">
+    <meta property="article:modified_time" content="2026-09-13T10:00:00+00:00">
     <meta property="article:tag" content="技术">
 
   <meta name="twitter:card" content="summary">
@@ -111,8 +113,8 @@
   "articleBody": "借助Blazor在浏览器运行dotnet代码 本文重点，想看步骤的请直接移步正文\n如何精简Blazor的代码，移除界面部分\n如何和c#部分交互\n如何访问FS部分\n打包构建\n因为工作上的需要，需要在网页上进行usm格式的视频，但是usm的视频格式并没有相关的说明，导致也没办法和之前一样直接通过读取二进制流的方式解码然后转mp4流喂给\n不过业内也都是使用CriDemuxer来对usm视频格式进行解交织的，而且CriDemuxer有开源，只不过代码是基于C#的，所以最后问题变成了，怎么在网页中运行C#代码\n碎碎念结束\nBLAZOR 目前将c#运行在浏览器端主要靠编译成wasm运行，在net5之前，想让dotnet多端运行就得借助mono进行编译，然后mono有推出过一个mono-wasm0.1的包，可以将编译为wasm可以因为维护的原因，已经下不到了\n不过好在微软官方有一个借助mono-wasm的项目 Blazor 来实现用 C# 来构建网页，虽然用不上他的页面功能，但是四舍五入一下，却可以用它来实现在浏览器端运行 C# 代码\n实现步骤 安装环境 根据官方教程即可\nhttps://dotnet.microsoft.com/apps/aspnet/web-apps/blazor\n创建项目 我们创建一个基于wasm的app\ndotnet new blazorwasm -o BlazorApp --no-https 然后项目就创建完了，记住和官方教程不一样，是blazorwasm\ndev cd BlazorApp dotnet watch run 一个基础项目就起来了，之后开始进行改造\n移除页面相关文件 目录 pages\nShared\n文件 App.razor\n_Imports.razor\n修改 Program.cs移除` builder.RootComponents.Add(\"#app\");\n`这行\n这个时候运行，页面上应该就只有一个Loading...了，如果觉得难受，可以修改wwwroot下的index.html文件\n编写代码 之后整个项目其实就是一个标准的dotnet项目了，可以直接将编写的代码移动进来，比如我这里就直接把CriDemuxerCore的代码直接移动进来\n编写调用代码 在Program.cs内注入相关的js入口即可\n这样的话，在浏览器内就能调用c#的代码了\nusing Microsoft.JSInterop; [JSInvokable] public static async Task\u003cstring\u003e Demux(string filePath) { if (File.Exists(filePath)) { MpegStream.DemuxOptionsStruct demuxOptions = new MpegStream.DemuxOptionsStruct(); demuxOptions.ExtractVideo = true; return await Task.Run(() =\u003e { Console.WriteLine(\"Start\"); CriUsmStream criUsmStream = new CriUsmStream(filePath); return criUsmStream.DemultiplexStreams(demuxOptions)[0]; }); } else { throw new Exception(filePath + \" Not exists\"); } } 在浏览器中的调用方法\nDotNet.invokeMethodAsync('BlazorApp', 'Demux', '具体文件地址')) 参数解释一下\nDotNet, 全局对象， 会自动注入\nBlazorApp 创建应用的时候取得名字，主要应该和NameSpace相关\nDemux 刚刚定义的方法名\n文件系统 当然，FS系统也是Blazor内置的\nFS.writeFile(file.name, new Uint8Array(fileReader.result)) // 写入 FS.readFile(filePath) // 读取 打包 dotnet publish --configuration Release\n之后可以在bin/Release/net5.0/publish/wwwroot/_framework内拿到打包的文件，之后只要将该文件夹copy进项目，加载其中的./_framework/blazor.webassembly.js文件就可以了\n几个问题 打出来的包很大\n_framework必须在网站根目录下\n第二点可以尝试通过修改blazor.webassembly.js内容来尝试解决\n",
   "wordCount" : "134",
   "inLanguage": "en",
-  "datePublished": "0001-01-01T00:00:00Z",
-  "dateModified": "0001-01-01T00:00:00Z",
+  "datePublished": "2026-09-13T10:00:00Z",
+  "dateModified": "2026-09-13T10:00:00Z",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://mizuka-wu.github.io/posts/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/%E5%8A%9F%E8%83%BD%E7%AC%94%E8%AE%B0/%E5%80%9F%E5%8A%A9blazor%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%90%E8%A1%8Cdotnet%E4%BB%A3%E7%A0%81/"
@@ -196,7 +198,7 @@
     </h1>
     <div class="post-meta">
 
-<span>1 min</span>
+<span title='2026-09-13 10:00:00 +0000 UTC'>September 13, 2026</span>&nbsp;·&nbsp;<span>1 min</span>
 
 </div>
   </header> 
